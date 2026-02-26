@@ -33,7 +33,7 @@ B --> C[Ground-Classified LAS]
 C --> D[DTM Generation<br/>1m Grid Interpolation]
 
 D --> E[Hydrological Correction<br/>Sink Filling]
-E --> F[Terrain Derivatives<br/>Slope | Curvature | Flow Direction | Flow Accumulation]
+E --> F[Terrain Derivatives<br/>Slope, Curvature, Flow Direction, Flow Accumulation]
 
 F --> G[Natural Drainage Extraction]
 F --> H[Low-Lying Zone Detection]
