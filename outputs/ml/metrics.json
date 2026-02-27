@@ -1,0 +1,16 @@
+{
+  "accuracy": 0.9999460101500918,
+  "precision": 0.9997301672962763,
+  "recall": 1.0,
+  "f1": 0.99986506544326,
+  "roc_auc": 0.9999998633804753,
+  "label_mode": "pseudo",
+  "train_samples": 74088,
+  "test_samples": 18522,
+  "feature_columns": [
+    "elevation",
+    "slope",
+    "relative_depth",
+    "flow_proxy"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "villages": {
+    "DEVDI_POINT_CLOUD_511671": {
+      "hotspots_detected": 200,
+      "outlets_detected": 4777,
+      "proposed_lines": 200,
+      "risk_threshold": 0.75
+    },
+    "KHAPRETA_510206": {
+      "hotspots_detected": 200,
+      "outlets_detected": 4434,
+      "proposed_lines": 200,
+      "risk_threshold": 0.75
+    }
+  },
+  "totals": {
+    "hotspots": 400,
+    "outlets": 400,
+    "proposed_lines": 400,
+    "avg_length_m": 57.93701250000001,
+    "avg_elev_drop": 1.1823625000000002
+  }
+}

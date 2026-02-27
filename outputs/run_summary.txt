@@ -1,0 +1,9 @@
+run_time=2026-02-27T11:13:25.242610
+input_dir=Gujrat_Point_Cloud
+output_dir=outputs
+stages=preflight
+preflight_files=2
+prepared_files=0
+dtm_files=0
+hydrology_files=0
+feature_files=0

@@ -1,0 +1,22 @@
+laspy[lazrs]
+numpy
+pandas
+scikit-learn
+joblib
+pyproj
+networkx
+
+# Geospatial stack for full PS2 compliance
+rasterio
+geopandas
+shapely
+fiona
+
+# Notebook/analysis support
+jupyter
+matplotlib
+
+# Optional heavy dependencies (install only when needed)
+# pdal
+# open3d
+# whitebox

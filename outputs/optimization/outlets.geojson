@@ -1,0 +1,6405 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.597
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258781.035,
+          2534680.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.564
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258788.035,
+          2534680.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.366
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258771.035,
+          2534681.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.556
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534681.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.456
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258778.035,
+          2534682.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.921
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258792.035,
+          2534682.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.703
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534682.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.542
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534683.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.67
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534684.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.683
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258785.035,
+          2534684.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.58
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534684.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.363
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258767.035,
+          2534685.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.415
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258778.035,
+          2534685.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.489
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534685.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.572
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534685.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.367
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258761.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.679
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258782.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.542
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258792.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.544
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258794.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.665
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258796.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.516
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258803.035,
+          2534686.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.453
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258762.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.372
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258763.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.367
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258774.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.681
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258781.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.605
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258787.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.663
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258788.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.677
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258790.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.769
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258807.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.501
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258812.035,
+          2534687.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.387
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258751.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.364
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258767.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.48
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258773.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.404
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258775.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.684
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258784.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.669
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258794.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.672
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258799.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.775
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258803.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.658
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258809.035,
+          2534688.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258744.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258754.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258761.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.672
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.608
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258784.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.437
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258797.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.548
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258808.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.669
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258809.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.712
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258810.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.386
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258815.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.566
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258816.035,
+          2534689.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.762
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258781.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.615
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258784.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.691
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258785.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.731
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258807.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.736
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258814.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.721
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258815.035,
+          2534690.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.366
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258765.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.588
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258791.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.521
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258798.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.483
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258804.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.558
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258808.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.556
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258813.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.592
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258819.035,
+          2534691.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.367
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258752.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.662
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258786.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.616
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258791.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.601
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258792.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.685
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.46
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258809.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.471
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258810.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.556
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258811.035,
+          2534692.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.541
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.654
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258785.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.704
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258788.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.683
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.432
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258797.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.504
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258802.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.43
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258804.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.462
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258805.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.568
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258808.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.409
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258811.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.589
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258812.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.665
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258813.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.449
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258820.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.623
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258821.035,
+          2534693.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.381
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258762.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.539
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258768.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.58
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258779.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.742
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.613
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.387
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258798.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.582
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258799.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.765
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258821.035,
+          2534694.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.478
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258743.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.838
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258789.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.779
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258794.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.551
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258805.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.689
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258813.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.576
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258816.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.591
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258817.035,
+          2534695.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.677
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258765.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.681
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258791.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.892
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258797.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.682
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258800.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.678
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258801.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.529
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258808.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.629
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258809.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.517
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258811.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.559
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258821.035,
+          2534696.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.601
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258759.035,
+          2534697.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.373
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258764.035,
+          2534697.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.666
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258803.035,
+          2534697.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.566
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258814.035,
+          2534697.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.577
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258820.035,
+          2534697.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.414
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258741.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.479
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258752.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.505
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258765.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.585
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258767.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.626
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258773.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258774.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.581
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258780.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.584
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258781.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.708
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258790.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.776
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258796.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.668
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258797.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.362
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258810.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.623
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258811.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.72
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258821.035,
+          2534698.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.468
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258745.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.591
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258772.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.505
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258780.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.721
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258798.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.661
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258801.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.587
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258807.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.701
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258819.035,
+          2534699.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.392
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258731.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.485
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258745.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.455
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258747.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.505
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258764.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.597
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258778.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258783.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.547
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258785.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.418
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258794.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.651
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258797.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.651
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258799.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.492
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258807.035,
+          2534700.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.581
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258729.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.78
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258731.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.444
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258747.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.606
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258756.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.518
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258758.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.595
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258759.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.565
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258765.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258769.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.672
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258771.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.865
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258774.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.733
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258776.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.56
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258786.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.534
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258791.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.649
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.567
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258816.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.54
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258818.035,
+          2534701.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.599
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258733.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.426
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258745.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.573
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258759.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.617
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258761.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.657
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258764.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.686
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258775.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.471
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258778.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.662
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258781.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.72
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258793.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.699
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258796.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.597
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258799.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.568
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258808.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.454
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258813.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.435
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258814.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.553
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258817.035,
+          2534702.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.686
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258731.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.466
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258745.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.559
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258756.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.652
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258760.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.697
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258763.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.604
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258765.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.673
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258769.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.641
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258771.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.695
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258772.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.677
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258773.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258775.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.431
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258778.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.476
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258788.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.636
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258795.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.545
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258798.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.65
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258800.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.546
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258807.035,
+          2534703.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.642
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258733.035,
+          2534704.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.542
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258744.035,
+          2534704.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.376
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258746.035,
+          2534704.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "DEVDI_POINT_CLOUD_511671",
+        "type": "outlet",
+        "risk": 0.0,
+        "elevation": -20.623
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          258757.035,
+          2534704.977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312152.86,
+          2624065.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312136.86,
+          2624078.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312135.86,
+          2624085.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312136.86,
+          2624091.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624092.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.93
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624092.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312136.86,
+          2624092.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312127.86,
+          2624093.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624094.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624094.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312124.86,
+          2624094.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624095.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.26
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312133.86,
+          2624095.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312137.86,
+          2624095.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624096.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624096.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312136.86,
+          2624096.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624097.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624098.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.72
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624098.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.06
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312137.86,
+          2624098.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.07
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.99
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.43
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312139.86,
+          2624099.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.18
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624100.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312112.86,
+          2624100.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624100.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312128.86,
+          2624100.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312125.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312126.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312129.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.83
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312138.86,
+          2624101.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624102.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.94
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624102.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624102.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.02
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624102.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312102.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.77
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312103.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.85
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312131.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.99
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312138.86,
+          2624103.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.79
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312103.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312104.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.08
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.89
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.01
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312118.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312120.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312126.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312129.86,
+          2624104.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.84
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312101.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.77
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312102.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.79
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.88
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312125.86,
+          2624105.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.85
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312100.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.78
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.92
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312109.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312110.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312118.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312124.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312128.86,
+          2624106.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.51
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624107.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.69
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312107.86,
+          2624107.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312109.86,
+          2624107.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.57
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312097.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312102.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.63
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312103.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312104.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312125.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312133.86,
+          2624108.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.89
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312097.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.73
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312098.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312100.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.81
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312108.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312109.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.74
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.14
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312112.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312120.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.44
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624109.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.61
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312094.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.95
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312096.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312099.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312100.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.74
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312104.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.73
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312109.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.85
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312110.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312118.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.04
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312120.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624110.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312097.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312105.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.12
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.91
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312116.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312120.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.18
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312123.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312124.86,
+          2624111.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312097.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312098.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.98
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312107.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312108.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.39
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312141.86,
+          2624112.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.06
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312090.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.95
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312091.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312092.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312095.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312101.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312125.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.18
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312126.86,
+          2624113.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312089.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312098.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312106.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312126.86,
+          2624114.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312089.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312090.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312095.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.39
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312097.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312108.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.73
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312125.86,
+          2624115.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312087.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312092.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312093.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312094.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312096.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312098.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312100.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.94
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312117.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.39
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624116.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312084.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.09
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312088.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.99
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312089.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312091.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312094.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312095.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312098.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312111.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312114.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312115.86,
+          2624117.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.62
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312084.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.04
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312087.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.65
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312089.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.03
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312090.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312096.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.43
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312109.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312110.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312112.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312118.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312121.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312122.86,
+          2624118.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312083.86,
+          2624119.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312094.86,
+          2624119.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624119.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312119.86,
+          2624119.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.91
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312078.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312083.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.97
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312084.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.05
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312086.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312087.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312088.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312091.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312113.86,
+          2624120.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.76
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312076.86,
+          2624121.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 126.9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312077.86,
+          2624121.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312080.86,
+          2624121.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.04
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312081.86,
+          2624121.2
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "village": "KHAPRETA_510206",
+        "type": "outlet",
+        "risk": 1.0,
+        "elevation": 127.24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          312083.86,
+          2624121.2
+        ]
+      }
+    }
+  ]
+}

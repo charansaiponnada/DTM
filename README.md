@@ -5,6 +5,96 @@ For design and architecture, see [Design Documentation](design.md).
 For your roles and task , see [tasks](tasks.md) and [Roles](roles.md).
 ---
 
+# Quickstart (Lightweight Hackathon Pipeline)
+
+This repo now includes a lean Python pipeline to prepare point-cloud data for ML training.
+
+### 1) Create and activate virtual environment (recommended)
+
+Windows PowerShell:
+
+```bash
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+### 2) Install dependencies from requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3) Run preflight on Gujarat dataset
+
+```bash
+python scripts/info.py Gujrat_Point_Cloud --json outputs/reports/preflight_from_info.json
+```
+
+### 4) Run full preprocessing pipeline (Gujarat first)
+
+```bash
+python scripts/run_pipeline.py --config pipeline_config.json
+```
+
+### 5) Run a partial stage range (optional)
+
+```bash
+python scripts/run_pipeline.py --config pipeline_config.json --from-stage preflight --to-stage dtm
+```
+
+### 6) Reuse for another dataset
+
+Update `input_dir` in `pipeline_config.json` and rerun the same command.
+
+### 7) Train baseline ML model
+
+If your `label` column has real values (`0`/`1`), run:
+
+```bash
+python scripts/train_ml.py --features-dir outputs/training_data --output-dir outputs/ml
+```
+
+If all labels are `-1` (unlabeled), run demo mode with pseudo-labels:
+
+```bash
+python scripts/train_ml.py --features-dir outputs/training_data --output-dir outputs/ml --pseudo-label
+```
+
+`-1` means unlabeled sample and is not directly trainable unless pseudo-labeling is enabled.
+
+### 8) Generate optimized drainage network design
+
+```bash
+python scripts/optimize_drainage.py --predictions outputs/ml/predictions.csv --features-dir outputs/training_data --output-dir outputs/optimization
+```
+
+This creates GIS-ready GeoJSON layers and design parameter files.
+
+### Generated outputs
+
+- `outputs/reports/preflight_summary.json`
+- `outputs/interim/prepared/*_prepared.npz`
+- `outputs/interim/dtm/*_dtm.npz`
+- `outputs/interim/hydrology/*_hydro.npz`
+- `outputs/training_data/*_features.csv`
+- `outputs/run_summary.txt`
+- `outputs/ml/metrics.json`
+- `outputs/ml/predictions.csv`
+- `outputs/ml/feature_importance.csv`
+- `outputs/optimization/proposed_drainage_lines.geojson`
+- `outputs/optimization/design_parameters.json`
+- `outputs/optimization/optimization_summary.json`
+
+## Deliverable Docs
+
+- Model and training: `docs/model_architecture.md`
+- Deployment guidelines: `docs/deployment_guidelines.md`
+- Final report summary: `docs/final_report.md`
+- Documentation protocol: `docs/documentation_protocol.md`
+- Implementation log: `logs/activity_log.md`
+
+---
+
 # 1. Executive Summary
 
 This project presents a complete terrain intelligence pipeline for generating a high-quality Digital Terrain Model (DTM) from unclassified drone-derived point cloud data and designing an optimized drainage network for densely inhabited village areas.

@@ -1,0 +1,8 @@
+{
+  "input_dir": "Gujrat_Point_Cloud",
+  "output_dir": "outputs",
+  "expected_crs": "32643",
+  "grid_resolution": 1.0,
+  "max_points_per_file": 150000,
+  "seed": 42
+}
