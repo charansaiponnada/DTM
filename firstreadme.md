@@ -47,7 +47,8 @@ pyproj
 ## Installation
 
 ```bash
-pip install laspy[lazrs] pyproj
+conda env create -f environment.yml
+conda activate dataset-dtm
 ```
 
 ## Usage

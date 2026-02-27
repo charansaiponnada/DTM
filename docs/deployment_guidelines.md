@@ -3,18 +3,27 @@
 ## Environment
 
 - Python 3.10+
-- Install dependencies:
+- Conda-first setup (recommended for PDAL on Windows):
 
 ```bash
-pip install laspy[lazrs] numpy scikit-learn joblib
+conda env create -f environment.yml
+conda activate dataset-dtm
 ```
+
+- Keep environment synchronized:
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+PDAL is required for full Stage 1 ground classification compliance. On Windows, install may require Conda/OSGeo setup.
 
 ## Run Sequence
 
 1) Preprocess point-cloud data to training-ready features:
 
 ```bash
-python scripts/pipeline.py --config pipeline_config.json --max-points 150000
+python scripts/run_pipeline.py --config pipeline_config.json --max-points 150000
 ```
 
 2) Train baseline ML model:

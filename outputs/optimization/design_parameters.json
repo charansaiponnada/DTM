@@ -1,7 +1,0 @@
-{
-  "risk_threshold": 0.75,
-  "outlet_quantile": 0.1,
-  "max_lines_per_village": 200,
-  "min_elev_drop": 0.3,
-  "algorithm": "nearest-feasible-outlet"
-}

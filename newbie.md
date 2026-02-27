@@ -29,6 +29,7 @@ Implemented scripts:
 Generated outputs (already validated on Gujarat dataset):
 
 - `outputs/reports/preflight_summary.json`
+- `outputs/reports/prepare_summary.json`
 - `outputs/interim/prepared/*_prepared.npz`
 - `outputs/interim/dtm/*_dtm.npz`
 - `outputs/interim/hydrology/*_hydro.npz`
@@ -91,7 +92,7 @@ Below is the exact status against your drafted MVP plan.
    **Status:** Done
 
 4. Stage 1 preprocessing/class filtering + QA  
-   **Status:** Partially done (heuristic fallback; QA summary exists)
+   **Status:** Done for baseline execution (SOR/ROR + QA summary + PDAL SMRF active via CLI fallback on sampled points)
 
 5. Stage 2 DTM generation with proper geospatial outputs (COG)  
    **Status:** Partially done (DTM npz generated; COG export not yet added)
@@ -123,6 +124,12 @@ Follow this order strictly (finish one before moving next):
 6. Regenerate final report metrics and submission package.
 
 ## 5) Run Commands You Need
+
+Activate environment first:
+
+```bash
+conda activate dataset-dtm
+```
 
 Preflight:
 

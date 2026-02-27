@@ -7,6 +7,7 @@ This project follows a strict documentation-first workflow for every change.
 1. Add or update TODO items in planning notes.
 2. Record scope and expected outputs in relevant docs.
 3. Confirm target stage and acceptance criteria.
+4. Confirm execution interpreter is from active Conda env.
 
 ## 2) During Implementation
 
@@ -36,3 +37,10 @@ Example:
 - Keep workflow lightweight and direct.
 - Prefer single-branch iterative development with frequent small verified updates.
 - Prioritize traceability over complexity.
+
+## 6) Environment Rule (Mandatory)
+
+- Never run project scripts with global/system Python.
+- Every execution must use `python` from active `conda` env.
+- Every dependency change must be applied through `environment.yml`.
+- Preferred for this hackathon: `conda activate dataset-dtm` (from `environment.yml`).

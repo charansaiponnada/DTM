@@ -9,6 +9,8 @@ from pathlib import Path
 
 import numpy as np
 
+from env_policy import ensure_running_in_conda_env
+
 
 def _read_features(features_dir: Path) -> dict[tuple[str, str, str], float]:
     elevation_index: dict[tuple[str, str, str], float] = {}
@@ -159,6 +161,8 @@ def _save_geojson(path: Path, features: list[dict]) -> None:
 
 
 def main() -> None:
+    ensure_running_in_conda_env()
+
     parser = argparse.ArgumentParser(description="Create optimized drainage proposal from ML prediction outputs")
     parser.add_argument("--predictions", default="outputs/ml/predictions.csv")
     parser.add_argument("--features-dir", default="outputs/training_data")

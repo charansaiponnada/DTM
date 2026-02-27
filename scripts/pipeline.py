@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from env_policy import ensure_running_in_conda_env
 from stages import stage_dtm, stage_features, stage_hydrology, stage_preflight, stage_prepare
 
 STAGES = ["preflight", "prepare", "dtm", "hydrology", "features"]
@@ -61,6 +62,8 @@ def _load_existing_hydrology(output_dir: Path) -> list[dict]:
 
 
 def main() -> None:
+    ensure_running_in_conda_env()
+
     parser = argparse.ArgumentParser(description="Lean pipeline runner for point cloud preprocessing")
     parser.add_argument("--config", default="pipeline_config.json", help="Path to config JSON")
     parser.add_argument("--input", default=None, help="Optional override for input directory")
@@ -97,6 +100,12 @@ def main() -> None:
             output_dir=output_dir,
             max_points_per_file=int(args.max_points or config.get("max_points_per_file", 500_000)),
             seed=int(config.get("seed", 42)),
+            classification_method=str(config.get("classification_method", "pdal")),
+            sor_k=int(config.get("noise_sor_k", 50)),
+            sor_std_mult=float(config.get("noise_sor_std_mult", 2.0)),
+            ror_radius=float(config.get("noise_ror_radius", 0.5)),
+            ror_min_neighbors=int(config.get("noise_ror_min_neighbors", 10)),
+            smrf_params=config.get("smrf", {}),
         )
         print(f"  files prepared: {len(prepared)}")
 

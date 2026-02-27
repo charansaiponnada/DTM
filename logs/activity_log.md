@@ -23,6 +23,21 @@ This file tracks implementation progress with timestamps, outcomes, and notable 
 - 2026-02-27T11:47:00 | CREATED | [analysis_notebook.ipynb](analysis_notebook.ipynb) as analysis-only notebook (no pipeline execution ownership).
 - 2026-02-27T11:48:00 | CREATED | [scripts/run_pipeline.py](scripts/run_pipeline.py) simple runner alias.
 - 2026-02-27T11:49:00 | SUCCESS | Preflight run validated through `run_pipeline.py`.
-- 2026-02-27T12:05:00 | CREATED | [requirements.txt](requirements.txt) with baseline and geospatial dependencies.
+- 2026-02-27T12:05:00 | CREATED | Dependency specification baseline created.
 - 2026-02-27T12:07:00 | CREATED | [docs/documentation_protocol.md](docs/documentation_protocol.md) for mandatory step-by-step documentation discipline.
-- 2026-02-27T12:09:00 | UPDATED | [README.md](README.md) to venv-first workflow and `requirements.txt` installation.
+- 2026-02-27T12:09:00 | UPDATED | [README.md](README.md) environment setup workflow updated.
+- 2026-02-27T12:30:00 | CREATED | [scripts/env_policy.py](scripts/env_policy.py) runtime environment policy enforcement added.
+- 2026-02-27T12:34:00 | UPDATED | Stage 1 in [scripts/stages.py](scripts/stages.py) with SOR/ROR noise filtering and PDAL classification path with fallback.
+- 2026-02-27T12:36:00 | UPDATED | [scripts/pipeline.py](scripts/pipeline.py) and [pipeline_config.json](pipeline_config.json) wired for classification/noise parameters.
+- 2026-02-27T12:38:00 | UPDATED | Runtime environment enforcement added to CLI entries: [scripts/info.py](scripts/info.py), [scripts/run_pipeline.py](scripts/run_pipeline.py), [scripts/train_ml.py](scripts/train_ml.py), [scripts/optimize_drainage.py](scripts/optimize_drainage.py).
+- 2026-02-27T12:42:00 | FAILED | Stage 1 noise filtering over-pruned sampled points (prepare output point_count became 0).
+- 2026-02-27T12:44:00 | FIXED | Adaptive fallback added in [scripts/stages.py](scripts/stages.py) to prevent over-pruning from SOR/ROR combination.
+- 2026-02-27T12:47:00 | SUCCESS | Stage 1 validated in isolated environment with non-zero prepared outputs and summary in [outputs/reports/prepare_summary.json](outputs/reports/prepare_summary.json).
+- 2026-02-27T12:48:00 | INFO | PDAL classification path requested but Python PDAL module missing; prepare stage falls back to heuristic and records note in summary.
+- 2026-02-27T13:02:00 | INFO | Native Python `pdal` install failed due missing `PDALConfig.cmake` SDK.
+- 2026-02-27T13:06:00 | INFO | QGIS LTR installed and `C:\Program Files\QGIS 3.40.15\bin\pdal.exe` discovered.
+- 2026-02-27T13:12:00 | FIXED | [scripts/stages.py](scripts/stages.py) updated to run PDAL SMRF on sampled points through CLI fallback when Python module is unavailable.
+- 2026-02-27T13:15:00 | SUCCESS | Stage 1 prepare rerun completed with `classification_used = pdal_smrf` in [outputs/reports/prepare_summary.json](outputs/reports/prepare_summary.json).
+- 2026-02-27T13:25:00 | UPDATED | Environment policy in [scripts/env_policy.py](scripts/env_policy.py) changed to isolated environment gating.
+- 2026-02-27T13:27:00 | CREATED | [environment.yml](environment.yml) for Conda-first setup (`dataset-dtm`) including PDAL.
+- 2026-02-27T13:29:00 | UPDATED | Conda-first setup docs in [README.md](README.md), [docs/deployment_guidelines.md](docs/deployment_guidelines.md), and [docs/documentation_protocol.md](docs/documentation_protocol.md).

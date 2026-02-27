@@ -9,19 +9,25 @@ For your roles and task , see [tasks](tasks.md) and [Roles](roles.md).
 
 This repo now includes a lean Python pipeline to prepare point-cloud data for ML training.
 
-### 1) Create and activate virtual environment (recommended)
+### 1) Create and activate Conda environment (required)
 
 Windows PowerShell:
 
 ```bash
-python -m venv .venv
-.venv\Scripts\Activate.ps1
+conda env create -f environment.yml
+conda activate dataset-dtm
 ```
+
+All project commands must run through active Conda environment only.
+
+PDAL note:
+- Stage 1 classification uses PDAL SMRF.
+- If Python `pdal` module install fails on Windows, install QGIS LTR (bundles `pdal.exe`) and pipeline will use CLI fallback automatically.
 
 ### 2) Install dependencies from requirements
 
 ```bash
-pip install -r requirements.txt
+conda env update -f environment.yml --prune
 ```
 
 ### 3) Run preflight on Gujarat dataset
@@ -70,9 +76,16 @@ python scripts/optimize_drainage.py --predictions outputs/ml/predictions.csv --f
 
 This creates GIS-ready GeoJSON layers and design parameter files.
 
+### Stage 1 verification (PDAL usage)
+
+Check `outputs/reports/prepare_summary.json` and confirm:
+- `classification_requested` is `pdal`
+- `classification_used` is `pdal_smrf`
+
 ### Generated outputs
 
 - `outputs/reports/preflight_summary.json`
+- `outputs/reports/prepare_summary.json`
 - `outputs/interim/prepared/*_prepared.npz`
 - `outputs/interim/dtm/*_dtm.npz`
 - `outputs/interim/hydrology/*_hydro.npz`
@@ -336,7 +349,7 @@ project-root/
 │   ├── workflow_diagram.png
 │   ├── architecture.png
 │
-├── requirements.txt
+├── environment.yml
 ├── design.md
 └── README.md
 ```

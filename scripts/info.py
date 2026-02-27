@@ -7,6 +7,8 @@ from pathlib import Path
 import laspy
 import numpy as np
 
+from env_policy import ensure_running_in_conda_env
+
 
 def analyze_las(file_path: Path) -> dict:
     las = laspy.read(file_path)
@@ -105,6 +107,8 @@ def print_summary(summary: dict) -> None:
 
 
 def main() -> None:
+    ensure_running_in_conda_env()
+
     parser = argparse.ArgumentParser(
         description="Inspect LAS/LAZ files and print data-readiness summary."
     )

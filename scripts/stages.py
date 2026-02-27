@@ -2,16 +2,210 @@ from __future__ import annotations
 
 import csv
 import json
+import subprocess
+import tempfile
 from pathlib import Path
 
 import laspy
 import numpy as np
+from sklearn.neighbors import NearestNeighbors
 
 from info import analyze_las, find_pointcloud_files
 
 
 def _sanitize_name(file_path: Path) -> str:
     return file_path.stem.replace(" ", "_").replace("(", "").replace(")", "")
+
+
+def _append_note(current: str | None, note: str) -> str:
+    if not current:
+        return note
+    return f"{current};{note}"
+
+
+def _sample_arrays(
+    x: np.ndarray,
+    y: np.ndarray,
+    z: np.ndarray,
+    ground_mask: np.ndarray,
+    max_points: int,
+    seed: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    total = x.shape[0]
+    if max_points > 0 and total > max_points:
+        rng = np.random.default_rng(seed)
+        idx = np.sort(rng.choice(total, size=max_points, replace=False))
+        x, y, z, ground_mask = x[idx], y[idx], z[idx], ground_mask[idx]
+    return x, y, z, ground_mask
+
+
+def _apply_noise_filter_mask(
+    x: np.ndarray,
+    y: np.ndarray,
+    z: np.ndarray,
+    sor_k: int,
+    sor_std_mult: float,
+    ror_radius: float,
+    ror_min_neighbors: int,
+) -> np.ndarray:
+    if x.shape[0] < max(sor_k + 1, 10):
+        return np.ones(x.shape[0], dtype=bool)
+
+    coords = np.column_stack((x, y))
+    model = NearestNeighbors(n_neighbors=sor_k + 1, algorithm="auto")
+    model.fit(coords)
+
+    distances, _ = model.kneighbors(coords)
+    mean_neighbor_dist = distances[:, 1:].mean(axis=1)
+
+    dist_threshold = mean_neighbor_dist.mean() + sor_std_mult * mean_neighbor_dist.std()
+    sor_mask = mean_neighbor_dist <= dist_threshold
+
+    radius_neighbors = model.radius_neighbors(coords, radius=ror_radius, return_distance=False)
+    counts = np.array([len(indices) - 1 for indices in radius_neighbors], dtype=np.int32)
+    ror_mask = counts >= ror_min_neighbors
+
+    combined = sor_mask & ror_mask
+
+    min_keep = max(500, int(0.10 * x.shape[0]))
+    if int(np.count_nonzero(combined)) >= min_keep:
+        return combined
+    if int(np.count_nonzero(sor_mask)) >= min_keep:
+        return sor_mask
+    return np.ones(x.shape[0], dtype=bool)
+
+
+def _classify_with_pdal(input_file: Path, classified_file: Path, smrf: dict) -> tuple[bool, str | None]:
+    pipeline_definition = {
+        "pipeline": [
+            str(input_file),
+            {
+                "type": "filters.smrf",
+                "ignore": "Classification[7:7]",
+                "window": float(smrf.get("window", 16.0)),
+                "slope": float(smrf.get("slope", 0.2)),
+                "threshold": float(smrf.get("threshold", 0.45)),
+                "scalar": float(smrf.get("scalar", 1.2)),
+            },
+            {
+                "type": "writers.las",
+                "filename": str(classified_file),
+                "minor_version": 4,
+                "dataformat_id": 3,
+            },
+        ]
+    }
+
+    try:
+        import pdal  # type: ignore
+    except Exception:
+        pdal = None
+
+    classified_file.parent.mkdir(parents=True, exist_ok=True)
+
+    if pdal is not None:
+        try:
+            import json as _json
+
+            pipeline = pdal.Pipeline(_json.dumps(pipeline_definition))
+            pipeline.execute()
+            return classified_file.exists(), None
+        except Exception as exc:
+            return False, f"pdal-py-exec-failed: {exc}"
+
+    candidates = [
+        Path(r"C:\Program Files\QGIS 3.40.15\bin\pdal.exe"),
+        Path(r"C:\OSGeo4W\bin\pdal.exe"),
+        Path("pdal.exe"),
+    ]
+    pdal_cli = next((path for path in candidates if path.exists() or str(path).lower() == "pdal.exe"), None)
+    if pdal_cli is None:
+        return False, "pdal-not-installed"
+
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+        json.dump(pipeline_definition, tmp, indent=2)
+        tmp_path = Path(tmp.name)
+
+    try:
+        command = [str(pdal_cli), "pipeline", str(tmp_path)]
+        result = subprocess.run(command, check=False, capture_output=True, text=True)
+        if result.returncode != 0:
+            stderr = (result.stderr or "").strip()
+            return False, f"pdal-cli-exec-failed: {stderr}"
+        return classified_file.exists(), None
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink(missing_ok=True)
+
+
+def _classify_ground_mask_sampled_with_pdal(
+    x: np.ndarray,
+    y: np.ndarray,
+    z: np.ndarray,
+    output_dir: Path,
+    name: str,
+    smrf_params: dict,
+) -> tuple[np.ndarray | None, str | None, str | None]:
+    classified_dir = output_dir / "interim" / "classified"
+    classified_dir.mkdir(parents=True, exist_ok=True)
+
+    sampled_las_path = classified_dir / f"{name}_sampled_for_pdal.las"
+    classified_las_path = classified_dir / f"{name}_classified.las"
+
+    las = laspy.create(file_version="1.4", point_format=3)
+    las.x = x
+    las.y = y
+    las.z = z
+    las.classification = np.zeros(x.shape[0], dtype=np.uint8)
+    las.write(sampled_las_path)
+
+    ok, err = _classify_with_pdal(sampled_las_path, classified_las_path, smrf_params)
+    if not ok:
+        return None, str(classified_las_path), err
+
+    classified = laspy.read(classified_las_path)
+    if "classification" not in classified.point_format.dimension_names:
+        return None, str(classified_las_path), "pdal-output-missing-classification"
+
+    mask = np.asarray(classified.classification, dtype=np.uint8) == 2
+    if not np.any(mask):
+        return None, str(classified_las_path), "pdal-output-no-ground-class"
+
+    return mask, str(classified_las_path), None
+
+
+def _load_arrays_with_method(
+    file_path: Path,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, dict]:
+    metadata: dict = {
+        "classification_requested": "heuristic",
+        "classification_used": "heuristic",
+        "classified_file": None,
+        "classification_note": None,
+    }
+
+    las = laspy.read(file_path)
+    x = np.asarray(las.x, dtype=np.float64)
+    y = np.asarray(las.y, dtype=np.float64)
+    z = np.asarray(las.z, dtype=np.float64)
+
+    if "classification" in las.point_format.dimension_names:
+        classification = np.asarray(las.classification, dtype=np.uint8)
+        ground_mask = classification == 2
+        if not np.any(ground_mask):
+            threshold = np.quantile(z, 0.35)
+            ground_mask = z <= threshold
+            metadata["classification_note"] = _append_note(
+                metadata["classification_note"], "class-2-missing-used-quantile-fallback"
+            )
+    else:
+        threshold = np.quantile(z, 0.35)
+        ground_mask = z <= threshold
+        metadata["classification_note"] = _append_note(
+            metadata["classification_note"], "classification-dimension-missing-used-quantile-fallback"
+        )
+
+    return x, y, z, ground_mask, metadata
 
 
 def stage_preflight(input_dir: Path, output_dir: Path, expected_crs: str | None = None) -> list[dict]:
@@ -33,59 +227,86 @@ def stage_preflight(input_dir: Path, output_dir: Path, expected_crs: str | None 
     return summaries
 
 
-def _load_arrays(file_path: Path, max_points: int, seed: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    las = laspy.read(file_path)
-
-    x = np.asarray(las.x, dtype=np.float64)
-    y = np.asarray(las.y, dtype=np.float64)
-    z = np.asarray(las.z, dtype=np.float64)
-
-    if "classification" in las.point_format.dimension_names:
-        classification = np.asarray(las.classification, dtype=np.uint8)
-        ground_mask = classification == 2
-        if not np.any(ground_mask):
-            threshold = np.quantile(z, 0.35)
-            ground_mask = z <= threshold
-    else:
-        threshold = np.quantile(z, 0.35)
-        ground_mask = z <= threshold
-
-    total = x.shape[0]
-    if max_points > 0 and total > max_points:
-        rng = np.random.default_rng(seed)
-        idx = np.sort(rng.choice(total, size=max_points, replace=False))
-        x, y, z, ground_mask = x[idx], y[idx], z[idx], ground_mask[idx]
-
-    return x, y, z, ground_mask
-
-
 def stage_prepare(
     input_dir: Path,
     output_dir: Path,
     max_points_per_file: int,
     seed: int,
+    classification_method: str,
+    sor_k: int,
+    sor_std_mult: float,
+    ror_radius: float,
+    ror_min_neighbors: int,
+    smrf_params: dict,
 ) -> list[dict]:
     prepared_dir = output_dir / "interim" / "prepared"
+    reports_dir = output_dir / "reports"
     prepared_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
 
     files = find_pointcloud_files(input_dir)
     prepared = []
 
     for file_path in files:
-        x, y, z, ground_mask = _load_arrays(file_path, max_points_per_file, seed)
+        x, y, z, ground_mask, metadata = _load_arrays_with_method(file_path=file_path)
+        metadata["classification_requested"] = classification_method
+
+        x, y, z, ground_mask = _sample_arrays(x, y, z, ground_mask, max_points_per_file, seed)
+
+        noise_mask = _apply_noise_filter_mask(
+            x=x,
+            y=y,
+            z=z,
+            sor_k=sor_k,
+            sor_std_mult=sor_std_mult,
+            ror_radius=ror_radius,
+            ror_min_neighbors=ror_min_neighbors,
+        )
+
+        x = x[noise_mask]
+        y = y[noise_mask]
+        z = z[noise_mask]
+        ground_mask = ground_mask[noise_mask]
+
         name = _sanitize_name(file_path)
+
+        if classification_method == "pdal" and x.shape[0] > 0:
+            pdal_ground_mask, classified_file, pdal_error = _classify_ground_mask_sampled_with_pdal(
+                x=x,
+                y=y,
+                z=z,
+                output_dir=output_dir,
+                name=name,
+                smrf_params=smrf_params,
+            )
+            if pdal_ground_mask is not None:
+                ground_mask = pdal_ground_mask
+                metadata["classification_used"] = "pdal_smrf"
+                metadata["classified_file"] = classified_file
+                metadata["classification_note"] = _append_note(metadata["classification_note"], "pdal-on-sampled-points")
+            else:
+                metadata["classification_note"] = _append_note(metadata["classification_note"], pdal_error or "pdal-fallback")
+
         npz_path = prepared_dir / f"{name}_prepared.npz"
         np.savez_compressed(npz_path, x=x, y=y, z=z, ground=ground_mask)
 
-        prepared.append(
-            {
-                "source": str(file_path),
-                "name": name,
-                "prepared_npz": str(npz_path),
-                "point_count": int(x.shape[0]),
-                "ground_count": int(np.count_nonzero(ground_mask)),
-            }
-        )
+        row = {
+            "source": str(file_path),
+            "name": name,
+            "prepared_npz": str(npz_path),
+            "point_count": int(x.shape[0]),
+            "ground_count": int(np.count_nonzero(ground_mask)),
+            "noise_filter_kept": int(np.count_nonzero(noise_mask)),
+            "noise_filter_removed": int(noise_mask.shape[0] - np.count_nonzero(noise_mask)),
+            "classification_requested": metadata["classification_requested"],
+            "classification_used": metadata["classification_used"],
+            "classification_note": metadata["classification_note"],
+            "classified_file": metadata["classified_file"],
+        }
+        prepared.append(row)
+
+    prepare_summary_path = reports_dir / "prepare_summary.json"
+    prepare_summary_path.write_text(json.dumps(prepared, indent=2), encoding="utf-8")
 
     return prepared
 
