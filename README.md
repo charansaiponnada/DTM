@@ -2,6 +2,7 @@
 ## Geospatial Intelligence Hackathon – IIT Tirupati  
 ### Problem Statement 2: DTM Creation Using AI/ML from Point Cloud Data
 For design and architecture, see [Design Documentation](design.md).
+For your roles and task , see [tasks](tasks.md) and [Roles](roles.md).
 ---
 
 # 1. Executive Summary
