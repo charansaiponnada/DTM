@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from env_policy import ensure_running_in_conda_env
+from env_policy import ensure_running_in_workspace_venv
 from stages import stage_dtm, stage_features, stage_hydrology, stage_preflight, stage_prepare
 
 STAGES = ["preflight", "prepare", "dtm", "hydrology", "features"]
@@ -62,7 +62,7 @@ def _load_existing_hydrology(output_dir: Path) -> list[dict]:
 
 
 def main() -> None:
-    ensure_running_in_conda_env()
+    ensure_running_in_workspace_venv()
 
     parser = argparse.ArgumentParser(description="Lean pipeline runner for point cloud preprocessing")
     parser.add_argument("--config", default="pipeline_config.json", help="Path to config JSON")

@@ -1,0 +1,19 @@
+laspy[lazrs]
+numpy
+scipy
+pandas
+scikit-learn
+joblib
+pyproj
+networkx
+whitebox
+
+# Optional geospatial extensions (for later stages)
+rasterio
+geopandas
+shapely
+fiona
+
+# Notebook support
+jupyter
+matplotlib

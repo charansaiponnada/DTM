@@ -1,76 +1,42 @@
-# DATASET-DTM: Gujarat Point Cloud Dataset
+# First-Run Guide
 
-A collection of LiDAR point cloud data from Gujarat, India, with analysis scripts for Digital Terrain Model (DTM) processing.
+This is the shortest path to run the project from scratch.
 
-## Project Structure
-
-```
-DATASET-DTM/
-├── Gujrat_Point_Cloud/
-│   ├── DEVDI_POINT CLOUD (511671).las
-│   └── KHAPRETA_510206.laz
-├── scripts/
-│   └── info.py
-└── README.md
-```
-
-## Dataset
-
-The `Gujrat_Point_Cloud/` directory contains LiDAR point cloud data in LAS/LAZ formats:
-
-| File | Format | Description |
-|------|--------|-------------|
-| DEVDI_POINT CLOUD (511671).las | LAS | Point cloud data for Devdi region |
-| KHAPRETA_510206.laz | LAZ | Compressed point cloud data for Khapreta region |
-
-## Scripts
-
-### info.py
-
-Analyzes LAS/LAZ point cloud files and displays:
-- Available dimensions
-- Coordinate Reference System (CRS)
-- Number of points
-- Bounding box and estimated area
-- Point density
-- Classification information (including ground class detection)
-- Intensity data range
-
-## Requirements
-
-```
-laspy[lazrs]
-laspy
-pyproj
-```
-
-## Installation
+## 1) Setup
 
 ```bash
-conda env create -f environment.yml
-conda activate dataset-dtm
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-## Usage
+## 2) Verify input files
 
-Navigate to the `Gujrat_Point_Cloud/` directory and run the analysis script:
+Dataset folder:
+- `Gujrat_Point_Cloud/`
+
+Should contain `.las` / `.laz` files.
+
+## 3) Run Stage 1
 
 ```bash
-cd Gujrat_Point_Cloud
-python ../scripts/info.py
+.venv\Scripts\python.exe scripts\run_pipeline.py --config pipeline_config.json --from-stage preflight --to-stage prepare
 ```
 
-Or modify the file paths in `info.py` to match your directory structure.
+Check:
+- `outputs/reports/preflight_summary.json`
+- `outputs/reports/prepare_summary.json`
 
-## Output Example
+## 4) Run full baseline
 
-The script outputs detailed information about each point cloud file including:
-- Dimension names (X, Y, Z, intensity, classification, etc.)
-- CRS information
-- Point count and density statistics
-- Classification class presence (particularly ground class 2 for DTM generation)
-- Intensity value ranges
+```bash
+.venv\Scripts\python.exe scripts\run_pipeline.py --config pipeline_config.json
+.venv\Scripts\python.exe scripts\train_ml.py --features-dir outputs/training_data --output-dir outputs/ml --pseudo-label
+.venv\Scripts\python.exe scripts\optimize_drainage.py --predictions outputs/ml/predictions.csv --features-dir outputs/training_data --output-dir outputs/optimization
+```
 
-## License
+## 5) Where to read next
 
-This dataset is provided for research and educational purposes.
+- `README.md` for full workflow
+- `newbie.md` for current status and what remains
+- `docs/master.md` for full PS2 target specification

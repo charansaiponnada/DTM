@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
-from env_policy import ensure_running_in_conda_env
+from env_policy import ensure_running_in_workspace_venv
 
 
 FEATURE_COLUMNS = ["elevation", "slope", "relative_depth", "flow_proxy"]
@@ -85,7 +85,7 @@ def _save_model(model: RandomForestClassifier, output_path: Path) -> str:
 
 
 def main() -> None:
-    ensure_running_in_conda_env()
+    ensure_running_in_workspace_venv()
 
     parser = argparse.ArgumentParser(description="Train RandomForest waterlogging model from feature CSV files")
     parser.add_argument("--features-dir", default="outputs/training_data")

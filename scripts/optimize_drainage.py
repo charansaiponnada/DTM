@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from env_policy import ensure_running_in_conda_env
+from env_policy import ensure_running_in_workspace_venv
 
 
 def _read_features(features_dir: Path) -> dict[tuple[str, str, str], float]:
@@ -161,7 +161,7 @@ def _save_geojson(path: Path, features: list[dict]) -> None:
 
 
 def main() -> None:
-    ensure_running_in_conda_env()
+    ensure_running_in_workspace_venv()
 
     parser = argparse.ArgumentParser(description="Create optimized drainage proposal from ML prediction outputs")
     parser.add_argument("--predictions", default="outputs/ml/predictions.csv")

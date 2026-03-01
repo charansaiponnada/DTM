@@ -2,16 +2,16 @@
   "input_dir": "Gujrat_Point_Cloud",
   "output_dir": "outputs",
   "expected_crs": "32643",
-  "classification_method": "pdal",
+  "classification_method": "whitebox_scipy",
   "noise_sor_k": 50,
   "noise_sor_std_mult": 2.0,
   "noise_ror_radius": 0.5,
   "noise_ror_min_neighbors": 10,
   "smrf": {
-    "window": 16.0,
-    "slope": 0.2,
-    "threshold": 0.45,
-    "scalar": 1.2
+    "grid_resolution": 1.0,
+    "gaussian_sigma": 1.2,
+    "max_height_above_ground": 0.8,
+    "max_ground_slope_deg": 55.0
   },
   "grid_resolution": 1.0,
   "max_points_per_file": 150000,

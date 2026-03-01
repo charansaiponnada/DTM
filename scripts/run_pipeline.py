@@ -1,7 +1,7 @@
-from env_policy import ensure_running_in_conda_env
+from env_policy import ensure_running_in_workspace_venv
 from pipeline import main
 
 
 if __name__ == "__main__":
-    ensure_running_in_conda_env()
+    ensure_running_in_workspace_venv()
     main()

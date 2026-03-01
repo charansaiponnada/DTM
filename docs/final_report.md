@@ -1,34 +1,45 @@
-# Final Report Summary
+# Final Report (Baseline)
 
-## Problem Coverage
+## 1) Objective Coverage
 
-This project implements a data-driven workflow for:
+This implementation covers an end-to-end baseline from point cloud preprocessing to drainage optimization proposal.
 
-- Automated preprocessing from drone point cloud to DTM-derived features
-- Waterlogging hotspot prediction using ML baseline
-- Optimized drainage network proposal as GIS-ready layers
+## 2) Executed Workflow
 
-## Key Outputs
+1. Preflight validation
+2. Stage-1 prepare (sampling, noise filter, ground filter)
+3. DTM baseline generation
+4. Hydrology baseline generation
+5. Feature export
+6. ML training and prediction
+7. Drainage optimization proposal
 
-- Preprocessing artifacts under `outputs/interim` and `outputs/training_data`
-- ML outputs under `outputs/ml`
-- Optimization outputs under `outputs/optimization`
+## 3) Produced Artifacts
 
-## Accuracy and Metrics
+Refer to output folders:
+- `outputs/reports/`
+- `outputs/interim/`
+- `outputs/training_data/`
+- `outputs/ml/`
+- `outputs/optimization/`
 
-- Metrics file: `outputs/ml/metrics.json`
-- Current run uses pseudo-label mode for bootstrap experimentation.
-- Real-field or curated labels are required for final scientific accuracy reporting.
+## 4) Metrics
 
-## Design Recommendations
+Primary metrics location:
+- `outputs/ml/metrics.json`
 
-1. Replace pseudo labels with true waterlogging ground truth for robust evaluation.
-2. Upgrade terrain preprocessing to PDAL-based CSF/SMRF classification.
-3. Export final vectors to GeoPackage in addition to GeoJSON for submission packaging.
-4. Calibrate risk thresholds village-wise for better drainage prioritization.
+Optimization summary location:
+- `outputs/optimization/optimization_summary.json`
 
-## Future Improvements
+## 5) Limitations
 
-- Add temporal rainfall and land-use features.
-- Add DEM/DTM uncertainty quantification.
-- Compare Random Forest with Gradient Boosting and XGBoost.
+- Baseline hydrology and optimization are practical, not final engineering-grade.
+- Pseudo-label mode is bootstrap only.
+- Full PS2 metric/validation targets require additional data and validation protocol.
+
+## 6) Recommended Next Steps
+
+1. Add true labels for robust model validation.
+2. Expand hydrology outputs and GIS export formats.
+3. Add stricter design constraints and evaluation metrics.
+4. Run repeatable multi-village benchmark.

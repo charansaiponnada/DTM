@@ -1,4 +1,5 @@
 Gujrat_Point_Cloud/ 
+.venv/
 Gujrat_Point_Cloud.zip
 
 scripts/__pycache__/

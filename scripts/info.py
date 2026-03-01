@@ -7,34 +7,36 @@ from pathlib import Path
 import laspy
 import numpy as np
 
-from env_policy import ensure_running_in_conda_env
+from env_policy import ensure_running_in_workspace_venv
 
 
 def analyze_las(file_path: Path) -> dict:
-    las = laspy.read(file_path)
+    with laspy.open(file_path) as reader:
+        header = reader.header
+        dimensions = sorted(list(header.point_format.dimension_names))
+        crs_obj = header.parse_crs()
+        crs = str(crs_obj) if crs_obj is not None else None
 
-    dimensions = sorted(list(las.point_format.dimension_names))
-    crs_obj = las.header.parse_crs()
-    crs = str(crs_obj) if crs_obj is not None else None
+        point_count = int(header.point_count)
+        min_x, min_y, min_z = [float(v) for v in header.mins]
+        max_x, max_y, max_z = [float(v) for v in header.maxs]
 
-    point_count = int(len(las.points))
-    min_x, max_x = float(las.x.min()), float(las.x.max())
-    min_y, max_y = float(las.y.min()), float(las.y.max())
-    min_z, max_z = float(las.z.min()), float(las.z.max())
+        sample_size = min(point_count, 200_000)
+        sample = reader.read_points(sample_size) if sample_size > 0 else None
 
     area = (max_x - min_x) * (max_y - min_y)
     density = float(point_count / area) if area > 0 else None
 
     classes = []
     has_ground_class = False
-    if "classification" in dimensions:
-        classes = [int(item) for item in np.unique(las.classification)]
+    if sample is not None and "classification" in dimensions and hasattr(sample, "classification"):
+        classes = [int(item) for item in np.unique(sample.classification)]
         has_ground_class = 2 in classes
 
     intensity = None
-    if "intensity" in dimensions:
-        min_int = int(las.intensity.min())
-        max_int = int(las.intensity.max())
+    if sample is not None and "intensity" in dimensions and hasattr(sample, "intensity"):
+        min_int = int(sample.intensity.min())
+        max_int = int(sample.intensity.max())
         intensity = {
             "min": min_int,
             "max": max_int,
@@ -107,7 +109,7 @@ def print_summary(summary: dict) -> None:
 
 
 def main() -> None:
-    ensure_running_in_conda_env()
+    ensure_running_in_workspace_venv()
 
     parser = argparse.ArgumentParser(
         description="Inspect LAS/LAZ files and print data-readiness summary."

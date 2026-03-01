@@ -1,44 +1,49 @@
 # Deployment Guidelines
 
-## Environment
+## 1) Environment
 
-- Python 3.10+
-- Conda-first setup (recommended for PDAL on Windows):
-
-```bash
-conda env create -f environment.yml
-conda activate dataset-dtm
-```
-
-- Keep environment synchronized:
+This project uses **workspace `.venv` only**.
 
 ```bash
-conda env update -f environment.yml --prune
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-PDAL is required for full Stage 1 ground classification compliance. On Windows, install may require Conda/OSGeo setup.
+## 2) Pipeline Run Order
 
-## Run Sequence
-
-1) Preprocess point-cloud data to training-ready features:
+### Stage A: Preflight + Prepare
 
 ```bash
-python scripts/run_pipeline.py --config pipeline_config.json --max-points 150000
+.venv\Scripts\python.exe scripts\run_pipeline.py --config pipeline_config.json --from-stage preflight --to-stage prepare
 ```
 
-2) Train baseline ML model:
+### Stage B: DTM + Hydrology + Features
 
 ```bash
-python scripts/train_ml.py --features-dir outputs/training_data --output-dir outputs/ml --pseudo-label
+.venv\Scripts\python.exe scripts\run_pipeline.py --config pipeline_config.json --from-stage dtm --to-stage features
 ```
 
-3) Generate optimized drainage design layers:
+### Stage C: ML
 
 ```bash
-python scripts/optimize_drainage.py --predictions outputs/ml/predictions.csv --features-dir outputs/training_data --output-dir outputs/optimization
+.venv\Scripts\python.exe scripts\train_ml.py --features-dir outputs/training_data --output-dir outputs/ml --pseudo-label
 ```
 
-## Multi-Dataset Use
+### Stage D: Optimization
 
-- Update `input_dir` in `pipeline_config.json` to new village dataset path.
-- Re-run the same 3-step sequence.
+```bash
+.venv\Scripts\python.exe scripts\optimize_drainage.py --predictions outputs/ml/predictions.csv --features-dir outputs/training_data --output-dir outputs/optimization
+```
+
+## 3) Validation Checks
+
+- Confirm `outputs/run_summary.txt` updated after each run.
+- Confirm `outputs/reports/prepare_summary.json` has non-zero `point_count` and `ground_count`.
+- Confirm ML outputs and optimization outputs are regenerated.
+
+## 4) Multi-Dataset Reuse
+
+- Change `input_dir` in `pipeline_config.json`.
+- Re-run same command sequence.
+- Keep output folder structure consistent for comparison.
