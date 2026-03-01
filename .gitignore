@@ -3,3 +3,8 @@ Gujrat_Point_Cloud/
 Gujrat_Point_Cloud.zip
 
 scripts/__pycache__/
+*.las
+*.laz
+*.copc.laz
+*.zip
+*_tmp/
