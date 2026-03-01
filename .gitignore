@@ -1,10 +1,110 @@
-Gujrat_Point_Cloud/ 
+# ─── Virtual Environments ──────────────────────────────────────────────────────
+dtm-env/
 .venv/
-Gujrat_Point_Cloud.zip
+venv/
+env/
+ENV/
 
-scripts/__pycache__/
+# ─── Python Cache & Build ──────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ─── Data: Input / Output / Cache ──────────────────────────────────────────────
+data/input/
+data/output/
+data/cache/
+
+# ─── Point Cloud & LiDAR Files (Gujrat_Point_Cloud/) ──────────────────────────
+Gujrat_Point_Cloud/
 *.las
 *.laz
-*.copc.laz
+*.e57
+*.pts
+*.xyz
+*.ply
+*.pcd
+
+# ─── Raster / Terrain / GIS Raster Files ──────────────────────────────────────
+*.tif
+*.tiff
+*.img
+*.dem
+*.dtm
+*.dsm
+*.asc
+*.hgt
+*.bil
+*.flt
+*.nc
+*.hdf
+*.h5
+*.grib
+*.grid
+*.jp2
+
+# ─── GIS Vector Files ─────────────────────────────────────────────────────────
+*.shp
+*.shx
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.gpkg
+*.geojson
+
+# ─── Trained ML Models (models/) ──────────────────────────────────────────────
+models/
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.onnx
+*.pb
+
+# ─── Logs (logs/) ─────────────────────────────────────────────────────────────
+logs/
+
+# ─── Jupyter Notebook Checkpoints ─────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── Environment & Secrets ────────────────────────────────────────────────────
+.env
+*.env
+
+# ─── Archives ─────────────────────────────────────────────────────────────────
 *.zip
-*_tmp/
+*.rar
+*.7z
+*.tar
+*.gz
+*.tar.gz
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Temporary Files ──────────────────────────────────────────────────────────
+*.tmp
+*.temp
+*.bak
+*.log
+~$*
+tmp/
+temp/

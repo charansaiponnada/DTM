@@ -1,0 +1,169 @@
+# ═══════════════════════════════════════════════════════════════════════
+#  DTM Drainage AI  –  Master Configuration
+#  MoPR Geospatial Intelligence Hackathon
+# ═══════════════════════════════════════════════════════════════════════
+
+project:
+  name: "DTM-Drainage-AI"
+  version: "1.0.0"
+  crs: "EPSG:32643"           # UTM Zone 43N – matches Gujarat input data
+
+# ── Data Paths ──────────────────────────────────────────────────────────
+data:
+  input_dir: "data/input"
+  output_dir: "data/output"
+  cache_dir: "data/cache"
+  files:
+    - name: "DEVDI"
+      path: "data/input/DEVDI_511671.las"
+      points: 64622538
+      density: 65.07
+    - name: "KHAPRETA"
+      path: "Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      points: 163743261
+      density: 245.28
+
+  # Multi-village batch processing (add village entries here as data is downloaded)
+  villages:
+    - name: "DEVDI"
+      path: "data/input/DEVDI_511671.las"
+      output_subdir: "DEVDI"
+    - name: "KHAPRETA"
+      path: "Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      output_subdir: "KHAPRETA"
+
+# ── Preprocessing ────────────────────────────────────────────────────────
+preprocessing:
+  # Tiling prevents memory overflow for huge point clouds
+  tile_size: 500              # metres per tile edge
+  tile_buffer: 25             # overlap buffer to avoid edge artefacts
+  voxel_downsample: 0.15      # voxel size (m) for density-based downsampling
+                               # set null to skip
+  outlier_removal:
+    method: "sor"             # statistical outlier removal
+    k_neighbors: 16
+    std_ratio: 2.0
+
+# ── Ground Classification ────────────────────────────────────────────────
+ground_classification:
+  primary_method: "smrf"      # Simple Morphological Filter (PDAL)
+  fallback_method: "csf"      # Cloth Simulation Filter
+  smrf:
+    slope: 0.15
+    window: 18.0
+    threshold: 0.5
+    scalar: 1.25
+    ignore_class_zero: true
+  csf:
+    resolution: 0.5
+    rigidness: 3              # 1=steep, 3=flat terrain (abadi is flat)
+    class_threshold: 0.5
+    cloth_resolution: 0.5
+  ml_refine:
+    enabled: true             # Post-process SMRF labels with Random Forest
+    features:
+      - "eigenvalue_sum"
+      - "omnivariance"
+      - "eigenentropy"
+      - "anisotropy"
+      - "planarity"
+      - "linearity"
+      - "surface_variation"
+      - "sphericity"
+      - "verticality"
+      - "z_range_5m"
+      - "density_1m"
+    n_estimators: 200
+    max_depth: 15
+    n_jobs: -1
+
+# ── DTM Generation ──────────────────────────────────────────────────────
+dtm:
+  resolution: 0.5             # metres per pixel (0.5 m for abadi precision)
+  interpolation:
+    method: "idw"             # idw | kriging | tin | natural_neighbor
+    idw_power: 2
+    idw_radius: 5.0           # search radius in metres
+    kriging_model: "gaussian"
+  smoothing:
+    enabled: true
+    method: "gaussian"
+    sigma: 1.0
+  output_format: "COG"        # Cloud-Optimized GeoTIFF (OGC standard)
+  nodata: -9999.0
+  compression: "deflate"
+  overview_levels: [2, 4, 8, 16]
+
+# ── Terrain Analysis ────────────────────────────────────────────────────
+terrain_analysis:
+  slope_threshold_deg: 2.0    # flatter than this = potential waterlogging zone
+  depression_min_depth: 0.1   # min depression depth (m) to flag
+  flow_direction_algorithm: "d8"   # d8 | dinf | mfd
+  fill_depressions: true
+  breach_depressions: false   # breach vs fill – fill preferred for abadi
+  flow_accumulation_threshold: 1000  # cells to define a channel initiation
+
+# ── Waterlogging Prediction ─────────────────────────────────────────────
+waterlogging:
+  model: "xgboost"            # xgboost | random_forest | ensemble
+  features:
+    - "elevation_normalized"
+    - "slope"
+    - "aspect"
+    - "tpi"                   # Topographic Position Index
+    - "twi"                   # Topographic Wetness Index
+    - "flow_accumulation_log"
+    - "curvature_plan"
+    - "curvature_profile"
+    - "depression_depth"
+    - "distance_to_channel"
+  xgboost:
+    n_estimators: 500
+    max_depth: 7
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    scale_pos_weight: 5       # handle class imbalance (few waterlogging events)
+  threshold: 0.45             # probability threshold for binary classification
+  cv_folds: 5
+
+# ── Drainage Network Design ─────────────────────────────────────────────
+drainage:
+  min_channel_depth: 0.6      # metres
+  min_channel_width: 0.5      # metres
+  max_channel_spacing: 50     # metres between parallel channels
+  side_slope: 1.5             # H:V ratio for channel cross-section
+  manning_n: 0.025            # Manning's roughness (concrete-lined earthen)
+  design_return_period: 10    # years (10-yr storm)
+  rainfall_intensity: 50      # mm/hr (design storm – Gujarat region)
+  runoff_coefficient: 0.65    # urban village with mixed surfaces
+  cost_per_metre_channel: 800 # INR/m (earthen channel estimate)
+  cost_per_metre_pipe: 3500   # INR/m (RCC pipe estimate)
+  optimization:
+    method: "greedy_mst"      # minimum spanning tree on flow graph
+    max_iterations: 1000
+
+# ── Output Formats (OGC-compliant) ──────────────────────────────────────
+output:
+  raster:
+    format: "COG"             # Cloud-Optimized GeoTIFF
+    dtm: "dtm.tif"
+    slope: "slope.tif"
+    flow_direction: "flow_direction.tif"
+    flow_accumulation: "flow_accumulation.tif"
+    twi: "twi.tif"
+    waterlogging_probability: "waterlogging_probability.tif"
+    flood_zones: "flood_zones.tif"
+  vector:
+    format: "GPKG"            # GeoPackage (OGC standard)
+    filename: "drainage_network.gpkg"
+    layers:
+      - "drainage_channels"
+      - "waterlogging_hotspots"
+      - "flow_paths"
+      - "catchment_boundaries"
+      - "depression_polygons"
+      - "optimal_outlet_points"
+  pointcloud:
+    format: "LAS"             # LAS 1.4 (OGC standard)
+    classified_cloud: "classified_ground.las"
