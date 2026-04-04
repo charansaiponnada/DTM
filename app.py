@@ -532,8 +532,24 @@ if demo_output.exists():
                         "opacity": 0.8,
                     },
                     tooltip=folium.GeoJsonTooltip(
-                        fields=["length_m", "slope_pct", "capacity_m3s"],
-                        aliases=["Length:", "Slope:", "Capacity:"],
+                        fields=[
+                            "segment_id",
+                            "length_m",
+                            "slope_mm",
+                            "depth_m",
+                            "bottom_width_m",
+                            "capacity_m3s",
+                            "cost_inr",
+                        ],
+                        aliases=[
+                            "Segment:",
+                            "Length (m):",
+                            "Slope (‰):",
+                            "Depth (m):",
+                            "Width (m):",
+                            "Capacity (m³/s):",
+                            "Cost (₹):",
+                        ],
                         localize=True,
                     ),
                 ).add_to(m)
