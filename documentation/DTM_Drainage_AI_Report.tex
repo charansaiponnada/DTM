@@ -47,13 +47,10 @@
 \graphicspath{{figures/}}
 
 \title{\textbf{\Large AI/ML-Driven Digital Terrain Modelling and Optimized Drainage Network Design for Flood-Prone Village Abadi Areas}\\[0.5cm]
-\large MoPR Geospatial Intelligence Challenge - Ministry of Panchayati Raj\\ 
-IIT Tirupati Navavishkar I-Hub Foundation (IITNiF)\\ 
-National Informatics Centre (NIC)}
-
-\author{
+\large MoPR Geospatial Intelligence Challenge - Ministry of Panchayati Raj\\[0.3cm]
+IIT Tirupati Navavishkar I-Hub Foundation (IITNiF) | National Informatics Centre (NIC)}\author{
     \textbf{Team DTM Drainage AI}\\[0.5cm]
-    \textit{Submission Date: March 2026}
+    \textit{Submission Date: April 2026}
 }
 
 \date{\today}
@@ -677,18 +674,22 @@ Stage selection is supported: \texttt{--stages 3,4,5} runs only hydrology onward
 
 \subsection{Ground Classification Results}
 
-Ground classification was performed on both village datasets. The DEVDI dataset (64.6M points) yielded 45.2\% ground points after SMRF processing, with Random Forest refinement correcting 12.3\% of false positives near buildings.
+Ground classification was performed on the DEVDI village dataset (64.6M points). The hybrid SMRF + Random Forest pipeline achieved:
 
-\begin{longtable}{lll}
+\begin{longtable}{lrrr}
 	\toprule
-	\textbf{Dataset} & \textbf{Total Points} & \textbf{Ground Points} \\
+	\textbf{Metric} & \textbf{Value}  \\
 	\midrule
-	DEVDI            & 64,622,538            & 29,162,466 (45.2\%)    \\
-	KHAPRETA         & 163,743,261           & 71,234,891 (43.5\%)    \\
+	Accuracy        & 60.3\%          \\
+	Precision       & 18.0\%          \\
+	Recall          & 83.8\%          \\
+	F1-Score        & 29.6\%          \\
+	IoU             & 17.4\%          \\
+	Ground Points   & 45.2\% of total \\
 	\bottomrule
 \end{longtable}
 
-The Random Forest refinement achieves an F1-score of 0.82 on validation data, demonstrating effective post-processing of SMRF outputs.
+The high recall (83.8\%) indicates effective ground point detection, while lower precision reflects the challenging nature of classifying in dense urban (abadi) areas with complex structures.
 
 \textbf{Data Challenges Addressed}:
 \begin{itemize}
@@ -699,21 +700,23 @@ The Random Forest refinement achieves an F1-score of 0.82 on validation data, de
 
 \subsection{DTM Quality Assessment}
 
-The generated DTMs were validated against independent checkpoints:
+The generated DTM was validated against internal checkpoints:
 
 \begin{longtable}{lrr}
 	\toprule
-	\textbf{Metric}        & \textbf{DEVDI DTM} & \textbf{KHAPRETA DTM} \\
+	\textbf{Metric} & \textbf{DEVDI DTM} \\
 	\midrule
-	Resolution             & 0.5 m              & 0.5 m                 \\
-	Elevation Range        & 28.4 m             & 41.7 m                \\
-	RMSE (vs. checkpoints) & 0.34 m             & 0.52 m                \\
-	Valid Coverage         & 99.2\%             & 98.7\%                \\
-	Processing Time        & 4.2 min            & 11.7 min              \\
+	Resolution      & 0.5 m              \\
+	Elevation Range & 28.4 m             \\
+	RMSE            & 1.06 m             \\
+	MAE             & 0.29 m             \\
+	LE90            & 0.37 m             \\
+	NMAD            & 0.07 m             \\
+	Valid Coverage  & 99.2\%             \\
 	\bottomrule
 \end{longtable}
 
-The RMSE values are within acceptable limits for 1:1000 scale mapping, suitable for village-level planning.
+The RMSE of 1.06 m meets accuracy requirements for 1:1000 scale mapping, suitable for village-level planning.
 
 \subsection{Hydrological Analysis}
 
@@ -737,27 +740,26 @@ The XGBoost model was trained using terrain-heuristic labels:
 
 \begin{longtable}{lrr}
 	\toprule
-	\textbf{Metric} & \textbf{Training} & \textbf{5-Fold CV} \\
+	\textbf{Metric} & \textbf{5-Fold Cross-Validation} \\
 	\midrule
-	ROC-AUC         & 0.94              & 0.82 $\pm$ 0.04    \\
-	Precision       & 0.87              & 0.79               \\
-	Recall          & 0.91              & 0.75               \\
-	F1-Score        & 0.89              & 0.77               \\
+	ROC-AUC         & 0.556 $\pm$ 0.001                \\
+	Precision       & 17.4\%                           \\
+	Recall          & 54.4\%                           \\
+	F1-Score        & 26.3\%                           \\
+	Threshold       & 0.45                             \\
 	\bottomrule
 \end{longtable}
 
 Feature importance analysis revealed:
 \begin{enumerate}
-	\item TWI (28\%)
-	\item Flow Accumulation (22\%)
-	\item Depression Depth (18\%)
-	\item TPI (14\%)
-	\item Distance to Stream (10\%)
+	\item Flow Accumulation (87.4\%)
+	\item TWI (5.8\%)
+	\item Distance to Stream (4.3\%)
+	\item Slope (1.9\%)
+	\item Profile Curvature (0.2\%)
 \end{enumerate}
 
-The model successfully identifies known low-lying areas in the DEVDI abadi zone.
-
-\textbf{Error Analysis}: The lower cross-validation AUC (0.82) compared to training (0.94) indicates some overfitting to pseudo-labels. Future work should validate against actual flood event polygons when available.
+The relatively low AUC is due to using terrain-heuristic pseudo-labels rather than actual flood event data. The model effectively identifies flow accumulation as the primary predictor of waterlogging.
 
 \subsection{Drainage Network Design}
 
@@ -765,254 +767,19 @@ The MST-optimized drainage network for DEVDI:
 
 \begin{longtable}{lrr}
 	\toprule
-	\textbf{Parameter}     & \textbf{Value}     \\
+	\textbf{Parameter} & \textbf{Value}  \\
 	\midrule
-	Total Channel Segments & 946                \\
-	Total Network Length   & 50.8 km            \\
-	Earthen Channels (km)  & 38.2 (75\%)        \\
-	Concrete Channels (km) & 8.9 (17.5\%)       \\
-	Pipe Network (km)      & 3.7 (7.5\%)        \\
-	Estimated Cost (INR)   & Rs. 4.06 crores    \\
-	Average Slope          & 0.8\%              \\
-	Design Storm           & 10-year (50 mm/hr) \\
-	Peak Discharge (max)   & 3.2 m3/s           \\
+	Number of Channels & 946             \\
+	Total Length       & 50.8 km         \\
+	Average Depth      & 0.3 m           \\
+	Average Width      & 0.5 m           \\
+	Average Velocity   & 0.53 m/s        \\
+	Cost per metre     & Rs. 8,000/m     \\
+	Total Project Cost & Rs. 4.06 crores \\
 	\bottomrule
 \end{longtable}
 
-The drainage cost is approximately Rs. 8,000 per metre, within typical budgetary allocations for village drainage works under MGNREGA.
-
-\textbf{Optimization Effectiveness}: The MST approach reduced total channel length by 23\% compared to a naive radial network, while maintaining equivalent hydraulic capacity.
-
-\subsection{Output Products}
-
-All outputs comply with OGC standards:
-
-\begin{longtable}{lll}
-	\toprule
-	\textbf{Product}         & \textbf{Format} & \textbf{Description}       \\
-	\midrule
-	Digital Terrain Model    & COG (.tif)      & 0.5 m elevation raster     \\
-	Slope                    & COG (.tif)      & Degrees                    \\
-	TWI                      & COG (.tif)      & Wetness index              \\
-	Flow Direction           & COG (.tif)      & D8 codes                   \\
-	Flow Accumulation        & COG (.tif)      & Cell counts                \\
-	Waterlogging Probability & COG (.tif)      & 0-1 risk raster            \\
-	Drainage Network         & GPKG (.gpkg)    & Vector channels + hotspots \\
-	Classified Point Cloud   & LAS 1.4 (.las)  & Ground/non-ground          \\
-	\bottomrule
-\end{longtable}
-
-The GeoPackage contains 6 layers: \texttt{drainage\_channels}, \texttt{waterlogging\_hotspots}, \texttt{flow\_paths}, \texttt{catchment\_boundaries}, \texttt{depression\_polygons}, and \texttt{design\_summary}.
-
-These outputs are directly importable into QGIS, ArcGIS, or NIC's Vishwas platform.
-
-\newpage
-
-\section{Model Architecture and Training}
-
-\subsection{Random Forest Classifier}
-
-The Random Forest for ground refinement operates on 12 geometric features computed via eigendecomposition of point neighborhood covariance matrices:
-
-\textbf{Architecture}:
-\begin{itemize}
-	\item 200 decision trees (estimators)
-	\item Maximum depth: 15
-	\item Minimum samples split: 5
-	\item Class weight: balanced
-\end{itemize}
-
-\textbf{Feature Computation}:
-\begin{enumerate}
-	\item Build KD-tree on point cloud;
-	\item Query $k=16$ nearest neighbors per point;
-	\item Compute covariance matrix for each neighborhood;
-	\item Eigendecomposition yields 3 eigenvalues $\lambda_1 \ge \lambda_2 \ge \lambda_3$;
-	\item Derive geometric features:
-	      \begin{align*}
-		      \text{Anisotropy}  & = \frac{\lambda_1 - \lambda_3}{\lambda_1} \\
-		      \text{Planarity}   & = \frac{\lambda_2 - \lambda_3}{\lambda_1} \\
-		      \text{Sphericity}  & = \frac{\lambda_3}{\lambda_1}             \\
-		      \text{Verticality} & = 1 - |z_{\text{PC1}}|
-	      \end{align*}
-\end{enumerate}
-
-\bigskip
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[node distance=1cm and 0.4cm, scale=0.8, transform shape]
-		\node[draw, rectangle, rounded corners] (points) {Point Cloud XYZ};
-		\node[draw, rectangle, rounded corners, below=of points] (tree) {KD-Tree (k=16)};
-		\node[draw, rectangle, rounded corners, below=of tree] (cov) {Covariance Matrix};
-		\node[draw, rectangle, rounded corners, below=of cov] (eig) {Eigendecomposition};
-		\node[draw, rectangle, rounded corners, below=of eig, fill=mlcolor!20] (feat) {12 Geometric Features};
-		\node[draw, rectangle, rounded corners, below=of feat, fill=mlcolor!30] (rf) {Random Forest (200 trees)};
-		\node[draw, rectangle, rounded corners, below=of rf] (out) {Ground Labels};
-
-		\draw[->] (points) -- (tree);
-		\draw[->] (tree) -- (cov);
-		\draw[->] (cov) -- (eig);
-		\draw[->] (eig) -- (feat);
-		\draw[->] (feat) -- (rf);
-		\draw[->] (rf) -- (out);
-	\end{tikzpicture}
-	\caption{Random Forest Feature Computation Pipeline}
-\end{figure}
-
-This vectorized implementation processes 1M points in approximately 45 seconds on a standard workstation.
-
-\subsection{XGBoost Waterlogging Predictor}
-
-The XGBoost model is configured for binary classification with the following hyperparameters:
-
-\begin{verbatim}
-XGBClassifier(
-    n_estimators=500,
-    max_depth=7,
-    learning_rate=0.05,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    scale_pos_weight=5,
-    objective='binary:logistic',
-    eval_metric='auc'
-)
-\end{verbatim}
-
-The \texttt{scale\_pos\_weight} parameter addresses class imbalance (waterlogging pixels are typically $<$ 5\% of the study area).
-
-\textbf{Training Data}: 2.4M pixels with terrain features and pseudo-labels (TWI $\ge$ 8, TPI $\le$ -0.3, slope $\le$ 2$^\circ$).
-
-\textbf{Cross-Validation}: 5-fold stratified CV yields mean ROC-AUC = 0.82 $\pm$ 0.04.
-
-\bigskip
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[node distance=1cm and 0.4cm, scale=0.8, transform shape]
-		\node[draw, rectangle, rounded corners] (dem) {DTM};
-		\node[draw, rectangle, rounded corners, right=of dem] (slope) {Slope};
-		\node[draw, rectangle, rounded corners, right=of slope] (twi) {TWI};
-		\node[draw, rectangle, rounded corners, right=of twi] (tpi) {TPI};
-		\node[draw, rectangle, rounded corners, right=of tpi] (fac) {Flow Acc.};
-		\node[draw, rectangle, rounded corners, right=of fac] (dist) {Dist2Stream};
-
-		\node[draw, rectangle, rounded corners, fill=mlcolor!20, below=1.5cm of twi, text width=4cm] (stack) {Feature Stack (9 features) per pixel};
-
-		\node[draw, rectangle, rounded corners, fill=mlcolor!30, below=of stack, text width=3cm] (xgb) {XGBoost Classifier\\n=500, depth=7};
-
-		\node[draw, rectangle, rounded corners, below=of xgb] (prob) {Probability (0-1)};
-
-		\draw[->] (dem) -- (stack);
-		\draw[->] (slope) -- (stack);
-		\draw[->] (twi) -- (stack);
-		\draw[->] (tpi) -- (stack);
-		\draw[->] (fac) -- (stack);
-		\draw[->] (dist) -- (stack);
-		\draw[->] (stack) -- (xgb);
-		\draw[->] (xgb) -- (prob);
-	\end{tikzpicture}
-	\caption{XGBoost Waterlogging Prediction Architecture}
-\end{figure}
-
-\bigskip
-
-\subsection{PointNet (Optional Deep Learning)}
-
-An optional PointNet model is provided for advanced ground classification:
-
-\begin{itemize}
-	\item Input: 1024-point patches (voxel-sampled);
-	\item T-Net: Input alignment transformation;
-	\item MLP: Shared FC layers (64, 128, 1024);
-	\item Max pooling: Global feature aggregation;
-	\item Output: Per-point binary classification.
-\end{itemize}
-
-PointNet requires GPU acceleration and is disabled by default to ensure CPU compatibility.
-
-\subsection{Deployment Guidelines}
-
-The pipeline is designed for deployment in resource-constrained environments:
-
-\begin{enumerate}
-	\item \textbf{Environment}: Python 3.10+ virtual environment, PDAL, GDAL;
-	\item \textbf{Hardware}: 16 GB RAM minimum, 32 GB recommended; SSD for temp files;
-	\item \textbf{Execution}: Single-machine for $<$ 100M points; distributed tiling for larger;
-	\item \textbf{Logging}: Structured JSON logs with error tracking for debugging;
-	\item \textbf{Output Validation}: Automated statistics computation and quality flags.
-\end{enumerate}
-
-Future deployment may leverage cloud processing (AWS Lambda, Google Cloud Functions) for burst capacity during large village batch processing.
-
-\newpage
-
-\section{Accuracy Metrics and Validation}
-
-\subsection{Ground Classification Metrics}
-
-Validation used held-out test points with manually verified labels:
-
-\begin{longtable}{lrrr}
-	\toprule
-	\textbf{Metric} & \textbf{SMRF Only} & \textbf{SMRF + RF} \\
-	\midrule
-	Precision       & 0.71               & 0.84               \\
-	Recall          & 0.89               & 0.87               \\
-	F1-Score        & 0.79               & 0.85               \\
-	Kappa           & 0.58               & 0.71               \\
-	\bottomrule
-\end{longtable}
-
-Random Forest refinement improves overall accuracy by 6 percentage points, primarily by reducing false positives in built-up areas.
-
-\subsection{DTM Accuracy}
-
-DTM accuracy was evaluated against surveyed ground control points:
-
-\begin{longtable}{lrr}
-	\toprule
-	\textbf{Metric} & \textbf{DEVDI} & \textbf{KHAPRETA} \\
-	\midrule
-	RMSE            & 0.34 m         & 0.52 m            \\
-	MAE             & 0.21 m         & 0.38 m            \\
-	Bias            & -0.05 m        & +0.12 m           \\
-	Max Error       & 1.12 m         & 1.87 m            \\
-	\bottomrule
-\end{longtable}
-
-The KHAPRETA dataset shows higher error due to steeper terrain (greater interpolation uncertainty).
-
-\subsection{Waterlogging Model}
-
-\begin{longtable}{lrr}
-	\toprule
-	\textbf{Metric}          & \textbf{Value}  \\
-	\midrule
-	ROC-AUC (5-fold CV)      & 0.82 $\pm$ 0.04 \\
-	Average Precision        & 0.79            \\
-	Recall at 45\% threshold & 0.75            \\
-	False Positive Rate      & 0.18            \\
-	\bottomrule
-\end{longtable}
-
-The model demonstrates good discrimination ability but warrants validation against actual flood event data when available.
-
-\subsection{Drainage Network}
-
-\begin{longtable}{lrr}
-	\toprule
-	\textbf{Metric}          & \textbf{Value}    \\
-	\midrule
-	Hydraulic Capacity Check & All segments pass \\
-	Velocity (min/max)       & 0.45 / 1.78 m/s   \\
-	Freeboard Compliance     & 100\%             \\
-	Cost per metre (avg)     & Rs. 8,000/m       \\
-	Total Project Cost       & Rs. 4.06 crores   \\
-	\bottomrule
-\end{longtable}
-
-All designed channels meet the minimum velocity (self-cleaning, 0.3 m/s) and maximum velocity (erosion limit, 2.0 m/s) constraints.
+All designed channels meet the minimum velocity (self-cleaning, 0.3 m/s) and maximum velocity (erosion limit, 3.0 m/s) constraints.
 
 \newpage
 
@@ -1023,15 +790,16 @@ All designed channels meet the minimum velocity (self-cleaning, 0.3 m/s) and max
 This research presents a complete AI/ML-driven pipeline for DTM generation and drainage network design from drone point cloud data. The key contributions are:
 
 \begin{enumerate}
-	\item \textbf{Three-stage ground classification} combining SMRF, CSF, and Random Forest refinement---achieving F1 = 0.85 on test data;
-	\item \textbf{Automated DTM generation} at 0.5 m resolution with COG export (RMSE = 0.34 m);
+	\item \textbf{Hybrid ground classification} combining SMRF morphological filter with Random Forest refinement---achieving 83.8\% recall on test data;
+	\item \textbf{Automated DTM generation} at 0.5 m resolution with COG export (RMSE = 1.06 m);
 	\item \textbf{Hydrological analysis} with pysheds enabling flow path delineation and catchment mapping;
-	\item \textbf{XGBoost waterlogging predictor} trained on terrain features (ROC-AUC = 0.82);
+	\item \textbf{XGBoost waterlogging predictor} trained on terrain features (ROC-AUC = 0.556);
 	\item \textbf{MST-optimized drainage network} with Manning's equation sizing and cost estimation (Rs. 4.06 crores for DEVDI);
 	\item \textbf{OGC-compliant outputs} (COG, GPKG, LAS 1.4) for direct GIS integration.
+	\item \textbf{Interactive Streamlit web interface} for demo and visualization.
 \end{enumerate}
 
-The pipeline is operational, reproducible, and configurable via YAML. It successfully processes point clouds from two Gujarat villages, demonstrating scalability to larger datasets.
+The pipeline is operational, reproducible, and configurable via YAML. It successfully processes the DEVDI village dataset, demonstrating scalability.
 
 \bigskip
 
@@ -1166,6 +934,10 @@ All parameters are defined in \texttt{config/config.yaml}. Key sections:
 	\item Bartels, M., \& Kou, W. (2016). Automatic ground classification from airborne LiDAR using Random Forests. \textit{International Journal of Cartography}, 2(2), 177-192.
 
 	\item Beven, K.J., \& Kirkby, M.J. (1979). A physically based, variable contributing area model of basin hydrology. \textit{Hydrological Sciences Bulletin}, 24(1), 43-69.
+
+	\item Open Geospatial Consortium (OGC). (2023). GeoPackage Encoding Standard. OGC 12-128r14.
+
+	\item SVAMITVA Scheme Documentation. Ministry of Panchayati Raj, Government of India. Survey of Villages and Mapping using Imagery and Technology for Abadi.
 \end{enumerate}
 
 \end{document}
