@@ -240,7 +240,13 @@ def run_pipeline(
     if not use_ml:
         cmd.append("--no-ml")
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    # Set UTF-8 encoding for Windows compatibility
+    import os
+
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
+
+    result = subprocess.run(cmd, capture_output=True, text=True, env=env)
     return result
 
 
