@@ -70,24 +70,6 @@ National Informatics Centre (NIC)}
 \tableofcontents
 \newpage
 
-\section*{Team Details}
-\addcontentsline{toc}{section}{Team Details}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|l|l|l|l|l|l|}
-		\hline
-		\textbf{Name}             & \textbf{Gender} & \textbf{Email}                    & \textbf{Contact} & \textbf{Institution}                   & \textbf{T-shirt} \\ \hline
-		Charan Sai Ponnada        & Male            & charansaiponnada06@gmail.com      & 8639269120       & Siddhartha Academy of Higher Education & XL               \\ \hline
-		Naga Chaitanya Prathipati & Male            & nagachaitanyaprathipati@gmail.com & 7842486209       & Siddhartha Academy of Higher Education & XL               \\ \hline
-		Asha Ruksana Shaik        & Female          & asharuksana9@gmail.com            & 8639675016       & Siddhartha Academy of Higher Education & S                \\ \hline
-		Neelima Vana              & Female          & vana.neelima05@gmail.com          & 7993853292       & Siddhartha Academy of Higher Education & M                \\ \hline
-		Leena Jarapala            & Female          & jarapalaleena@gmail.com           & 8187819759       & Siddhartha Academy of Higher Education & XXL              \\ \hline
-	\end{tabular}
-\end{table}
-
-\newpage
-
 \section{Abstract}
 
 This report presents a comprehensive AI/ML-driven solution for Digital Terrain Model (DTM) generation and optimized drainage network design using drone-captured LiDAR point cloud data. The proposed system addresses the challenge of delineating natural surface-water flow paths, predicting waterlogging hotspots, and designing cost-effective drainage infrastructure for densely populated village (abadi) areas. The pipeline integrates classical geospatial algorithms with machine learning classifiers (Random Forest, XGBoost) and deep learning (PointNet) to achieve robust terrain characterization. Our approach produces OGC-compliant outputs including Cloud-Optimized GeoTIFFs (COG) and GeoPackages (GPKG), suitable for direct integration with GIS platforms deployed by Panchayati Raj institutions.

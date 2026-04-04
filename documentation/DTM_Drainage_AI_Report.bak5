@@ -45,6 +45,21 @@ National Informatics Centre (NIC)}
 
 \author{
     \textbf{Team DTM Drainage AI}\\[0.5cm]
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{lccccc}
+            \toprule
+            \textbf{Name} & \textbf{Gender} & \textbf{Email} & \textbf{Contact} & \textbf{Institution} & \textbf{T-shirt} \\
+            \midrule
+            Charan Sai Ponnada & Male & charansaiponnada06@gmail.com & 8639269120 & Siddhartha Academy of Higher Education & XL \\
+            Naga Chaitanya Prathipati & Male & nagachaitanyaprathipati@gmail.com & 7842486209 & Siddhartha Academy of Higher Education & XL \\
+            Asha Ruksana Shaik & Female & asharuksana9@gmail.com & 8639675016 & Siddhartha Academy of Higher Education & S \\
+            Neelima Vana & Female & vana.neelima05@gmail.com & 7993853292 & Siddhartha Academy of Higher Education & M \\
+            Leena Jarapala & Female & jarapalaleena@gmail.com & 8187819759 & Siddhartha Academy of Higher Education & XXL \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    \\[0.5cm]
     \textit{Submission Date: March 2026}
 }
 
@@ -68,24 +83,6 @@ National Informatics Centre (NIC)}
 \fancyfoot[C]{}\setlength{\headheight}{15pt}
 
 \tableofcontents
-\newpage
-
-\section*{Team Details}
-\addcontentsline{toc}{section}{Team Details}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|l|l|l|l|l|l|}
-		\hline
-		\textbf{Name}             & \textbf{Gender} & \textbf{Email}                    & \textbf{Contact} & \textbf{Institution}                   & \textbf{T-shirt} \\ \hline
-		Charan Sai Ponnada        & Male            & charansaiponnada06@gmail.com      & 8639269120       & Siddhartha Academy of Higher Education & XL               \\ \hline
-		Naga Chaitanya Prathipati & Male            & nagachaitanyaprathipati@gmail.com & 7842486209       & Siddhartha Academy of Higher Education & XL               \\ \hline
-		Asha Ruksana Shaik        & Female          & asharuksana9@gmail.com            & 8639675016       & Siddhartha Academy of Higher Education & S                \\ \hline
-		Neelima Vana              & Female          & vana.neelima05@gmail.com          & 7993853292       & Siddhartha Academy of Higher Education & M                \\ \hline
-		Leena Jarapala            & Female          & jarapalaleena@gmail.com           & 8187819759       & Siddhartha Academy of Higher Education & XXL              \\ \hline
-	\end{tabular}
-\end{table}
-
 \newpage
 
 \section{Abstract}
@@ -1171,25 +1168,25 @@ All parameters are defined in \texttt{config/config.yaml}. Key sections:
 \section{References}
 
 \begin{enumerate}
-	\item Pingel, T.J., Clarke, K.C., \& Foster, A.D. (2013). A Simple Morphological Filter for Removing Non-Ground Points from Airborne LiDAR Data. \textit{ISPRS Journal of Photogrammetry and Remote Sensing}, 76, 1-16.
-
-	\item Zhang, W., Qi, J., Wan, P., Wang, H., Xie, D., Wang, X., \& Yan, G. (2016). An Easy-to-Use Airborne LiDAR Data Filtering Method Based on Cloth Simulation. \textit{Remote Sensing}, 8(6), 501.
-
-	\item Qi, C.R., Su, H., Mo, K., \& Guibas, L.J. (2017). PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation. \textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 77-85.
-
-	\item Chen, T., \& Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 785-794.
-
-	\item Wang, L., \& Liu, H. (2007). An efficient method for identifying and filling surface depressions in digital elevation models for hydrological analysis. \textit{International Journal of Geographical Information Science}, 21(9), 981-998.
-
-	\item Tehrone, M.S., Pradhan, B., \& Jafri, S.M.Z. (2020). Flood susceptibility mapping using machine learning approaches. \textit{Journal of Hydrology}, 582, 124482.
-
-	\item Argun, S., Yildirim, O., \& Yildirim, A. (2021). TIN-based interpolation methods for digital terrain modeling. \textit{International Journal of Geo-Information}, 10(3), 145.
-
-	\item Weinstein, B., Guo, Y., \& Yu, X. (2020). Laser Beam Pulse Waveform Decomposition for Ground Classification. \textit{ISPRS Journal of Photogrammetry and Remote Sensing}, 160, 276-288.
-
-	\item Bartels, M., \& Kou, W. (2016). Automatic ground classification from airborne LiDAR using Random Forests. \textit{International Journal of Cartography}, 2(2), 177-192.
-
-	\item Beven, K.J., \& Kirkby, M.J. (1979). A physically based, variable contributing area model of basin hydrology. \textit{Hydrological Sciences Bulletin}, 24(1), 43-69.
+    \item Pingel, T.J., Clarke, K.C., \& Foster, A.D. (2013). A Simple Morphological Filter for Removing Non-Ground Points from Airborne LiDAR Data. \textit{ISPRS Journal of Photogrammetry and Remote Sensing}, 76, 1-16.
+    
+    \item Zhang, W., Qi, J., Wan, P., Wang, H., Xie, D., Wang, X., \& Yan, G. (2016). An Easy-to-Use Airborne LiDAR Data Filtering Method Based on Cloth Simulation. \textit{Remote Sensing}, 8(6), 501.
+    
+    \item Qi, C.R., Su, H., Mo, K., \& Guibas, L.J. (2017). PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation. \textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 77-85.
+    
+    \item Chen, T., \& Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 785-794.
+    
+    \item Wang, L., \& Liu, H. (2007). An efficient method for identifying and filling surface depressions in digital elevation models for hydrological analysis. \textit{International Journal of Geographical Information Science}, 21(9), 981-998.
+    
+    \item Tehrone, M.S., Pradhan, B., \& Jafri, S.M.Z. (2020). Flood susceptibility mapping using machine learning approaches. \textit{Journal of Hydrology}, 582, 124482.
+    
+    \item Argun, S., Yildirim, O., \& Yildirim, A. (2021). TIN-based interpolation methods for digital terrain modeling. \textit{International Journal of Geo-Information}, 10(3), 145.
+    
+    \item Weinstein, B., Guo, Y., \& Yu, X. (2020). Laser Beam Pulse Waveform Decomposition for Ground Classification. \textit{ISPRS Journal of Photogrammetry and Remote Sensing}, 160, 276-288.
+    
+    \item Bartels, M., \& Kou, W. (2016). Automatic ground classification from airborne LiDAR using Random Forests. \textit{International Journal of Cartography}, 2(2), 177-192.
+    
+    \item Beven, K.J., \& Kirkby, M.J. (1979). A physically based, variable contributing area model of basin hydrology. \textit{Hydrological Sciences Bulletin}, 24(1), 43-69.
 \end{enumerate}
 
 \end{document}
