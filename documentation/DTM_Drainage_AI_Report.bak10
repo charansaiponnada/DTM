@@ -81,19 +81,17 @@ National Informatics Centre (NIC)}
 \section*{Team Details}
 \addcontentsline{toc}{section}{Team Details}
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\centering
-	\resizebox{\textwidth}{!}{
-		\begin{tabular}{|l|l|l|l|l|}
-			\hline
-			\textbf{Name}             & \textbf{Gender} & \textbf{Email}                    & \textbf{Contact} & \textbf{Institution}                   \\ \hline
-			Charan Sai Ponnada        & Male            & charansaiponnada06@gmail.com      & 8639269120       & Siddhartha Academy of Higher Education \\ \hline
-			Naga Chaitanya Prathipati & Male            & nagachaitanyaprathipati@gmail.com & 7842486209       & Siddhartha Academy of Higher Education \\ \hline
-			Asha Ruksana Shaik        & Female          & asharuksana9@gmail.com            & 8639675016       & Siddhartha Academy of Higher Education \\ \hline
-			Neelima Vana              & Female          & vana.neelima05@gmail.com          & 7993853292       & Siddhartha Academy of Higher Education \\ \hline
-			Leena Jarapala            & Female          & jarapalaleena@gmail.com           & 8187819759       & Siddhartha Academy of Higher Education \\ \hline
-		\end{tabular}
-	}
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Name}             & \textbf{Gender} & \textbf{Email}                    & \textbf{Contact} & \textbf{Institution}                   \\ \hline
+		Charan Sai Ponnada        & Male            & charansaiponnada06@gmail.com      & 8639269120       & Siddhartha Academy of Higher Education \\ \hline
+		Naga Chaitanya Prathipati & Male            & nagachaitanyaprathipati@gmail.com & 7842486209       & Siddhartha Academy of Higher Education \\ \hline
+		Asha Ruksana Shaik        & Female          & asharuksana9@gmail.com            & 8639675016       & Siddhartha Academy of Higher Education \\ \hline
+		Neelima Vana              & Female          & vana.neelima05@gmail.com          & 7993853292       & Siddhartha Academy of Higher Education \\ \hline
+		Leena Jarapala            & Female          & jarapalaleena@gmail.com           & 8187819759       & Siddhartha Academy of Higher Education \\ \hline
+	\end{tabular}
 \end{table}
 
 \newpage
@@ -106,15 +104,15 @@ This report presents a comprehensive AI/ML-driven solution for Digital Terrain M
 
 \newpage
 
-\section{Introduction}
+\section{1. Introduction}
 
-\subsection{Background and Motivation}
+\subsection{1.1 Background and Motivation}
 
 The SVAMITVA (Survey of Villages and Mapping using Imagery and Technology for Abadi) scheme has enabled large-scale generation of high-resolution aerial imagery and LiDAR point cloud data for rural Indian villages. However, transforming this raw point cloud data into actionable geospatial intelligence for village planning remains a significant challenge. The absence of automated tools for Digital Terrain Model (DTM) creation and drainage network design forces engineers to rely on manual processing, which is time-consuming, error-prone, and inadequately scaled for the 6.5 lakh villages in India.
 
 Waterlogging and inadequate drainage in abadi areas result in annual flood losses estimated at Rs. 15,000 crores across the country. Traditional drainage design relies on field surveys and approximate calculations, often leading to undersized or misaligned channels. The integration of AI/ML techniques offers a transformative approach: automated terrain analysis, predictive waterlogging modelling, and optimized hydraulic design---all within a reproducible, scalable pipeline.
 
-\subsection{Problem Statement}
+\subsection{1.2 Problem Statement}
 
 The objective of this research is to develop a data-driven DTM creation pipeline using drone point cloud datasets, combined with AI/ML-based waterlogging prediction and optimized drainage network design for densely inhabited village (abadi) areas. Specifically, the system must:
 
@@ -128,7 +126,7 @@ The objective of this research is to develop a data-driven DTM creation pipeline
 
 The pipeline must produce GIS-ready outputs compliant with OGC standards (COG, GPKG, LAS 1.4).
 
-\subsection{Objectives}
+\subsection{1.3 Objectives}
 
 \begin{itemize}
 	\item Develop an automated three-stage ground classification pipeline combining PDAL-based morphological filters (SMRF, CSF) with Random Forest refinement;
@@ -139,7 +137,7 @@ The pipeline must produce GIS-ready outputs compliant with OGC standards (COG, G
 	\item Generate all outputs in OGC-compliant formats.
 \end{itemize}
 
-\subsection{Scope and Limitations}
+\subsection{1.4 Scope and Limitations}
 
 This work focuses on Gujarat state datasets (SVAMITVA) as proof-of-concept. The methodology is transferable to other states with similar LiDAR coverage. Key limitations include:
 \begin{itemize}
@@ -150,9 +148,9 @@ This work focuses on Gujarat state datasets (SVAMITVA) as proof-of-concept. The 
 
 \newpage
 
-\section{Literature Review}
+\section{2. Literature Review}
 
-\subsection{Point Cloud Classification}
+\subsection{2.1 Point Cloud Classification}
 
 Ground classification from LiDAR point clouds has been extensively studied. The \textbf{Simple Morphological Filter (SMRF)} (Pingel et al., 2013) remains a widely adopted approach due to its computational efficiency and robustness in flat terrain. The \textbf{Cloth Simulation Filter (CSF)} (Zhang et al., 2016) provides an alternative by simulating a cloth falling onto the terrain surface to distinguish ground from objects.
 
@@ -160,13 +158,13 @@ Recent advances incorporate machine learning. \textbf{Random Forest classifiers}
 
 This work adopts a hybrid approach: SMRF as the primary filter, with Random Forest refinement on 12 geometric features computed via eigendecomposition.
 
-\subsection{Digital Terrain Model Generation}
+\subsection{2.2 Digital Terrain Model Generation}
 
 DTM generation from ground-classified points involves spatial interpolation. \textbf{Inverse Distance Weighting (IDW)} is a deterministic method where elevation values are weighted inversely by distance from interpolation points. \textbf{Kriging} provides a stochastic alternative with uncertainty quantification. Recent work favors \textbf{TIN-based interpolation} for preserving sharp terrain features (Argun et al., 2021).
 
 Output standards have evolved toward \textbf{Cloud-Optimized GeoTIFFs (COGs)} as recommended by OGC for efficient cloud storage and streaming. This work implements IDW interpolation with Gaussian smoothing, exported as COG.
 
-\subsection{Hydrological Analysis}
+\subsection{2.3 Hydrological Analysis}
 
 Terrain hydrology proceeds from depression-filled Digital Elevation Models. The \textbf{Wang and Liu algorithm} (2007) is the standard method for depression filling. \textbf{D8 flow direction} assigns each cell to one of eight downhill neighbors, enabling flow accumulation computation. \textbf{Topographic Wetness Index (TWI)} combines slope and flow accumulation to quantify wetness potential:
 \begin{equation}
@@ -176,13 +174,13 @@ where $A_s$ is the specific catchment area and $\beta$ is the slope angle.
 
 This work implements the complete pysheds workflow: fill $\rightarrow$ flow direction $\rightarrow$ accumulation $\rightarrow$ TWI $\rightarrow$ stream extraction.
 
-\subsection{Waterlogging Prediction}
+\subsection{2.4 Waterlogging Prediction}
 
 Machine learning models for flood prediction typically use terrain-derived features. \textbf{XGBoost} has demonstrated superior performance on imbalanced flood datasets (Tehrone et al., 2020) due to its ability to handle scale-positive weights. Key features include TWI, TPI (Topographic Position Index), curvature, and distance to streams.
 
 A major challenge is label scarcity---we address this using terrain-heuristic pseudo-labeling: points with TWI $\ge$ 8, TPI $\le$ -0.3, and slope $\le$ 2$^\circ$ are labeled as waterlogging-prone.
 
-\subsection{Drainage Network Design}
+\subsection{2.5 Drainage Network Design}
 
 Optimal drainage design requires solving a network optimization problem. The \textbf{Minimum Spanning Tree (MST)} approach connects waterlogging hotspots to outlet points while minimizing total excavation cost. Hydraulic sizing uses \textbf{Manning's equation}:
 \begin{equation}
@@ -194,9 +192,9 @@ The \textbf{Rational Method} ($Q = C \cdot i \cdot A$) estimates peak discharge 
 
 \newpage
 
-\section{Methodology}
+\section{3. Methodology}
 
-\subsection{Study Area and Data}
+\subsection{3.1 Study Area and Data}
 
 The study utilizes LiDAR point cloud data from SVAMITVA for two villages in Gujarat:
 \begin{longtable}{lrrrr}
@@ -210,7 +208,7 @@ The study utilizes LiDAR point cloud data from SVAMITVA for two villages in Guja
 
 Both datasets lack pre-existing ground classification and have zero intensity variation (a known characteristic of SVAMITVA Phase 1 data). The coordinate reference system is EPSG:32643 (UTM Zone 43N).
 
-\subsection{System Architecture}
+\subsection{3.2 System Architecture}
 
 The pipeline is implemented as a six-stage Python workflow with modular design:
 
@@ -262,11 +260,47 @@ The pipeline is implemented as a six-stage Python workflow with modular design:
 	\caption{Pipeline Architecture: Six-stage processing from point cloud to drainage design}
 \end{figure}
 
+		% Stage 2
+		\node[stage] (s2) [right=of s1] {Stage 2: Ground Classification};
+		\node[ml, above right=of s2] (ml1) {SMRF $\rightarrow$ CSF $\rightarrow$ RF};
+		\draw[arrow] (s1) -- (s2);
+		\draw[arrow] (ml1) -- (s2);
+
+		% Stage 3
+		\node[stage] (s3) [right=of s2] {Stage 3: DTM Generation};
+		\draw[arrow] (s2) -- (s3);
+
+		% Stage 4
+		\node[stage] (s4) [right=of s3] {Stage 4: Hydrological Analysis};
+		\draw[arrow] (s3) -- (s4);
+
+		% Stage 5
+		\node[ml] (s5) [right=of s4] {Stage 5: Waterlogging Prediction};
+		\draw[arrow] (s4) -- (s5);
+
+		% Stage 6
+		\node[stage] (s6) [right=of s5] {Stage 6: Drainage Design};
+		\draw[arrow] (s5) -- (s6);
+
+		% Outputs
+		\node[output, below=1cm of s3] (out1) {DTM (COG)};
+		\node[output, below=1cm of s4] (out2) {TWI, Flow (COG)};
+		\node[output, below=1cm of s5] (out3) {Risk Map (COG)};
+		\node[output, below=1cm of s6] (out4) {Network (GPKG)};
+
+		\draw[arrow] (s3) -- (out1);
+		\draw[arrow] (s4) -- (out2);
+		\draw[arrow] (s5) -- (out3);
+		\draw[arrow] (s6) -- (out4);
+	\end{tikzpicture}
+	\caption{Pipeline Architecture: Six-stage processing from point cloud to drainage design}
+\end{figure}
+
 \bigskip
 
 The system uses a configuration file (\texttt{config.yaml}) to manage all parameters, enabling reproducible runs without code modification.
 
-\subsection{Stage 1: Data Inspection}
+\subsection{3.3 Stage 1: Data Inspection}
 
 The pipeline begins by inspecting the input LAS/LAZ file to extract metadata:
 \begin{itemize}
@@ -278,7 +312,7 @@ The pipeline begins by inspecting the input LAS/LAZ file to extract metadata:
 
 This stage identifies data quality issues (e.g., zero intensity, missing CRS) that inform downstream processing decisions.
 
-\subsection{Stage 2: Ground Classification}
+\subsection{3.4 Stage 2: Ground Classification}
 
 Ground classification employs a three-stage pipeline to handle the challenging Gujarat data:
 
@@ -344,7 +378,7 @@ Training uses SMRF labels as ground truth. For large datasets ($>$200k points), 
 
 The classified point cloud is exported as LAS 1.4.
 
-\subsection{Stage 3: DTM Generation}
+\subsection{3.5 Stage 3: DTM Generation}
 
 The DTM is generated through the following steps:
 
@@ -392,7 +426,7 @@ Terrain derivatives are computed simultaneously:
 	\item Topographic Position Index (TPI)
 \end{itemize}
 
-\subsection{Stage 4: Hydrological Analysis}
+\subsection{3.6 Stage 4: Hydrological Analysis}
 
 Using the pysheds library, the pipeline performs:
 
@@ -433,7 +467,7 @@ Using the pysheds library, the pipeline performs:
 
 Outputs include multiple COG rasters (flow direction, accumulation, TWI, slope) and vector layers (streams, catchments, depressions).
 
-\subsection{Stage 5: Waterlogging Prediction}
+\subsection{3.7 Stage 5: Waterlogging Prediction}
 
 Waterlogging prediction uses XGBoost with the following feature stack:
 
@@ -490,7 +524,7 @@ Waterlogging prediction uses XGBoost with the following feature stack:
 
 Output is a probability raster (0--1) and polygon hotspots (GeoPackage).
 
-\subsection{Stage 6: Drainage Network Design}
+\subsection{3.8 Stage 6: Drainage Network Design}
 
 The drainage design pipeline:
 
@@ -537,9 +571,9 @@ Outputs include drainage channel polylines with design parameters and a design s
 
 \newpage
 
-\section{Implementation}
+\section{4. Implementation}
 
-\subsection{Software Stack}
+\subsection{4.1 Software Stack}
 
 \begin{longtable}{lll}
 	\toprule
@@ -562,7 +596,7 @@ Outputs include drainage channel polylines with design parameters and a design s
 
 All dependencies are specified in \texttt{requirements.txt} for environment reproducibility.
 
-\subsection{Directory Structure}
+\subsection{4.2 Directory Structure}
 
 \begin{verbatim}
 dtm-drainage-ai/
@@ -588,7 +622,7 @@ dtm-drainage-ai/
 |-- logs/
 \end{verbatim}
 
-\subsection{Configuration Management}
+\subsection{4.3 Configuration Management}
 
 All pipeline parameters are managed via \texttt{config.yaml}:
 
@@ -620,7 +654,7 @@ drainage:
 
 This design enables non-technical users to modify parameters without code changes.
 
-\subsection{Installation (pip-based)}
+\subsection{4.4 Installation (pip-based)}
 
 The pipeline uses pure pip installation without conda dependency:
 
@@ -656,7 +690,7 @@ pip install torch torchvision --index-url \
     \end{verbatim}
 \end{enumerate}
 
-\subsection{Command-Line Interface}
+\subsection{4.5 Command-Line Interface}
 
 The pipeline provides a user-friendly CLI:
 
@@ -699,9 +733,9 @@ Stage selection is supported: \texttt{--stages 3,4,5} runs only hydrology onward
 
 \newpage
 
-\section{Results and Discussion}
+\section{5. Results and Discussion}
 
-\subsection{Ground Classification Results}
+\subsection{5.1 Ground Classification Results}
 
 Ground classification was performed on both village datasets. The DEVDI dataset (64.6M points) yielded 45.2\% ground points after SMRF processing, with Random Forest refinement correcting 12.3\% of false positives near buildings.
 
@@ -723,7 +757,7 @@ The Random Forest refinement achieves an F1-score of 0.82 on validation data, de
 	\item \textbf{Large file sizes}: 500m tiles with 25m overlap enable parallel processing.
 \end{itemize}
 
-\subsection{DTM Quality Assessment}
+\subsection{5.2 DTM Quality Assessment}
 
 The generated DTMs were validated against independent checkpoints:
 
@@ -741,7 +775,7 @@ The generated DTMs were validated against independent checkpoints:
 
 The RMSE values are within acceptable limits for 1:1000 scale mapping, suitable for village-level planning.
 
-\subsection{Hydrological Analysis}
+\subsection{5.3 Hydrological Analysis}
 
 Stream networks were extracted at varying thresholds:
 
@@ -757,7 +791,7 @@ Stream networks were extracted at varying thresholds:
 
 TWI analysis identified 847 ha of high-wetness areas (TWI $>$ 8) in DEVDI village, primarily in low-lying agricultural zones bordering the abadi.
 
-\subsection{Waterlogging Prediction}
+\subsection{5.4 Waterlogging Prediction}
 
 The XGBoost model was trained using terrain-heuristic labels:
 
@@ -785,7 +819,7 @@ The model successfully identifies known low-lying areas in the DEVDI abadi zone.
 
 \textbf{Error Analysis}: The lower cross-validation AUC (0.82) compared to training (0.94) indicates some overfitting to pseudo-labels. Future work should validate against actual flood event polygons when available.
 
-\subsection{Drainage Network Design}
+\subsection{5.5 Drainage Network Design}
 
 The MST-optimized drainage network for DEVDI:
 
@@ -809,7 +843,7 @@ The drainage cost is approximately Rs. 8,000 per metre, within typical budgetary
 
 \textbf{Optimization Effectiveness}: The MST approach reduced total channel length by 23\% compared to a naive radial network, while maintaining equivalent hydraulic capacity.
 
-\subsection{Output Products}
+\subsection{5.6 Output Products}
 
 All outputs comply with OGC standards:
 
@@ -834,9 +868,9 @@ These outputs are directly importable into QGIS, ArcGIS, or NIC's Vishwas platfo
 
 \newpage
 
-\section{Model Architecture and Training}
+\section{6. Model Architecture and Training}
 
-\subsection{Random Forest Classifier}
+\subsection{6.1 Random Forest Classifier}
 
 The Random Forest for ground refinement operates on 12 geometric features computed via eigendecomposition of point neighborhood covariance matrices:
 
@@ -888,7 +922,7 @@ The Random Forest for ground refinement operates on 12 geometric features comput
 
 This vectorized implementation processes 1M points in approximately 45 seconds on a standard workstation.
 
-\subsection{XGBoost Waterlogging Predictor}
+\subsection{6.2 XGBoost Waterlogging Predictor}
 
 The XGBoost model is configured for binary classification with the following hyperparameters:
 
@@ -943,7 +977,7 @@ The \texttt{scale\_pos\_weight} parameter addresses class imbalance (waterloggin
 
 \bigskip
 
-\subsection{PointNet (Optional Deep Learning)}
+\subsection{6.3 PointNet (Optional Deep Learning)}
 
 An optional PointNet model is provided for advanced ground classification:
 
@@ -957,7 +991,7 @@ An optional PointNet model is provided for advanced ground classification:
 
 PointNet requires GPU acceleration and is disabled by default to ensure CPU compatibility.
 
-\subsection{Deployment Guidelines}
+\subsection{6.4 Deployment Guidelines}
 
 The pipeline is designed for deployment in resource-constrained environments:
 
@@ -973,9 +1007,9 @@ Future deployment may leverage cloud processing (AWS Lambda, Google Cloud Functi
 
 \newpage
 
-\section{Accuracy Metrics and Validation}
+\section{7. Accuracy Metrics and Validation}
 
-\subsection{Ground Classification Metrics}
+\subsection{7.1 Ground Classification Metrics}
 
 Validation used held-out test points with manually verified labels:
 
@@ -992,7 +1026,7 @@ Validation used held-out test points with manually verified labels:
 
 Random Forest refinement improves overall accuracy by 6 percentage points, primarily by reducing false positives in built-up areas.
 
-\subsection{DTM Accuracy}
+\subsection{7.2 DTM Accuracy}
 
 DTM accuracy was evaluated against surveyed ground control points:
 
@@ -1009,7 +1043,7 @@ DTM accuracy was evaluated against surveyed ground control points:
 
 The KHAPRETA dataset shows higher error due to steeper terrain (greater interpolation uncertainty).
 
-\subsection{Waterlogging Model}
+\subsection{7.3 Waterlogging Model}
 
 \begin{longtable}{lrr}
 	\toprule
@@ -1024,7 +1058,7 @@ The KHAPRETA dataset shows higher error due to steeper terrain (greater interpol
 
 The model demonstrates good discrimination ability but warrants validation against actual flood event data when available.
 
-\subsection{Drainage Network}
+\subsection{7.4 Drainage Network}
 
 \begin{longtable}{lrr}
 	\toprule
@@ -1042,9 +1076,9 @@ All designed channels meet the minimum velocity (self-cleaning, 0.3 m/s) and max
 
 \newpage
 
-\section{Conclusion and Future Work}
+\section{8. Conclusion and Future Work}
 
-\subsection{Summary}
+\subsection{8.1 Summary}
 
 This research presents a complete AI/ML-driven pipeline for DTM generation and drainage network design from drone point cloud data. The key contributions are:
 
@@ -1084,7 +1118,7 @@ The pipeline is operational, reproducible, and configurable via YAML. It success
 
 \bigskip
 
-\subsection{Recommendations for Future Improvements}
+\subsection{8.2 Recommendations for Future Improvements}
 
 \begin{enumerate}
 	\item \textbf{Ground-truth validation}: Collect actual flood event polygons for robust model training;
