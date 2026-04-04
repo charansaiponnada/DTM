@@ -502,37 +502,120 @@ if demo_output.exists():
 
     # ─── Tab 3: Drainage Network ───
     with tab3:
-        st.markdown("### Drainage Network")
+        st.markdown("### Drainage Network Plan View")
 
         drainage_path = demo_output / "drainage_network.gpkg"
-        if drainage_path.exists():
+        dtm_path = demo_output / "dtm.tif"
+
+        if drainage_path.exists() and dtm_path.exists():
             try:
-                import folium
-                from streamlit_folium import st_folium
+                import matplotlib.pyplot as plt
+                import matplotlib.patches as mpatches
+                from matplotlib.colors import LinearSegmentedColormap
+                import geopandas as gpd
+                import rasterio
 
-                # Load drainage_channels layer (not default polygon layer)
-                gdf = load_geopackage(str(drainage_path), layer="drainage_channels")
+                # Load drainage channels
+                gdf = gpd.read_file(str(drainage_path), layer="drainage_channels")
 
-                # Get centroid for map center
-                centroid = gdf.geometry.centroid.iloc[0]
+                # Load DTM for background
+                with rasterio.open(str(dtm_path)) as src:
+                    dtm_data = src.read(1)
+                    dtm_bounds = src.bounds
+                    dtm_transform = src.transform
 
-                # Create map
-                m = folium.Map(
-                    location=[centroid.y, centroid.x],
-                    zoom_start=14,
-                    tiles="cartodbpositron",
+                # Create figure
+                fig, ax = plt.subplots(figsize=(12, 10))
+
+                # Colorize DTM for background
+                dtm_data = dtm_data.astype(np.float32)
+                dtm_data[dtm_data == -9999] = np.nan
+                vmin, vmax = np.nanpercentile(dtm_data, (2, 98))
+
+                # Multi-color colormap
+                colors = (
+                    np.array(
+                        [
+                            [20, 20, 120],
+                            [40, 100, 180],
+                            [0, 180, 100],
+                            [100, 220, 50],
+                            [220, 220, 0],
+                            [255, 100, 0],
+                            [180, 20, 20],
+                        ],
+                        dtype=np.float32,
+                    )
+                    / 255
                 )
 
-                # Add drainage network
-                folium.GeoJson(
-                    gdf,
-                    style_function=lambda x: {
-                        "color": "#2c5282",
-                        "weight": 3,
-                        "opacity": 0.8,
-                    },
-                    tooltip=folium.GeoJsonTooltip(
-                        fields=[
+                cmap = LinearSegmentedColormap.from_list("elevation", colors)
+                norm = plt.Normalize(vmin=vmin, vmax=vmax)
+
+                # Plot DTM
+                im = ax.imshow(
+                    dtm_data,
+                    cmap=cmap,
+                    norm=norm,
+                    extent=[
+                        dtm_bounds.left,
+                        dtm_bounds.right,
+                        dtm_bounds.bottom,
+                        dtm_bounds.top,
+                    ],
+                    origin="upper",
+                    alpha=0.8,
+                )
+
+                # Overlay drainage network
+                gdf.plot(ax=ax, color="#2c5282", linewidth=2, alpha=0.9)
+
+                # Add colorbar for elevation
+                cbar = plt.colorbar(im, ax=ax, shrink=0.6, label="Elevation (m)")
+
+                # Title and labels
+                ax.set_title(
+                    "Drainage Network Plan View", fontsize=14, fontweight="bold"
+                )
+                ax.set_xlabel("Easting (m)")
+                ax.set_ylabel("Northing (m)")
+
+                # Add legend for drainage
+                drain_patch = mpatches.Patch(color="#2c5282", label="Drainage Channel")
+                ax.legend(handles=[drain_patch], loc="upper right")
+
+                # Stats overlay
+                total_length = gdf["length_m"].sum()
+                num_channels = len(gdf)
+                total_cost = gdf["cost_inr"].sum()
+
+                stats_text = f"Channels: {num_channels}\nLength: {total_length / 1000:.1f} km\nCost: ₹{total_cost / 100000:.1f}L"
+                ax.text(
+                    0.02,
+                    0.98,
+                    stats_text,
+                    transform=ax.transAxes,
+                    fontsize=10,
+                    verticalalignment="top",
+                    bbox=dict(boxstyle="round", facecolor="white", alpha=0.8),
+                )
+
+                st.pyplot(fig)
+
+                # Show channel details
+                st.markdown("#### Channel Details")
+                cols = st.columns(3)
+                with cols[0]:
+                    st.metric("Total Channels", num_channels)
+                with cols[1]:
+                    st.metric("Total Length", f"{total_length / 1000:.1f} km")
+                with cols[2]:
+                    st.metric("Estimated Cost", f"₹{total_cost / 100000:.1f} L")
+
+                # Show sample channel data
+                st.dataframe(
+                    gdf[
+                        [
                             "segment_id",
                             "length_m",
                             "slope_mm",
@@ -540,63 +623,21 @@ if demo_output.exists():
                             "bottom_width_m",
                             "capacity_m3s",
                             "cost_inr",
-                        ],
-                        aliases=[
-                            "Segment:",
-                            "Length (m):",
-                            "Slope (‰):",
-                            "Depth (m):",
-                            "Width (m):",
-                            "Capacity (m³/s):",
-                            "Cost (₹):",
-                        ],
-                        localize=True,
-                    ),
-                ).add_to(m)
-
-                # Add legend
-                legend_html = """
-                <div style="position: fixed; bottom: 50px; right: 50px; z-index: 1000; background: white; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                <b>Legend</b><br>
-                <span style="color: #2c5282; font-weight: bold;">━━</span> Drainage Channel
-                </div>
-                """
-                m.get_root().html.add_child(folium.Element(legend_html))
-
-                st_folium(m, height=500, width="100%")
-
-                # Network statistics
-                if metrics and "drainage" in metrics:
-                    dr = metrics["drainage"]
-                    st.markdown(
-                        """
-                    <div style="display: flex; gap: 20px; margin-top: 20px;">
-                    <div class="metric-card">
-                        <div class="metric-value">{}</div>
-                        <div class="metric-label">Channels</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">{:.1f} km</div>
-                        <div class="metric-label">Total Length</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">₹{:.0f} L</div>
-                        <div class="metric-label">Estimated Cost</div>
-                    </div>
-                    </div>
-                    """.format(
-                            dr.get("channel_count", 0),
-                            dr.get("total_length_m", 0) / 1000,
-                            dr.get("total_cost_inr", 0) / 100000,
-                        ),
-                        unsafe_allow_html=True,
-                    )
+                        ]
+                    ].head(20),
+                    use_container_width=True,
+                )
 
             except Exception as e:
-                st.error(f"Error loading drainage network: {e}")
-                st.info("Note: Large drainage networks may take time to render.")
+                st.error(f"Error: {e}")
+                import traceback
+
+                st.code(traceback.format_exc())
         else:
-            st.warning("Drainage network not found. Run pipeline with stage 6.")
+            if not drainage_path.exists():
+                st.warning("Drainage network not found. Run pipeline with stage 6.")
+            if not dtm_path.exists():
+                st.warning("DTM not found. Run pipeline with stages 1-3.")
 
     # ─── Tab 4: Terrain Analysis ───
     with tab4:
