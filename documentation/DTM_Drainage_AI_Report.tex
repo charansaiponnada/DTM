@@ -212,55 +212,33 @@ Both datasets lack pre-existing ground classification and have zero intensity va
 
 \subsection{System Architecture}
 
-The pipeline is implemented as a six-stage Python workflow with modular design:
+The pipeline is implemented as a six-stage Python workflow with modular design.
 
 \bigskip
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[node distance=1.8cm and 1.0cm, scale=0.95]
-		% Data input
-		\node[data] (input) {LAS/LAZ Point Cloud};
-
-		% Stage 1
-		\node[stage] (s1) [right=1.2cm of input] {Stage 1: Data Inspection};
-		\draw[arrow] (input) -- (s1);
-
-		% Stage 2
-		\node[stage] (s2) [right=1.2cm of s1] {Stage 2: Ground Classification};
-		\node[ml, above right=0.8cm of s2] (ml1) {SMRF $\rightarrow$ CSF $\rightarrow$ RF};
-		\draw[arrow] (s1) -- (s2);
-		\draw[arrow] (ml1) -- (s2);
-
-		% Stage 3
-		\node[stage] (s3) [right=1.2cm of s2] {Stage 3: DTM Generation};
-		\draw[arrow] (s2) -- (s3);
-
-		% Stage 4
-		\node[stage] (s4) [right=1.2cm of s3] {Stage 4: Hydrological Analysis};
-		\draw[arrow] (s3) -- (s4);
-
-		% Stage 5
-		\node[ml] (s5) [right=1.2cm of s4] {Stage 5: Waterlogging Prediction};
-		\draw[arrow] (s4) -- (s5);
-
-		% Stage 6
-		\node[stage] (s6) [right=1.2cm of s5] {Stage 6: Drainage Design};
-		\draw[arrow] (s5) -- (s6);
-
-		% Outputs
-		\node[output, below=1.2cm of s3] (out1) {DTM (COG)};
-		\node[output, below=1.2cm of s4] (out2) {TWI, Flow (COG)};
-		\node[output, below=1.2cm of s5] (out3) {Risk Map (COG)};
-		\node[output, below=1.2cm of s6] (out4) {Network (GPKG)};
-
-		\draw[arrow] (s3) -- (out1);
-		\draw[arrow] (s4) -- (out2);
-		\draw[arrow] (s5) -- (out3);
-		\draw[arrow] (s6) -- (out4);
-	\end{tikzpicture}
-	\caption{Pipeline Architecture: Six-stage processing from point cloud to drainage design}
+	\resizebox{0.6\textwidth}{!}{
+		\begin{tikzpicture}[node distance=0.5cm and 0.2cm]
+			\node[data] (i1) {LAS/LAZ};
+			\node[stage] (s1) [below=of i1] {1. Data Inspection};
+			\node[stage] (s2) [below=of s1] {2. Ground Classification};
+			\node[stage] (s3) [below=of s2] {3. DTM Generation};
+			\node[stage] (s4) [below=of s3] {4. Hydrological Analysis};
+			\node[stage] (s5) [below=of s4] {5. Waterlogging Prediction};
+			\node[stage] (s6) [below=of s5] {6. Drainage Design};
+			\draw[->,thick] (i1) -- (s1);
+			\draw[->,thick] (s1) -- (s2);
+			\draw[->,thick] (s2) -- (s3);
+			\draw[->,thick] (s3) -- (s4);
+			\draw[->,thick] (s4) -- (s5);
+			\draw[->,thick] (s5) -- (s6);
+		\end{tikzpicture}
+	}
+	\caption{Pipeline Architecture: Six-stage processing}
 \end{figure}
+
+Outputs: DTM (COG), TWI/Flow (COG), Risk Map (COG), Drainage Network (GPKG)
 
 \bigskip
 
@@ -396,42 +374,38 @@ Terrain derivatives are computed simultaneously:
 
 Using the pysheds library, the pipeline performs:
 
+\begin{enumerate}
+	\item \textbf{Depression filling} - Wang and Liu algorithm
+	\item \textbf{Flow direction} - D8 algorithm
+	\item \textbf{Flow accumulation} - Cumulative cell counts
+	\item \textbf{TWI computation} - Topographic Wetness Index
+	\item \textbf{Stream extraction} - Threshold-based
+	\item \textbf{Catchment delineation} - Pour point analysis
+\end{enumerate}
+
 \bigskip
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[node distance=1.2cm and 0.6cm, scale=0.9, transform shape]
-		\node[stage] (fill) {Depression Filling};
-		\node[stage, right=of fill] (dir) {Flow Direction (D8)};
-		\node[stage, right=of dir] (acc) {Flow Accumulation};
-		\node[stage, right=of acc] (twi) {TWI Computation};
-		\node[stage, right=of twi] (stream) {Stream Extraction};
-		\node[output, below=of twi] (outputs) {COG + GPKG Outputs};
-
-		\draw[arrow] (fill) -- (dir);
-		\draw[arrow] (dir) -- (acc);
-		\draw[arrow] (acc) -- (twi);
-		\draw[arrow] (twi) -- (stream);
-		\draw[arrow] (stream) -- (outputs);
-		\draw[arrow] (twi) -- (outputs);
-		\draw[arrow] (dir) -- (outputs);
-		\draw[arrow] (acc) -- (outputs);
-	\end{tikzpicture}
+	\resizebox{0.5\textwidth}{!}{
+		\begin{tikzpicture}[node distance=0.4cm]
+			\node[stage] (f1) {Depression Fill};
+			\node[stage] (f2) [below=of f1] {Flow Direction};
+			\node[stage] (f3) [below=of f2] {Flow Accumulation};
+			\node[stage] (f4) [below=of f3] {TWI Computation};
+			\node[stage] (f5) [below=of f4] {Stream Extraction};
+			\node[output] (f6) [below=of f5] {Outputs: COG + GPKG};
+			\draw[->,thick] (f1) -- (f2);
+			\draw[->,thick] (f2) -- (f3);
+			\draw[->,thick] (f3) -- (f4);
+			\draw[->,thick] (f4) -- (f5);
+			\draw[->,thick] (f5) -- (f6);
+		\end{tikzpicture}
+	}
 	\caption{Hydrological Analysis Pipeline}
 \end{figure}
 
-\bigskip
-
-\begin{enumerate}
-	\item \textbf{Depression filling}: Wang and Liu algorithm to ensure continuous flow;
-	\item \textbf{Flow direction}: D8 algorithm (each cell flows to single downhill neighbor);
-	\item \textbf{Flow accumulation}: Cumulative upstream cell counts;
-	\item \textbf{TWI computation}: Combined slope and accumulation metric;
-	\item \textbf{Stream extraction}: Threshold-based (default 1000 cells) channel initiation;
-	\item \textbf{Catchment delineation}: Pour point analysis.
-\end{enumerate}
-
-Outputs include multiple COG rasters (flow direction, accumulation, TWI, slope) and vector layers (streams, catchments, depressions).
+Outputs: COG rasters (flow direction, accumulation, TWI, slope) and GPKG layers (streams, catchments, depressions).
 
 \subsection{Stage 5: Waterlogging Prediction}
 
