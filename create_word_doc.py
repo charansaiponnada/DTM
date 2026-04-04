@@ -13,10 +13,10 @@ doc.add_paragraph("IIT Tirupati Navavishkar I-Hub Foundation (IITNiF)")
 doc.add_paragraph("National Informatics Centre (NIC)")
 
 doc.add_heading("Team Details", level=1)
-table = doc.add_table(rows=6, cols=6)
+table = doc.add_table(rows=6, cols=5)
 table.style = "Table Grid"
 
-headers = ["Name", "Gender", "Email", "Contact", "Institution", "T-shirt"]
+headers = ["Name", "Gender", "Email", "Contact", "Institution"]
 team_data = [
     [
         "Charan Sai Ponnada",
@@ -24,7 +24,6 @@ team_data = [
         "charansaiponnada06@gmail.com",
         "8639269120",
         "Siddhartha Academy of Higher Education",
-        "XL",
     ],
     [
         "Naga Chaitanya Prathipati",
@@ -32,7 +31,6 @@ team_data = [
         "nagachaitanyaprathipati@gmail.com",
         "7842486209",
         "Siddhartha Academy of Higher Education",
-        "XL",
     ],
     [
         "Asha Ruksana Shaik",
@@ -40,7 +38,6 @@ team_data = [
         "asharuksana9@gmail.com",
         "8639675016",
         "Siddhartha Academy of Higher Education",
-        "S",
     ],
     [
         "Neelima Vana",
@@ -48,7 +45,6 @@ team_data = [
         "vana.neelima05@gmail.com",
         "7993853292",
         "Siddhartha Academy of Higher Education",
-        "M",
     ],
     [
         "Leena Jarapala",
@@ -56,7 +52,6 @@ team_data = [
         "jarapalaleena@gmail.com",
         "8187819759",
         "Siddhartha Academy of Higher Education",
-        "XXL",
     ],
 ]
 
