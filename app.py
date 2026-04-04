@@ -100,11 +100,11 @@ def load_raster(path):
 
 
 @st.cache_data
-def load_geopackage(path):
+def load_geopackage(path, layer=None):
     """Load GeoPackage and return GeoDataFrame."""
     import geopandas as gpd
 
-    gdf = gpd.read_file(path)
+    gdf = gpd.read_file(path, layer=layer)
     return gdf
 
 
@@ -389,7 +389,32 @@ if st.button(
 st.markdown("---")
 st.markdown("## 📊 Visualization & Results")
 
-demo_output = Path("data/output/DEVDI")
+# Find available output folders
+output_base = Path("data/output")
+output_folders = []
+
+if output_base.exists():
+    output_folders = [d.name for d in output_base.iterdir() if d.is_dir()]
+
+# Output folder selector
+st.markdown("### 📂 Select Output Folder")
+col_sel1, col_sel2 = st.columns([2, 1])
+
+with col_sel1:
+    if output_folders:
+        selected_output = st.selectbox(
+            "Choose output folder to visualize",
+            options=output_folders,
+            index=output_folders.index("DEVDI") if "DEVDI" in output_folders else 0,
+        )
+    else:
+        selected_output = "output"
+        st.info("No output folders found. Run the pipeline first.")
+
+with col_sel2:
+    st.caption(f"Found: {len(output_folders)} folder(s)")
+
+demo_output = output_base / selected_output
 
 if demo_output.exists():
     metrics = load_metrics(str(demo_output))
@@ -485,7 +510,8 @@ if demo_output.exists():
                 import folium
                 from streamlit_folium import st_folium
 
-                gdf = load_geopackage(str(drainage_path))
+                # Load drainage_channels layer (not default polygon layer)
+                gdf = load_geopackage(str(drainage_path), layer="drainage_channels")
 
                 # Get centroid for map center
                 centroid = gdf.geometry.centroid.iloc[0]
