@@ -269,17 +269,36 @@ The \textbf{Rational Method} ($Q = C \cdot i \cdot A$) estimates peak discharge 
 
 \subsection{Study Area and Data}
 
-The study utilizes LiDAR point cloud data from SVAMITVA for two villages in Gujarat:
-\begin{longtable}{lrrrr}
-	\toprule
-	\textbf{Village} & \textbf{District} & \textbf{Points} & \textbf{Density (pts/m2)} & \textbf{Format} \\
-	\midrule
-	DEVDI            & Ahmedabad         & 64,622,538      & 65.07                     & LAS             \\
-	KHAPRETA         & Sabar Kantha      & 163,743,261     & 245.28                    & LAZ             \\
-	\bottomrule
-\end{longtable}
+The study utilizes LiDAR point cloud data from SVAMITVA for DEVDI village in Gujarat:
+
+{\small
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Village} & \textbf{District} & \textbf{Points} & \textbf{Density} & \textbf{Format} \\
+		\hline
+		DEVDI            & Ahmedabad         & 64,622,538      & 65 pts/m²        & LAS             \\
+		\hline
+	\end{tabular}
+\end{table}
+}
 
 Both datasets lack pre-existing ground classification and have zero intensity variation (a known characteristic of SVAMITVA Phase 1 data). The coordinate reference system is EPSG:32643 (UTM Zone 43N).
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.95\linewidth]{images/fig_input_pointcloud.png}}
+	\caption{Input Point Cloud - DEVDI Village (64.6M points) showing elevation distribution}
+	\label{fig:input_pc}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.95\linewidth]{images/fig_input_topview.png}}
+	\caption{Input Point Cloud - Top View showing spatial distribution}
+	\label{fig:input_top}
+\end{figure}
 
 \subsection{System Architecture}
 
