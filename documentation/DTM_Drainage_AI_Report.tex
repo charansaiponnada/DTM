@@ -44,7 +44,7 @@
     arrow/.style={thick,->,>=stealth}
 }
 
-\graphicspath{{figures/}}
+\graphicspath{{figures/}{images/}}
 
 \title{\textbf{\Large AI/ML-Driven Digital Terrain Modelling and Optimized Drainage Network Design for Flood-Prone Village Abadi Areas}\\[0.5cm]
 \large MoPR Geospatial Intelligence Challenge - Ministry of Panchayati Raj\\[0.3cm]
@@ -145,6 +145,53 @@ This work focuses on Gujarat state datasets (SVAMITVA) as proof-of-concept. The 
 	\item Computational requirements for processing 160M+ point datasets.
 \end{itemize}
 
+\subsection{OGC Standards Compliance}
+
+This pipeline adheres to Open Geospatial Consortium (OGC) standards for interoperability and GIS integration:
+
+\begin{longtable}{lrrr}
+	\toprule
+	\textbf{Output}   & \textbf{Format}         & \textbf{Standard}    & \textbf{Use Case}                  \\
+	\midrule
+	DTM Raster        & Cloud-Optimized GeoTIFF & OGC COG              & Efficient streaming, cloud storage \\
+	Hydrology Rasters & GeoTIFF                 & OGC GeoTIFF          & Universal raster format            \\
+	Drainage Vector   & GeoPackage              & OGC GPKG (12-128r14) & Native GIS exchange                \\
+	Point Cloud       & LAS 1.4                 & ASPRS/LASF           & LiDAR industry standard            \\
+	\bottomrule
+\end{longtable}
+
+\bigskip
+
+The outputs are directly compatible with QGIS, ArcGIS, and other OGC-compliant GIS platforms deployed by state PRED departments and NIC.
+
+\bigskip
+
+\subsection{Competitive Analysis}
+
+Existing tools for DTM generation and drainage design typically require manual intervention or expensive commercial licenses. Our solution provides a fully automated, open-source alternative:
+
+\begin{longtable}{lrrrrr}
+	\toprule
+	\textbf{Tool / Approach} & \textbf{Automated} & \textbf{ML-enabled} & \textbf{Drainage Design} & \textbf{Cost}       & \textbf{Output Format} \\
+	\midrule
+	PDAL + GRASS             & Partial            & No                  & Manual                   & Free                & Various                \\
+	ArcGIS 3D Analyst        & Yes                & No                  & Manual                   & \$2,500+/yr         & Esri                   \\
+	QGIS + Processing        & Partial            & No                  & Manual                   & Free                & Various                \\
+	CloudCompare             & Partial            & No                  & No                       & Free                & LAS/LAZ                \\
+	\textbf{Our Pipeline}    & \textbf{Full}      & \textbf{Yes}        & \textbf{Automated}       & \textbf{Free (OSS)} & \textbf{OGC-Compliant} \\
+	\bottomrule
+\end{longtable}
+
+\bigskip
+
+Key differentiators:
+\begin{enumerate}
+	\item \textbf{End-to-end automation}: Single command processes raw point cloud to drainage design;
+	\item \textbf{Integrated ML}: Ground classification and waterlogging prediction built-in;
+	\item \textbf{Streamlit UI}: Non-technical users can run via web interface;
+	\item \textbf{OGC compliance}: Outputs ready for direct GIS integration.
+\end{enumerate}
+
 \newpage
 
 \section{Literature Review}
@@ -240,6 +287,45 @@ Outputs: DTM (COG), TWI/Flow (COG), Risk Map (COG), Drainage Network (GPKG)
 \bigskip
 
 The system uses a configuration file (\texttt{config.yaml}) to manage all parameters, enabling reproducible runs without code modification.
+
+\subsection{Infrastructure Requirements}
+
+The pipeline is designed to run on commodity hardware but performs optimally with the following specifications:
+
+\begin{longtable}{lrrr}
+	\toprule
+	\textbf{Component} & \textbf{Minimum} & \textbf{Recommended}      & \textbf{Notes}                                 \\
+	\midrule
+	RAM                & 16 GB            & 32 GB                     & 64M+ points requires 32GB for tiled processing \\
+	CPU                & 4 cores          & 8+ cores                  & Multi-threading enabled for IDW, XGBoost       \\
+	GPU                & Not required     & NVIDIA 4GB+               & Optional for PointNet deep learning            \\
+	Storage            & 50 GB free       & 100 GB free               & SSD recommended for I/O performance            \\
+	OS                 & Windows 10       & Windows 11 / Ubuntu 22.04 & Python 3.10+                                   \\
+	\bottomrule
+\end{longtable}
+
+\bigskip
+
+\textbf{Processing Time Estimates (DEVDI dataset - 64.6M points)}:
+
+\begin{longtable}{lrr}
+	\toprule
+	\textbf{Stage}          & \textbf{Time}   & \textbf{Memory Peak} \\
+	\midrule
+	Data Inspection         & 30 sec          & 2 GB                 \\
+	Ground Classification   & 8 min           & 12 GB                \\
+	DTM Generation          & 4 min           & 8 GB                 \\
+	Hydrological Analysis   & 3 min           & 6 GB                 \\
+	Waterlogging Prediction & 5 min           & 4 GB                 \\
+	Drainage Network Design & 2 min           & 2 GB                 \\
+	\hline
+	\textbf{Total}          & \textbf{22 min} & \textbf{14 GB}       \\
+	\bottomrule
+\end{longtable}
+
+\bigskip
+
+The pipeline supports batch processing for multiple villages, with parallel execution of independent tiles. For very large datasets (160M+ points), the tiled processing approach with 500m tiles and 25m overlap prevents memory overflow.
 
 \subsection{Stage 1: Data Inspection}
 
@@ -718,6 +804,13 @@ The generated DTM was validated against internal checkpoints:
 
 The RMSE of 1.06 m meets accuracy requirements for 1:1000 scale mapping, suitable for village-level planning.
 
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.9\linewidth]{images/fig_dtm.png}}
+	\caption{Digital Terrain Model (DTM) visualization showing elevation variations from 18m to 46m}
+	\label{fig:dtm}
+\end{figure}
+
 \subsection{Hydrological Analysis}
 
 Stream networks were extracted at varying thresholds:
@@ -761,6 +854,13 @@ Feature importance analysis revealed:
 
 The relatively low AUC is due to using terrain-heuristic pseudo-labels rather than actual flood event data. The model effectively identifies flow accumulation as the primary predictor of waterlogging.
 
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.9\linewidth]{images/fig_waterlogging.png}}
+	\caption{Waterlogging Risk Probability Map - Blue indicates higher probability of waterlogging}
+	\label{fig:waterlogging}
+\end{figure}
+
 \subsection{Drainage Network Design}
 
 The MST-optimized drainage network for DEVDI:
@@ -780,6 +880,20 @@ The MST-optimized drainage network for DEVDI:
 \end{longtable}
 
 All designed channels meet the minimum velocity (self-cleaning, 0.3 m/s) and maximum velocity (erosion limit, 3.0 m/s) constraints.
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.9\linewidth]{images/fig_drainage.png}}
+	\caption{Drainage Network Plan View - Blue lines show designed drainage channels overlaid on DTM}
+	\label{fig:drainage}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.9\linewidth]{images/fig_terrain.png}}
+	\caption{Terrain Derivative Maps - Slope, Topographic Wetness Index, and Hillshade}
+	\label{fig:terrain}
+\end{figure}
 
 \newpage
 
