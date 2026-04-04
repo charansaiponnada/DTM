@@ -1,0 +1,4 @@
+# DTM Drainage AI - Streamlit App Requirements
+streamlit>=1.28
+streamlit-folium>=0.15
+folium>=0.14
