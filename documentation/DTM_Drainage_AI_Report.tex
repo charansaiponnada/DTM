@@ -6,6 +6,7 @@
 \usepackage{geometry}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{tabularx}
 \usepackage{url}
 \usepackage{enumitem}
 \usepackage{caption}
@@ -18,6 +19,11 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows, positioning, fit, backgrounds}
 \usepackage{pgffor}
+\usepackage{pdflscape}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
 
 \geometry{margin=1in}
 
@@ -149,16 +155,21 @@ This work focuses on Gujarat state datasets (SVAMITVA) as proof-of-concept. The 
 
 This pipeline adheres to Open Geospatial Consortium (OGC) standards for interoperability and GIS integration:
 
-\begin{longtable}{lrrr}
-	\toprule
-	\textbf{Output}   & \textbf{Format}         & \textbf{Standard}    & \textbf{Use Case}                  \\
-	\midrule
-	DTM Raster        & Cloud-Optimized GeoTIFF & OGC COG              & Efficient streaming, cloud storage \\
-	Hydrology Rasters & GeoTIFF                 & OGC GeoTIFF          & Universal raster format            \\
-	Drainage Vector   & GeoPackage              & OGC GPKG (12-128r14) & Native GIS exchange                \\
-	Point Cloud       & LAS 1.4                 & ASPRS/LASF           & LiDAR industry standard            \\
-	\bottomrule
-\end{longtable}
+\begin{landscape}
+	\begin{table}[H]
+		\centering
+		\begin{tabularx}{1.3\linewidth}{|L|L|L|L|}
+			\toprule
+			\textbf{Output}   & \textbf{Format}         & \textbf{Standard} & \textbf{Use Case}                  \\
+			\midrule
+			DTM Raster        & Cloud-Optimized GeoTIFF & OGC COG           & Efficient streaming, cloud storage \\
+			Hydrology Rasters & GeoTIFF                 & OGC GeoTIFF       & Universal raster format            \\
+			Drainage Vector   & GeoPackage              & OGC GPKG          & Native GIS exchange                \\
+			Point Cloud       & LAS 1.4                 & ASPRS/LASF        & LiDAR industry standard            \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+\end{landscape}
 
 \bigskip
 
@@ -170,17 +181,22 @@ The outputs are directly compatible with QGIS, ArcGIS, and other OGC-compliant G
 
 Existing tools for DTM generation and drainage design typically require manual intervention or expensive commercial licenses. Our solution provides a fully automated, open-source alternative:
 
-\begin{longtable}{lrrrrr}
-	\toprule
-	\textbf{Tool / Approach} & \textbf{Automated} & \textbf{ML-enabled} & \textbf{Drainage Design} & \textbf{Cost}       & \textbf{Output Format} \\
-	\midrule
-	PDAL + GRASS             & Partial            & No                  & Manual                   & Free                & Various                \\
-	ArcGIS 3D Analyst        & Yes                & No                  & Manual                   & \$2,500+/yr         & Esri                   \\
-	QGIS + Processing        & Partial            & No                  & Manual                   & Free                & Various                \\
-	CloudCompare             & Partial            & No                  & No                       & Free                & LAS/LAZ                \\
-	\textbf{Our Pipeline}    & \textbf{Full}      & \textbf{Yes}        & \textbf{Automated}       & \textbf{Free (OSS)} & \textbf{OGC-Compliant} \\
-	\bottomrule
-\end{longtable}
+\begin{landscape}
+	\begin{table}[H]
+		\centering
+		\begin{tabularx}{1.4\linewidth}{|L|C|C|C|C|C|}
+			\toprule
+			\textbf{Tool / Approach} & \textbf{Automated} & \textbf{ML-enabled} & \textbf{Drainage Design} & \textbf{Cost}       & \textbf{Output Format} \\
+			\midrule
+			PDAL + GRASS             & Partial            & No                  & Manual                   & Free                & Various                \\
+			ArcGIS 3D Analyst        & Yes                & No                  & Manual                   & \$2,500+/yr         & Esri                   \\
+			QGIS + Processing        & Partial            & No                  & Manual                   & Free                & Various                \\
+			CloudCompare             & Partial            & No                  & No                       & Free                & LAS/LAZ                \\
+			\textbf{Our Pipeline}    & \textbf{Full}      & \textbf{Yes}        & \textbf{Automated}       & \textbf{Free (OSS)} & \textbf{OGC-Compliant} \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+\end{landscape}
 
 \bigskip
 
@@ -292,36 +308,42 @@ The system uses a configuration file (\texttt{config.yaml}) to manage all parame
 
 The pipeline is designed to run on commodity hardware but performs optimally with the following specifications:
 
-\begin{longtable}{lrrr}
-	\toprule
-	\textbf{Component} & \textbf{Minimum} & \textbf{Recommended}      & \textbf{Notes}                                 \\
-	\midrule
-	RAM                & 16 GB            & 32 GB                     & 64M+ points requires 32GB for tiled processing \\
-	CPU                & 4 cores          & 8+ cores                  & Multi-threading enabled for IDW, XGBoost       \\
-	GPU                & Not required     & NVIDIA 4GB+               & Optional for PointNet deep learning            \\
-	Storage            & 50 GB free       & 100 GB free               & SSD recommended for I/O performance            \\
-	OS                 & Windows 10       & Windows 11 / Ubuntu 22.04 & Python 3.10+                                   \\
-	\bottomrule
-\end{longtable}
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{\linewidth}{|L|L|L|L|}
+		\toprule
+		\textbf{Component} & \textbf{Minimum} & \textbf{Recommended}      & \textbf{Notes}                                 \\
+		\midrule
+		RAM                & 16 GB            & 32 GB                     & 64M+ points requires 32GB for tiled processing \\
+		CPU                & 4 cores          & 8+ cores                  & Multi-threading enabled for IDW, XGBoost       \\
+		GPU                & Not required     & NVIDIA 4GB+               & Optional for PointNet deep learning            \\
+		Storage            & 50 GB free       & 100 GB free               & SSD recommended for I/O performance            \\
+		OS                 & Windows 10       & Windows 11 / Ubuntu 22.04 & Python 3.10+                                   \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
 \bigskip
 
 \textbf{Processing Time Estimates (DEVDI dataset - 64.6M points)}:
 
-\begin{longtable}{lrr}
-	\toprule
-	\textbf{Stage}          & \textbf{Time}   & \textbf{Memory Peak} \\
-	\midrule
-	Data Inspection         & 30 sec          & 2 GB                 \\
-	Ground Classification   & 8 min           & 12 GB                \\
-	DTM Generation          & 4 min           & 8 GB                 \\
-	Hydrological Analysis   & 3 min           & 6 GB                 \\
-	Waterlogging Prediction & 5 min           & 4 GB                 \\
-	Drainage Network Design & 2 min           & 2 GB                 \\
-	\hline
-	\textbf{Total}          & \textbf{22 min} & \textbf{14 GB}       \\
-	\bottomrule
-\end{longtable}
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{0.8\linewidth}{|L|R|R|}
+		\toprule
+		\textbf{Stage}          & \textbf{Time}   & \textbf{Memory Peak} \\
+		\midrule
+		Data Inspection         & 30 sec          & 2 GB                 \\
+		Ground Classification   & 8 min           & 12 GB                \\
+		DTM Generation          & 4 min           & 8 GB                 \\
+		Hydrological Analysis   & 3 min           & 6 GB                 \\
+		Waterlogging Prediction & 5 min           & 4 GB                 \\
+		Drainage Network Design & 2 min           & 2 GB                 \\
+		\hline
+		\textbf{Total}          & \textbf{22 min} & \textbf{14 GB}       \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
 \bigskip
 
