@@ -256,8 +256,17 @@ def colorize_dtm(data, nodata=-9999):
     data = data.astype(np.float32)
     data[data == nodata] = np.nan
 
+    # Handle all NaN case
+    if np.all(np.isnan(data)):
+        return np.zeros((data.shape[0], data.shape[1], 3), dtype=np.uint8), 0, 1
+
     vmin, vmax = np.nanpercentile(data, (2, 98))
-    normalized = np.clip((data - vmin) / (vmax - vmin), 0, 1)
+    if vmax == vmin:
+        vmax = vmin + 1
+
+    normalized = (data - vmin) / (vmax - vmin)
+    normalized = np.clip(normalized, 0, 1)
+    normalized = np.nan_to_num(normalized, nan=0.5)
 
     colors = np.array(
         [
@@ -288,6 +297,7 @@ def colorize_risk(data, nodata=-9999):
     data = data.astype(np.float32)
     data[data == nodata] = np.nan
     data = np.clip(data, 0, 1)
+    data = np.nan_to_num(data, nan=0.5)
 
     colors = np.array(
         [
@@ -468,7 +478,7 @@ with col_run1:
         "🚀 Run Processing Pipeline",
         type="primary",
         disabled=not input_path or not selected_stages,
-        use_container_width=True,
+        width="stretch",
     )
 
 with col_run2:
@@ -585,7 +595,7 @@ if selected_output:
                 col_dtm1, col_dtm2 = st.columns([3, 1])
 
                 with col_dtm1:
-                    st.image(rgb, caption="DTM Elevation Map", use_container_width=True)
+                    st.image(rgb, caption="DTM Elevation Map", width="stretch")
 
                 with col_dtm2:
                     st.markdown("#### Statistics")
@@ -629,7 +639,7 @@ if selected_output:
                     st.image(
                         rgb,
                         caption="Waterlogging Probability Map",
-                        use_container_width=True,
+                        width="stretch",
                     )
 
                 with col_wl2:
@@ -767,7 +777,7 @@ if selected_output:
                             "cost_inr",
                         ]
                     ].head(15),
-                    use_container_width=True,
+                    width="stretch",
                 )
 
             except Exception as e:
@@ -802,9 +812,8 @@ if selected_output:
 
                     vmin, vmax = np.nanpercentile(data, (2, 98))
                     if vmax > vmin:
-                        normalized = ((data - vmin) / (vmax - vmin) * 255).astype(
-                            np.uint8
-                        )
+                        normalized = (data - vmin) / (vmax - vmin) * 255
+                        normalized = np.nan_to_num(normalized, nan=128).astype(np.uint8)
                     else:
                         normalized = np.zeros_like(data, dtype=np.uint8)
 
@@ -897,7 +906,7 @@ if selected_output:
                     label=f"📥 Download All ({zip_size_mb:.1f} MB)",
                     data=zip_path.read_bytes(),
                     file_name=f"{selected_output}_outputs.zip",
-                    use_container_width=True,
+                    width="stretch",
                 )
 
             with col_dl2:
