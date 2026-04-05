@@ -827,10 +827,10 @@ if selected_output:
                     st.caption(f"{label}: Not available")
 
     # ─────────────────────────────────────────────────────────────────────
-    # Tab 5: Metrics & Download
+    # Tab 5: Metrics & Analysis
     # ─────────────────────────────────────────────────────────────────────
     with tab_metrics:
-        st.markdown("### Performance Metrics")
+        st.markdown("### 📊 Performance Metrics")
 
         if metrics:
             # Ground Classification
@@ -871,6 +871,39 @@ if selected_output:
                     "Recall", f"{wl.get('mean_metrics', {}).get('recall', 0):.3f}"
                 )
 
+                # Feature Importance Chart
+                fi_data = wl.get("feature_importances", [])
+                if fi_data:
+                    st.markdown("##### Feature Importance")
+                    fi_df = [
+                        {"Feature": f["feature"], "Importance": f["importance"]}
+                        for f in fi_data
+                    ]
+
+                    # Create bar chart
+                    import pandas as pd
+
+                    df = (
+                        pd.DataFrame(fi_df)
+                        .sort_values("Importance", ascending=True)
+                        .tail(8)
+                    )
+
+                    chart_data = df.set_index("Feature")["Importance"]
+                    st.bar_chart(chart_data, horizontal=True)
+
+                    # Show top 3
+                    top3 = df.tail(3)
+                    st.caption(
+                        "Top predictors: "
+                        + ", ".join(
+                            [
+                                f"{r['Feature']}: {r['Importance']:.2%}"
+                                for _, r in top3.iterrows()
+                            ]
+                        )
+                    )
+
             # Drainage
             if "drainage" in metrics:
                 dr = metrics["drainage"]
@@ -883,14 +916,13 @@ if selected_output:
         else:
             st.info("No metrics available. Run pipeline with --evaluate.")
 
-        # Download section
+        # ─── Quick Download ───
         st.markdown("---")
-        st.markdown("### Download Outputs")
+        st.markdown("### 📥 Quick Download")
 
-        # Get all output files
         output_files = []
         if output_path.exists():
-            for ext in ["*.tif", "*.gpkg", "*.las"]:
+            for ext in ["*.tif", "*.gpkg", "*.las", "*.json"]:
                 output_files.extend(output_path.glob(ext))
 
         if output_files:
@@ -898,31 +930,19 @@ if selected_output:
             with st.spinner("Creating ZIP archive..."):
                 zip_path = create_download_zip(output_path)
 
-            col_dl1, col_dl2 = st.columns(2)
+            col_dl1, col_dl2 = st.columns([2, 1])
 
             with col_dl1:
                 zip_size_mb = zip_path.stat().st_size / (1024**2)
                 st.download_button(
-                    label=f"📥 Download All ({zip_size_mb:.1f} MB)",
+                    label=f"📦 Download All Outputs ({zip_size_mb:.1f} MB)",
                     data=zip_path.read_bytes(),
                     file_name=f"{selected_output}_outputs.zip",
                     width="stretch",
                 )
 
             with col_dl2:
-                st.caption(f"Total files: {len(output_files)}")
-
-            # Individual file downloads
-            st.markdown("#### Individual Files")
-            cols = st.columns(3)
-            for i, f in enumerate(output_files[:12]):  # Show first 12
-                with cols[i % 3]:
-                    size_mb = f.stat().st_size / (1024**2)
-                    st.download_button(
-                        label=f"{f.name} ({size_mb:.1f} MB)",
-                        data=f.read_bytes(),
-                        file_name=f.name,
-                    )
+                st.caption(f"📁 {len(output_files)} files ready")
         else:
             st.warning("No output files found.")
 
