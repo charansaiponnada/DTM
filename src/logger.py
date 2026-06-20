@@ -28,6 +28,10 @@ from rich.text import Text
 from rich.table import Table
 from rich import box
 
+# Windows cp1252 can't encode Rich box-drawing chars; force UTF-8
+if sys.stdout.encoding and sys.stdout.encoding.lower() == "cp1252":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 # Global rich console
 console = Console()
 

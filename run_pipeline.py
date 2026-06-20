@@ -6,11 +6,11 @@ Run this file directly — it handles logging setup, argument parsing,
 error recovery, and the final summary report.
 
 Usage (after activating dtm-env):
-    python run_pipeline.py --input data\input\DEVDI_511671.las
-    python run_pipeline.py --input data\input\DEVDI_511671.las --output data\output\devdi
-    python run_pipeline.py --input data\input\DEVDI_511671.las --no-ml --stream-threshold 500
+    python run_pipeline.py --input data\\input\\DEVDI_511671.las
+    python run_pipeline.py --input data\\input\\DEVDI_511671.las --output data\\output\\devdi
+    python run_pipeline.py --input data\\input\\DEVDI_511671.las --no-ml --stream-threshold 500
     python run_pipeline.py --batch                           # process all villages in config
-    python run_pipeline.py --input data\input\DEVDI_511671.las --evaluate
+    python run_pipeline.py --input data\\input\\DEVDI_511671.las --evaluate
     python run_pipeline.py --help
 """
 
@@ -72,12 +72,6 @@ from loguru import logger
     help="Skip ML refinement of ground classification (faster, less accurate)",
 )
 @click.option(
-    "--no-pointnet",
-    is_flag=True,
-    default=False,
-    help="Skip PointNet deep learning (use only SMRF + Random Forest)",
-)
-@click.option(
     "--stream-threshold",
     default=1000,
     show_default=True,
@@ -105,7 +99,7 @@ from loguru import logger
 )
 def main(
     input, output, config, log_dir, log_level,
-    no_ml, no_pointnet, stream_threshold, resolution, stages, batch, evaluate
+    no_ml, stream_threshold, resolution, stages, batch, evaluate
 ):
     """
     DTM Drainage AI Pipeline — MoPR Geospatial Intelligence Hackathon
@@ -138,7 +132,7 @@ def main(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Lazy imports (only after logging is set up) ──────────────────────
-    from pipelines.full_pipeline import DTMDrainagePipeline, BatchPipelineRunner
+    from src.pipeline import DTMDrainagePipeline, BatchPipelineRunner
 
     # ── Batch mode ────────────────────────────────────────────────────────
     if batch:

@@ -24,11 +24,11 @@ echo [OK] Python %PYVER% found
 echo.
 
 :: ── Step 2: Create virtual environment ────────────────────────────────
-echo [STEP 2/7] Creating virtual environment (dtm-env)...
-if exist "dtm-env\" (
-    echo [SKIP] dtm-env already exists.
+echo [STEP 2/7] Creating virtual environment (.venv)...
+if exist ".venv\" (
+    echo [SKIP] .venv already exists.
 ) else (
-    python -m venv dtm-env
+    python -m venv .venv
     if errorlevel 1 (
         echo [ERROR] Failed to create virtual environment.
         pause
@@ -36,7 +36,7 @@ if exist "dtm-env\" (
     )
     echo [OK] Virtual environment created
 )
-call dtm-env\Scripts\activate.bat
+call .venv\Scripts\activate.bat
 if errorlevel 1 (
     echo [ERROR] Could not activate virtual environment.
     pause
@@ -62,10 +62,10 @@ if errorlevel 1 (
 )
 echo.
 
-:: ── Step 5: All other packages via requirements-win.txt ───────────────
+:: ── Step 5: All other packages via requirements.txt ───────────────────
 echo [STEP 5/7] Installing geospatial and ML packages...
 echo           This may take 5-10 minutes...
-pip install -r requirements-win.txt --quiet
+pip install -r requirements.txt --quiet
 if errorlevel 1 (
     echo [WARN] Batch install had issues. Retrying individually...
     pip install laspy --quiet

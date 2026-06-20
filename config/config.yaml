@@ -13,36 +13,18 @@ data:
   input_dir: "data/input"
   output_dir: "data/output"
   cache_dir: "data/cache"
-  files:
-    - name: "DEVDI"
-      path: "data/input/DEVDI_511671.las"
-      points: 64622538
-      density: 65.07
-    - name: "KHAPRETA"
-      path: "Gujrat_Point_Cloud/KHAPRETA_510206.laz"
-      points: 163743261
-      density: 245.28
-
-  # Multi-village batch processing (add village entries here as data is downloaded)
   villages:
     - name: "DEVDI"
       path: "data/input/DEVDI_511671.las"
       output_subdir: "DEVDI"
     - name: "KHAPRETA"
-      path: "Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
       output_subdir: "KHAPRETA"
 
 # ── Preprocessing ────────────────────────────────────────────────────────
 preprocessing:
-  # Tiling prevents memory overflow for huge point clouds
   tile_size: 500              # metres per tile edge
   tile_buffer: 25             # overlap buffer to avoid edge artefacts
-  voxel_downsample: 0.15      # voxel size (m) for density-based downsampling
-                               # set null to skip
-  outlier_removal:
-    method: "sor"             # statistical outlier removal
-    k_neighbors: 16
-    std_ratio: 2.0
 
 # ── Ground Classification ────────────────────────────────────────────────
 ground_classification:
@@ -81,10 +63,8 @@ ground_classification:
 dtm:
   resolution: 0.5             # metres per pixel (0.5 m for abadi precision)
   interpolation:
-    method: "idw"             # idw | kriging | tin | natural_neighbor
     idw_power: 2
     idw_radius: 5.0           # search radius in metres
-    kriging_model: "gaussian"
   smoothing:
     enabled: true
     method: "gaussian"
@@ -96,12 +76,7 @@ dtm:
 
 # ── Terrain Analysis ────────────────────────────────────────────────────
 terrain_analysis:
-  slope_threshold_deg: 2.0    # flatter than this = potential waterlogging zone
   depression_min_depth: 0.1   # min depression depth (m) to flag
-  flow_direction_algorithm: "d8"   # d8 | dinf | mfd
-  fill_depressions: true
-  breach_depressions: false   # breach vs fill – fill preferred for abadi
-  flow_accumulation_threshold: 1000  # cells to define a channel initiation
 
 # ── Waterlogging Prediction ─────────────────────────────────────────────
 waterlogging:
@@ -129,9 +104,6 @@ waterlogging:
 
 # ── Drainage Network Design ─────────────────────────────────────────────
 drainage:
-  min_channel_depth: 0.6      # metres
-  min_channel_width: 0.5      # metres
-  max_channel_spacing: 50     # metres between parallel channels
   side_slope: 1.5             # H:V ratio for channel cross-section
   manning_n: 0.025            # Manning's roughness (concrete-lined earthen)
   design_return_period: 10    # years (10-yr storm)
@@ -147,23 +119,8 @@ drainage:
 output:
   raster:
     format: "COG"             # Cloud-Optimized GeoTIFF
-    dtm: "dtm.tif"
-    slope: "slope.tif"
-    flow_direction: "flow_direction.tif"
-    flow_accumulation: "flow_accumulation.tif"
-    twi: "twi.tif"
-    waterlogging_probability: "waterlogging_probability.tif"
-    flood_zones: "flood_zones.tif"
   vector:
     format: "GPKG"            # GeoPackage (OGC standard)
     filename: "drainage_network.gpkg"
-    layers:
-      - "drainage_channels"
-      - "waterlogging_hotspots"
-      - "flow_paths"
-      - "catchment_boundaries"
-      - "depression_polygons"
-      - "optimal_outlet_points"
   pointcloud:
     format: "LAS"             # LAS 1.4 (OGC standard)
-    classified_cloud: "classified_ground.las"

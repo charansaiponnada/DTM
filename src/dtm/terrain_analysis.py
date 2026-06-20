@@ -79,18 +79,8 @@ def compute_all_derivatives(
     paths["aspect"] = _save_cog(aspect_deg, transform, crs_obj, output_dir / "aspect.tif", "aspect_degrees")
 
     # ── Curvature (Evans method) ──────────────────────────────────────────
-    cs = cell_size
-    z  = dem.astype(np.float64)
-    D  = (np.roll(z,-1,0) + np.roll(z,1,0) - 2*z) / (2*cs**2)
-    E  = (np.roll(z,-1,1) + np.roll(z,1,1) - 2*z) / (2*cs**2)
-    F  = (-np.roll(np.roll(z,-1,0),-1,1) + np.roll(np.roll(z,-1,0),1,1)
-          + np.roll(np.roll(z,1,0),-1,1) - np.roll(np.roll(z,1,0),1,1)) / (4*cs**2)
-    G  = (np.roll(z, 1,1) - np.roll(z,-1,1)) / (2*cs)
-    H  = (np.roll(z, 1,0) - np.roll(z,-1,0)) / (2*cs)
-    p  = G**2 + H**2 + 1e-10
-
-    plan_curv    = (-2*(D*G**2 + E*H**2 + F*G*H) / p).astype(np.float32)
-    profile_curv = (-2*(D*G**2 + E*H**2 + F*G*H) / (p * np.sqrt(p))).astype(np.float32)
+    from src.features import compute_curvature_evans
+    plan_curv, profile_curv = compute_curvature_evans(dem, cell_size)
 
     plan_curv[~valid]    = NODATA
     profile_curv[~valid] = NODATA

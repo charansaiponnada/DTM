@@ -129,11 +129,8 @@ def evaluate_waterlogging_model(
     brier = float(brier_score_loss(y_flat, y_prob_full))
 
     # Feature importances from fitted model
-    feat_names = [
-        "elevation_norm", "slope", "aspect", "twi", "tpi",
-        "log_flow_acc", "plan_curv", "profile_curv",
-        "depression_depth", "stream_distance",
-    ]
+    from src.features import FEATURE_NAMES_WL
+    feat_names = FEATURE_NAMES_WL
     importances = predictor.model.feature_importances_
     feat_imp = sorted(
         [{"feature": fn, "importance": round(float(imp), 4)}

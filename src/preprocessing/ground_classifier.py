@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 import os
+import shutil
 import subprocess
 import tempfile
 
@@ -29,29 +30,72 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 import joblib
 
-# ── PDAL subprocess helper (replaces Python pdal bindings) ───────────────
-# PDAL Python bindings require conda on Windows; instead we call the PDAL
-# CLI that ships with QGIS (available via pip-less install).
-_QGIS_BIN = r"C:\Program Files\QGIS 3.40.15\bin"
-_PDAL_EXE = os.path.join(_QGIS_BIN, "pdal.exe")
+# ── PDAL subprocess helper ──────────────────────────────────────────────
+# PDAL Python bindings require conda on Windows; instead we shell out to
+# the PDAL CLI that ships with QGIS, conda-forge, or a manual install.
+
+_COMMON_PDAL_PATHS = [
+    r"C:\Users\cherr\miniconda3\Library\bin",
+    r"C:\Program Files\QGIS 3.40.15\bin",
+    r"C:\Program Files\QGIS 3.40\bin",
+    r"C:\Program Files\QGIS 3.38\bin",
+    r"C:\Program Files\QGIS 3.36\bin",
+    r"C:\Program Files\QGIS 3.34\bin",
+    r"C:\OSGeo4W\bin",
+]
+
+
+def _resolve_pdal() -> tuple[str, str]:
+    """
+    Locate pdal.exe and its parent directory.
+
+    Resolution order:
+      1. PDAL_BIN_DIR environment variable
+      2. PDAL_EXE environment variable
+      3. Common install paths (miniconda, QGIS, OSGeo4W)
+      4. System PATH
+
+    Returns
+    -------
+    (pdal_exe_path, bin_dir_path)
+    """
+    env_exe = os.environ.get("PDAL_EXE")
+    if env_exe and os.path.isfile(env_exe):
+        return env_exe, str(Path(env_exe).parent)
+
+    env_dir = os.environ.get("PDAL_BIN_DIR")
+    if env_dir:
+        candidate = Path(env_dir) / "pdal.exe"
+        if candidate.is_file():
+            return str(candidate), str(candidate.parent)
+
+    for candidate_dir in _COMMON_PDAL_PATHS:
+        candidate = Path(candidate_dir) / "pdal.exe"
+        if candidate.is_file():
+            return str(candidate), str(candidate.parent)
+
+    which = shutil.which("pdal.exe")
+    if which:
+        return which, str(Path(which).parent)
+
+    raise FileNotFoundError(
+        "pdal.exe not found. Set PDAL_BIN_DIR env var, install PDAL via conda, "
+        "or place it on your PATH. See docs/pdal_setup.md for details."
+    )
 
 
 def _run_pdal_pipeline(pipeline_json: str) -> None:
     """
     Execute a PDAL pipeline expressed as a JSON string by writing it to a
-    temporary file and calling the QGIS-bundled ``pdal.exe`` via subprocess.
+    temporary file and calling pdal.exe via subprocess.
 
-    The QGIS bin directory is prepended to PATH so that pdal.exe can locate
+    The PDAL bin directory is prepended to PATH so that pdal.exe can locate
     its shared libraries (gdal, proj, etc.).
     """
-    if not os.path.isfile(_PDAL_EXE):
-        raise FileNotFoundError(
-            f"pdal.exe not found at {_PDAL_EXE}.\n"
-            "Check _QGIS_BIN path in ground_classifier.py matches your QGIS install."
-        )
+    pdal_exe, pdal_bin_dir = _resolve_pdal()
 
     env = os.environ.copy()
-    env["PATH"] = _QGIS_BIN + os.pathsep + env.get("PATH", "")
+    env["PATH"] = pdal_bin_dir + os.pathsep + env.get("PATH", "")
 
     with tempfile.NamedTemporaryFile(
         mode="w", suffix=".json", delete=False, encoding="utf-8"
@@ -61,7 +105,7 @@ def _run_pdal_pipeline(pipeline_json: str) -> None:
 
     try:
         result = subprocess.run(
-            [_PDAL_EXE, "pipeline", tmp_path],
+            [pdal_exe, "pipeline", tmp_path],
             env=env,
             capture_output=True,
             text=True,
@@ -106,27 +150,7 @@ def classify_smrf(
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    pipeline_json = json.dumps({
-        "pipeline": [
-            str(input_path),
-            {
-                "type": "filters.smrf",
-                "slope":     slope,
-                "window":    window,
-                "threshold": threshold,
-                "scalar":    scalar,
-                "ignore":    "Classification[7:7]",  # skip noise
-            },
-            {
-                "type":     "filters.range",
-                "limits":   "Classification[2:2]",   # keep ground pass-through
-            },
-            str(output_path),
-        ]
-    })
-
-    # Full pipeline (all classes, labelled)
-    pipeline_full = json.dumps({
+    pipeline = json.dumps({
         "pipeline": [
             str(input_path),
             {
@@ -142,7 +166,7 @@ def classify_smrf(
     })
 
     logger.info(f"SMRF classifying {input_path.name} …")
-    _run_pdal_pipeline(pipeline_full)
+    _run_pdal_pipeline(pipeline)
     logger.success(f"SMRF done → {output_path.name}")
     return output_path
 
@@ -245,10 +269,10 @@ def compute_geometric_features(
         features[start:end, 2] = -(
             l1*np.log(l1+eps) + l2*np.log(l2+eps) + l3*np.log(l3+eps))
         features[start:end, 3] = (l1 - l3) / (l1 + eps)
-        features[start:end, 4] = (l2 - l3) / (l1 + eps)
-        features[start:end, 5] = (l1 - l2) / (l1 + eps)
-        features[start:end, 6] = l3 / (l1 + eps)
-        features[start:end, 7] = l3 / (l1 + eps)
+        features[start:end, 4] = (l2 - l3) / (l1 + eps)     # planarity
+        features[start:end, 5] = (l1 - l2) / (l1 + eps)     # linearity
+        features[start:end, 6] = l3 / (ev_sum.squeeze() + eps)  # surface_variation = l3 / sum(lambdas)
+        features[start:end, 7] = l3 / (l1 + eps)            # sphericity
         # verticality: 1 − |z-component of the principal eigenvector|
         # eigh returns eigvecs as columns, ascending → last col = largest eigvec
         features[start:end, 8] = 1.0 - np.abs(eigvecs[:, 2, -1])

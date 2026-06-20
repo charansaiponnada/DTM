@@ -1,300 +1,217 @@
-# DTM Drainage AI 🛰️🌊
-### MoPR Geospatial Intelligence Hackathon — IIT Tirupati
+# DTM Drainage AI
 
-> **AI/ML-driven Digital Terrain Modelling and Optimized Drainage Network Design  
-> for Flood-Prone Village Abadi Areas using Drone Point Cloud Data**
+AI/ML pipeline for Digital Terrain Modelling and optimized drainage network design from drone LiDAR point clouds. Built for the MoPR Geospatial Intelligence Hackathon (IIT Tirupati).
 
----
+## Pipeline Overview
 
-## 🏆 Problem Statement
+```
+LAS/LAZ  ──► Stage 1: Data Inspection ──► Stage 2: Ground Classification ──► Stage 3: DTM Generation ──► Stage 4: Hydrology ──► Stage 5: Waterlogging ──► Stage 6: Drainage Design
+              laspy / numpy               PDAL SMRF + scikit-learn RF       IDW + rio-cogeo              pysheds                  XGBoost                  networkx + Manning's
+```
 
-Leverage drone-captured LiDAR/point cloud data from SVAMITVA villages to:
+| Stage | What it does | Tools | Output |
+|-------|-------------|-------|--------|
+| 1 | Inspect LAS header, sample points, spatial tiling | `laspy`, `numpy` | `PointCloudMetadata` + tile index |
+| 2 | SMRF ground filter + optional Random Forest refinement | `pdal.exe`, `scikit-learn` | `classified_ground.las` |
+| 3 | IDW interpolation → COG DTM + terrain derivatives | `scipy.spatial.cKDTree`, `rio-cogeo` | `dtm.tif`, `slope.tif`, curvature, TPI |
+| 4 | Fill depressions, D8 flow, accumulation, TWI, stream extraction | `pysheds`, `geopandas` | `flow_direction.tif`, `twi.tif`, stream GPKG |
+| 5 | 10-feature XGBoost waterlogging risk model | `xgboost`, `scikit-learn` | `waterlogging_probability.tif`, hotspots GPKG |
+| 6 | MST channel optimization + Manning's hydraulic sizing | `networkx`, `geopandas` | Designed `drainage_network.gpkg` with cost |
 
-1. **Delineate** surface-water flow paths and low-lying flood zones  
-2. **Predict** waterlogging hotspots using terrain-derived ML features  
-3. **Design** an optimized, cost-effective drainage system for densely populated abadi areas
+## Quick Start
 
----
+### Prerequisites
 
-## 📁 Repository Structure
+- Python 3.12+
+- PDAL (for SMRF ground classification)
+  ```bash
+  conda install -c conda-forge pdal
+  ```
+
+### Setup
+
+```bash
+# Clone
+git clone https://github.com/your-org/dtm-drainage-ai
+cd dtm-drainage-ai
+
+# Create environment
+uv venv
+uv pip install -r requirements.txt
+
+# Install dev/test deps (optional)
+uv pip install -r requirements_dev.txt
+```
+
+### Run
+
+```bash
+# Single village
+python run_pipeline.py --input data/input/DEVDI_511671.las
+
+# With evaluation
+python run_pipeline.py --input data/input/DEVDI_511671.las --evaluate
+
+# Skip ML refinement (faster)
+python run_pipeline.py --input data/input/DEVDI_511671.las --no-ml
+
+# Process multiple villages from config
+python run_pipeline.py --batch
+
+# Select specific stages (e.g. skip classification, re-run hydrology)
+python run_pipeline.py --input data/input/DEVDI_511671.las --stages 3,4,5,6
+
+# Windows batch script
+run_pipeline.bat
+```
+
+### Python API
+
+```python
+from src.pipeline import DTMDrainagePipeline
+
+pipeline = DTMDrainagePipeline(
+    config_path="config/config.yaml",
+    input_las="data/input/DEVDI_511671.las",
+    output_dir="data/output",
+)
+results = pipeline.run(
+    use_ml_refine=True,
+    stream_threshold=1000,
+)
+```
+
+## Repository Structure
 
 ```
 dtm-drainage-ai/
+├── run_pipeline.py              # CLI entry point (click)
+├── run_pipeline.bat             # Windows batch runner
+├── install.bat                  # Windows environment setup
+├── setup.py                     # pip installable package
+├── pyproject.toml               # Project metadata + pytest config
+├── requirements.txt             # Core dependencies
+├── requirements_dev.txt         # Dev/test dependencies
+│
+├── src/                         # Python package
+│   ├── pipeline.py              # DTMDrainagePipeline + BatchPipelineRunner
+│   ├── logger.py                # Rich console + structured logging
+│   ├── features.py              # Shared terrain feature computation
+│   ├── preprocessing/           # LAS I/O, SMRF, geometric features
+│   ├── dtm/                     # IDW interpolation, COG, derivatives
+│   ├── hydrology/               # Flow analysis, waterlogging, drainage
+│   └── evaluation/              # Accuracy metrics for all stages
+│
+├── app/                         # Streamlit web application
+│   ├── app.py
+│   └── README.md
+│
+├── scripts/                     # Standalone utility scripts
+│   ├── generate_docs.py         # PowerPoint/Word report generation
+│   ├── generate_images.py       # Visualisation images
+│   ├── create_word_doc.py       # Hackathon report
+│   └── generate_pipeline_diagram.py  # Architecture diagram
+│
 ├── config/
 │   └── config.yaml              # All tunable parameters
-├── src/
-│   ├── preprocessing/
-│   │   ├── point_cloud_loader.py    # LAS/LAZ I/O, tiling for large files
-│   │   └── ground_classifier.py     # SMRF → CSF → Random Forest pipeline
-│   ├── dtm/
-│   │   └── dtm_generator.py         # IDW interpolation → COG export
-│   ├── hydrology/
-│   │   ├── flow_analysis.py         # Fill → Flow Dir → Accumulation → TWI
-│   │   ├── waterlogging_predictor.py # XGBoost waterlogging risk model
-│   │   └── drainage_network.py      # MST + Manning's hydraulic design
-│   └── ml/
-│       └── pointnet_classifier.py   # PointNet deep learning classifier
-├── pipelines/
-│   └── full_pipeline.py         # End-to-end orchestrator + CLI
-├── requirements.txt
-└── config/config.yaml
+│
+├── tests/
+│   ├── test_cli.py              # CLI smoke test
+│   └── test_features.py         # Terrain feature unit tests
+│
+├── data/
+│   ├── input/                   # LAS/LAZ point clouds
+│   └── output/                  # Pipeline results (COG, GPKG, LAS)
+│
+├── docs/                        # Documentation, reports, images
+├── notebooks/                   # Jupyter exploration
+└── logs/                        # Structured JSONL logs
 ```
 
----
+## Output Files
 
-## ⚙️ Installation
-
-```bash
-# 1. Clone
-git clone https://github.com/your-username/dtm-drainage-ai
-cd dtm-drainage-ai
-
-# 2. Create environment
-conda create -n dtm-ai python=3.11 -y
-conda activate dtm-ai
-
-# 3. Install PDAL (best via conda for native binaries)
-conda install -c conda-forge pdal python-pdal -y
-
-# 4. Install Python dependencies
-pip install -r requirements.txt
-
-# 5. (Optional) GPU support for PointNet
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-```
-
----
-
-## 🚀 Quick Start
-
-### Run the full pipeline via CLI
-
-```bash
-python pipelines/full_pipeline.py \
-  --input  data/input/DEVDI_POINT_CLOUD_511671.las \
-  --output data/output/devdi/ \
-  --config config/config.yaml
-```
-
-### Or use the Python API
-
-```python
-from pipelines.full_pipeline import DTMDrainagePipeline
-
-pipeline = DTMDrainagePipeline(
-    config_path = "config/config.yaml",
-    input_las   = "data/input/DEVDI_POINT_CLOUD_511671.las",
-    output_dir  = "data/output/devdi/",
-)
-results = pipeline.run()
-```
-
----
-
-## 🔬 Pipeline Architecture
-
-```
-LAS/LAZ Input
-     │
-     ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 1 — Data Inspection                                  │
-│  • Point count, density, CRS, intensity range               │
-│  • Flags: no classification, zero intensity (Gujarat data)  │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 2 — Ground Classification                            │
-│  1. SMRF (Simple Morphological Filter) via PDAL             │
-│  2. CSF (Cloth Simulation Filter) fallback                  │
-│  3. Random Forest refinement on 12 geometric features       │
-│  Output: Classified .las (OGC LAS 1.4)                     │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 3 — DTM Generation                                   │
-│  • Extract ground points (Class 2)                          │
-│  • IDW interpolation @ 0.5 m resolution                     │
-│  • Gaussian smoothing                                       │
-│  Output: dtm.tif (Cloud-Optimized GeoTIFF, OGC COG)        │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 4 — Hydrological Analysis (pysheds)                  │
-│  • Depression filling (Wang & Liu)                           │
-│  • D8 flow direction                                        │
-│  • Flow accumulation                                        │
-│  • Slope, Aspect, TWI (Topographic Wetness Index)           │
-│  • Stream extraction & catchment delineation                │
-│  Outputs: slope.tif, flow_direction.tif, twi.tif (COG)     │
-│           drainage_channels, depressions (GeoPackage GPKG)  │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 5 — Waterlogging Prediction (XGBoost)                │
-│  Features: elevation_norm, slope, TWI, TPI, curvature,      │
-│            flow accumulation, depression depth, dist2stream  │
-│  Labels: terrain-heuristic (TWI ≥ 8 ∧ TPI ≤ -0.3 ∧ slope ≤ 2°)│
-│  Validation: 5-fold stratified CV, ROC-AUC                  │
-│  Outputs: waterlogging_probability.tif (COG)                │
-│           waterlogging_hotspots layer (GPKG)                 │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STAGE 6 — Drainage Network Design                          │
-│  • Minimum Spanning Tree on flow graph                       │
-│  • Rational Method: Q = C · i · A                           │
-│  • Manning's equation: trapezoidal channel sizing           │
-│  • Channel type selection: earthen / concrete / pipe        │
-│  • Cost estimation (INR)                                    │
-│  Output: drainage_channels, design_summary (GPKG)           │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📤 Output Files (OGC-Compliant)
+All outputs conform to OGC standards.
 
 | File | Format | Description |
 |------|--------|-------------|
-| `dtm.tif` | **COG** | Digital Terrain Model @ 0.5 m |
-| `slope.tif` | **COG** | Slope in degrees |
-| `twi.tif` | **COG** | Topographic Wetness Index |
-| `flow_direction.tif` | **COG** | D8 flow direction codes |
-| `flow_accumulation.tif` | **COG** | Log-scaled flow accumulation |
-| `waterlogging_probability.tif` | **COG** | Waterlogging risk (0–1) |
-| `drainage_network.gpkg` | **GPKG** | All vector layers (multi-layer) |
-| `classified_ground.las` | **LAS** | Classified point cloud |
+| `dtm.tif` | Cloud-Optimized GeoTIFF | Digital Terrain Model @ 0.5 m |
+| `slope.tif` | COG | Slope in degrees |
+| `aspect.tif` | COG | Aspect in degrees |
+| `twi.tif` | COG | Topographic Wetness Index |
+| `flow_direction.tif` | COG | D8 direction codes |
+| `flow_accumulation.tif` | COG | Log-scaled accumulation |
+| `plan_curvature.tif` | COG | Plan curvature (Evans) |
+| `profile_curvature.tif` | COG | Profile curvature (Evans) |
+| `tpi_*.tif` | COG | Topographic Position Index |
+| `roughness.tif` | COG | Terrain roughness |
+| `hillshade.tif` | COG | Hillshade relief |
+| `waterlogging_probability.tif` | COG | Risk probability 0–1 |
+| `classified_ground.las` | LAS 1.4 | Ground-classified point cloud |
+| `drainage_network.gpkg` | GeoPackage | All vector layers |
 
 ### GeoPackage Layers
 
 | Layer | Type | Description |
 |-------|------|-------------|
-| `drainage_channels` | LineString | Designed drain segments with hydraulic specs |
-| `waterlogging_hotspots` | Polygon | Risk zones (LOW / MEDIUM / HIGH) |
-| `flow_paths` | LineString | Natural surface-water flow lines |
-| `catchment_boundaries` | Polygon | Sub-catchment delineation |
-| `depression_polygons` | Polygon | Topographic sinks and hollows |
+| `drainage_channels` | LineString | Designed segments with hydraulic specs |
+| `waterlogging_hotspots` | Polygon | LOW / MEDIUM / HIGH risk zones |
+| `depression_polygons` | Polygon | Topographic sinks |
+| `catchment_boundaries` | Polygon | Sub-catchment areas |
 | `design_summary` | Point | Aggregated design statistics |
 
----
+## Models
 
-## 🧠 AI/ML Models
+- **SMRF** (PDAL): Morphological ground filter for flat terrain
+- **Random Forest** (scikit-learn): 12 PCA-based geometric features, refines SMRF
+- **XGBoost**: 10 terrain features, rule-based pseudo-labels, 5-fold CV, AUC-PR metric
+- **MST** (NetworkX): Minimum-cost channel routing
+- **Manning's Equation**: Trapezoidal channel hydraulic sizing
 
-### 1. Random Forest — Ground Classification Refinement
-- 12 geometric features (eigenvalue decomposition, density, height above ground)
-- Post-processes SMRF labels to remove false positives near buildings
-- Handles zero-intensity data (Gujarat datasets)
+## Configuration
 
-### 2. XGBoost — Waterlogging Prediction
-- 10 terrain-derived features per pixel
-- Scale-positive-weight to handle imbalanced classes
-- 5-fold stratified CV with ROC-AUC metric
-- Outputs per-pixel probability map + polygon hotspots
-
-### 3. PointNet (Deep Learning) — Optional Advanced Classification
-- Patch-based training (1024-point patches)
-- T-Net for input alignment
-- Per-point binary segmentation
-- Requires GPU; falls back to RF for CPU-only environments
-
----
-
-## 🔧 Configuration
-
-All parameters are controlled via `config/config.yaml`. Key settings:
+All parameters in `config/config.yaml`. Key settings:
 
 ```yaml
 dtm:
-  resolution: 0.5              # metres per pixel
+  resolution: 0.5              # metres
   interpolation:
-    method: "idw"
+    idw_power: 2
     idw_radius: 5.0
 
 drainage:
   design_return_period: 10     # years
-  rainfall_intensity: 50       # mm/hr (Gujarat 10-yr storm)
+  rainfall_intensity: 50       # mm/hr
   runoff_coefficient: 0.65
+  cost_per_metre_channel: 1200 # INR
 
 waterlogging:
-  model: "xgboost"
-  threshold: 0.45              # probability threshold
+  model: xgboost
+  threshold: 0.45
+  xgboost:
+    n_estimators: 300
+    max_depth: 6
+    learning_rate: 0.1
+    scale_pos_weight: 5
 ```
 
----
+## Data Sources
 
-## 📊 Data Sources
+Point cloud data from [SVAMITVA Portal](https://svamitva.nic.in) (CRS: EPSG:32643 for Gujarat).
 
-Point cloud data from [SVAMITVA Portal](https://svamitva.nic.in):
+## Tech Stack
 
-| State | District | File | Points | Density |
-|-------|----------|------|--------|---------|
-| Gujarat | Ahmedabad | DEVDI_511671.las | 64.6 M | 65 pts/m² |
-| Gujarat | Sabar Kantha | KHAPRETA_510206.laz | 163.7 M | 245 pts/m² |
-| Punjab | Hoshiarpur | Dhal_31235.las | — | — |
-| Rajasthan | Hanumangarh | 67169_5NKR.las | — | — |
-| Tamil Nadu | Thiruvallur | PIRAYANKUPPAM.las | — | — |
+| Domain | Libraries |
+|--------|-----------|
+| Point cloud I/O | `laspy` |
+| Ground classification | `pdal`, `scikit-learn` |
+| Raster processing | `rasterio`, `rio-cogeo`, `scipy` |
+| Hydrology | `pysheds` |
+| ML | `xgboost`, `scikit-learn` |
+| Graph optimization | `networkx` |
+| GIS/Vector | `geopandas`, `shapely`, `pyproj` |
+| CLI | `click` |
+| Logging/UI | `loguru`, `rich`, `tqdm` |
 
-CRS: **EPSG:32643** (UTM Zone 43N) for Gujarat datasets.
+## License
 
----
-
-## 📐 Known Data Challenges & Mitigations
-
-| Challenge | Mitigation |
-|-----------|-----------|
-| No pre-existing ground classification | SMRF → CSF → RF three-stage pipeline |
-| Zero intensity range | Intensity excluded from features; pure geometry used |
-| Very high point density (245 pts/m²) | Voxel downsampling + tiled processing |
-| Large file sizes (163M+ points) | 500m tiles with 25m overlap buffer |
-| No historical flood records | Terrain-heuristic pseudo-labelling for XGBoost |
-
----
-
-## 📋 Hackathon Deliverable Checklist
-
-- [x] Automated DTM Creation using AI/ML
-- [x] Ground classification (SMRF + Random Forest)  
-- [x] Optimized Drainage Network (MST + Manning's)
-- [x] GIS-ready outputs (OGC COG + GPKG)
-- [x] Waterlogging hotspot prediction
-- [x] Flow path delineation
-- [x] Catchment boundary delineation
-- [x] Cost estimation for drainage design
-- [x] Fully documented codebase
-- [x] CLI for reproducibility
-- [ ] Integration with real-time weather API *(extension)*
-- [ ] HEC-RAS hydraulic simulation export *(extension)*
-
----
-
-## 🏗️ Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| Point cloud I/O | laspy, PDAL |
-| Ground classification | PDAL SMRF/CSF, scikit-learn RF |
-| Deep learning | PyTorch, PointNet |
-| DTM interpolation | SciPy IDW, pykrige |
-| Raster processing | rasterio, rio-cogeo, GDAL |
-| Hydrological modelling | pysheds |
-| Waterlogging prediction | XGBoost |
-| Network optimization | NetworkX (MST) |
-| Vector GIS | GeoPandas, Shapely, Fiona |
-| Visualization | matplotlib, rich |
-
----
-
-## 🤝 Team
-
-Built for the **MoPR Geospatial Intelligence Hackathon** organized by:
-- Ministry of Panchayati Raj (MoPR)
-- IIT Tirupati Navavishkar I-Hub Foundation (IITNiF)
-- National Informatics Centre (NIC)
-
-Output formats comply with **OGC standards** as recommended by the Open Geospatial Consortium guidance document.
+MIT

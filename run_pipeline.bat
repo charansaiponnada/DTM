@@ -25,15 +25,16 @@ echo ==============================================================
 echo.
 
 :: Check venv exists
-if not exist "dtm-env\Scripts\activate.bat" (
+if exist ".venv\Scripts\activate.bat" (
+    call .venv\Scripts\activate.bat
+) else if exist "dtm-env\Scripts\activate.bat" (
+    call dtm-env\Scripts\activate.bat
+) else (
     echo [ERROR] Virtual environment not found.
-    echo         Please run install.bat first.
+    echo         Please run install.bat or create a venv first.
     pause
     exit /b 1
 )
-
-:: Activate
-call dtm-env\Scripts\activate.bat
 echo [OK] Environment activated
 
 :: Check input file exists

@@ -28,10 +28,7 @@ import rasterio
 from rasterio.features import shapes
 import geopandas as gpd
 from shapely.geometry import shape
-from scipy.ndimage import (
-    generic_filter, uniform_filter, distance_transform_edt,
-    label as ndlabel,
-)
+from scipy.ndimage import distance_transform_edt
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.preprocessing import RobustScaler
 from sklearn.metrics import (
@@ -48,48 +45,7 @@ from src.dtm.dtm_generator import NODATA, write_geotiff, convert_to_cog
 #  Feature Raster Computation
 # ══════════════════════════════════════════════════════════════════════════
 
-def compute_tpi(dem: np.ndarray, window: int = 15) -> np.ndarray:
-    """
-    Topographic Position Index = elevation − mean elevation in window.
-    Negative TPI → valleys/hollows (waterlogging prone).
-    """
-    local_mean = uniform_filter(dem.astype(np.float64), size=window)
-    return (dem - local_mean).astype(np.float32)
-
-
-def compute_curvature(dem: np.ndarray, cell_size: float) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Plan and Profile curvature (Evans method).
-
-    Returns
-    -------
-    (plan_curv, profile_curv) arrays in 1/m units.
-    Concave plan curvature → water convergence.
-    """
-    z = dem.astype(np.float64)
-    cs = cell_size
-
-    # 3x3 polynomial fit coefficients
-    D = (np.roll(z, -1, axis=0) + np.roll(z, 1, axis=0) - 2*z) / (2 * cs**2)
-    E = (np.roll(z, -1, axis=1) + np.roll(z, 1, axis=1) - 2*z) / (2 * cs**2)
-    F = (-np.roll(np.roll(z,-1,0),-1,1) + np.roll(np.roll(z,-1,0),1,1)
-         + np.roll(np.roll(z,1,0),-1,1) - np.roll(np.roll(z,1,0),1,1)) / (4*cs**2)
-    G = (np.roll(z, 1, axis=1) - np.roll(z, -1, axis=1)) / (2 * cs)
-    H = (np.roll(z, 1, axis=0) - np.roll(z, -1, axis=0)) / (2 * cs)
-
-    p = G**2 + H**2 + 1e-10
-
-    plan_curv    = (-2 * (D*G**2 + E*H**2 + F*G*H) / p).astype(np.float32)
-    profile_curv = (-2 * (D*G**2 + E*H**2 + F*G*H) / (p * np.sqrt(p))).astype(np.float32)
-
-    return plan_curv, profile_curv
-
-
-def compute_aspect(dem: np.ndarray, cell_size: float) -> np.ndarray:
-    """Aspect in degrees (0=N, clockwise)."""
-    dy, dx = np.gradient(dem.astype(np.float64), cell_size)
-    aspect = np.degrees(np.arctan2(-dx, dy)) % 360
-    return aspect.astype(np.float32)
+from src.features import compute_curvature_evans, compute_aspect, compute_tpi, FEATURE_NAMES_WL
 
 
 def build_feature_stack(
@@ -140,8 +96,8 @@ def build_feature_stack(
     # TPI (15-cell window ≈ 7.5 m at 0.5 m res)
     tpi = compute_tpi(np.where(valid, dem, 0.0), window=15)
 
-    # Curvature
-    plan_curv, profile_curv = compute_curvature(np.where(valid, dem, 0.0), cell_size)
+    # Curvature (Evans method — shared with terrain_analysis)
+    plan_curv, profile_curv = compute_curvature_evans(np.where(valid, dem, 0.0), cell_size)
 
     # Depression depth (optional)
     if depression_depth_path and Path(depression_depth_path).exists():
@@ -241,12 +197,7 @@ def generate_terrain_labels(
 #  XGBoost Waterlogging Model
 # ══════════════════════════════════════════════════════════════════════════
 
-FEATURE_NAMES = [
-    "elevation_normalized", "slope_deg", "aspect_deg",
-    "twi", "tpi", "log_flow_accumulation",
-    "plan_curvature", "profile_curvature",
-    "depression_depth_m", "distance_to_stream_m",
-]
+FEATURE_NAMES = FEATURE_NAMES_WL
 
 
 class WaterloggingPredictor:

@@ -380,15 +380,6 @@ class HydrologicalAnalyzer:
     # ── Private Helpers ──────────────────────────────────────────────────
 
     @staticmethod
-    def _strahler_order(acc_vals: np.ndarray) -> np.ndarray:
-        """Approximate Strahler stream order from flow accumulation."""
-        order = np.ones_like(acc_vals, dtype=int)
-        order[acc_vals > 5000]  = 2
-        order[acc_vals > 20000] = 3
-        order[acc_vals > 80000] = 4
-        return order
-
-    @staticmethod
     def _raster_streams_to_lines(
         stream_mask: np.ndarray,
         fdir_arr: np.ndarray,

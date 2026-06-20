@@ -1,6 +1,6 @@
 """
-pipelines/full_pipeline.py
-───────────────────────────
+src/pipeline.py
+────────────────
 End-to-end pipeline orchestrator for the MoPR Hackathon DTM + Drainage
 AI challenge.
 
@@ -11,9 +11,8 @@ Pipeline stages:
   4. Hydrological analysis (fill → flow direction → accumulation → TWI)
   5. Waterlogging prediction (XGBoost)
   6. Drainage network design (MST + Manning's sizing)
-  7. GIS output packaging (COG rasters + GPKG vectors)
 
-All outputs conform to OGC format standards as required by the hackathon:
+All outputs conform to OGC format standards:
   - Raster  → Cloud-Optimized GeoTIFF (.tif)
   - Vector  → GeoPackage (.gpkg)
   - LiDAR   → LAS 1.4 (.las)
@@ -55,7 +54,6 @@ class DTMDrainagePipeline:
         self.output_dir = Path(output_dir or self.cfg["data"]["output_dir"])
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Will be populated as pipeline runs
         self.metadata        = None
         self.classified_las  = None
         self.dtm_path        = None
@@ -66,17 +64,13 @@ class DTMDrainagePipeline:
         self.designer        = None
         self.results         = {}
 
-        # Auto-detect: if the input file is a TIF, treat it as the DTM
-        # (allows running stages 4+ directly on a pre-built DTM)
         if self.input_las and self.input_las.suffix.lower() in (".tif", ".tiff"):
             self.dtm_path = self.input_las
             logger.info(f"Input is a raster — treating as DTM for stages 4+: {self.dtm_path.name}")
-        # Auto-detect: if a dtm.tif already exists in the output dir, use it
         elif (self.output_dir / "dtm.tif").exists():
             self.dtm_path = self.output_dir / "dtm.tif"
             logger.info(f"Found existing DTM → {self.dtm_path}")
 
-        # Auto-detect hydro layer paths from a previous Stage 4 run
         _hydro_names = {
             "twi": "twi.tif",
             "slope": "slope.tif",
@@ -97,10 +91,6 @@ class DTMDrainagePipeline:
             f"  CRS        : {self.cfg['project']['crs']}"
         )
 
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 1 – Data Inspection
-    # ══════════════════════════════════════════════════════════════════════
-
     def stage1_inspect(self) -> "DTMDrainagePipeline":
         from src.preprocessing.point_cloud_loader import inspect
 
@@ -118,10 +108,6 @@ class DTMDrainagePipeline:
             "crs":                self.metadata.crs_wkt or "MISSING (assuming EPSG:32643)",
         }
         return self
-
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 2 – Ground Classification
-    # ══════════════════════════════════════════════════════════════════════
 
     def stage2_classify(
         self,
@@ -150,7 +136,6 @@ class DTMDrainagePipeline:
                 buffer=self.cfg["preprocessing"]["tile_buffer"],
                 output_dir=tile_dir,
             )
-            # Classify each tile and merge
             import laspy, numpy as np
             classified_tiles = []
             for tile in tile_paths:
@@ -166,7 +151,6 @@ class DTMDrainagePipeline:
                 )
                 classified_tiles.append(out_tile)
 
-            # Merge tiles → single output
             _merge_las_tiles(classified_tiles, classified_path)
         else:
             classify_ground_full_pipeline(
@@ -182,10 +166,6 @@ class DTMDrainagePipeline:
         self.classified_las = classified_path
         self.results["classified_las"] = str(classified_path)
         return self
-
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 3 – DTM Generation
-    # ══════════════════════════════════════════════════════════════════════
 
     def stage3_dtm(self) -> "DTMDrainagePipeline":
         from src.dtm.dtm_generator import generate_dtm, get_dtm_stats
@@ -214,7 +194,6 @@ class DTMDrainagePipeline:
         self.results["dtm"] = {"path": str(self.dtm_path), **stats}
         logger.info(f"DTM stats: {stats}")
 
-        # ── Terrain derivatives (slope, aspect, curvature, TPI, hillshade) ──
         logger.info("Computing terrain derivatives …")
         deriv_paths = compute_all_derivatives(
             dtm_path   = self.dtm_path,
@@ -224,10 +203,6 @@ class DTMDrainagePipeline:
         self.results["terrain_derivatives"] = {k: str(v) for k, v in deriv_paths.items()}
         logger.info(f"Terrain layers: {list(deriv_paths.keys())}")
         return self
-
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 4 – Hydrological Analysis
-    # ══════════════════════════════════════════════════════════════════════
 
     def stage4_hydrology(self, stream_threshold: int = 1000) -> "DTMDrainagePipeline":
         from src.hydrology.flow_analysis import HydrologicalAnalyzer
@@ -251,10 +226,6 @@ class DTMDrainagePipeline:
         self.results["hydrology"] = {k: str(v) for k, v in self.hydro_paths.items()}
         return self
 
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 5 – Waterlogging Prediction
-    # ══════════════════════════════════════════════════════════════════════
-
     def stage5_waterlogging(self) -> "DTMDrainagePipeline":
         from src.hydrology.waterlogging_predictor import (
             build_feature_stack, generate_terrain_labels, WaterloggingPredictor
@@ -265,7 +236,6 @@ class DTMDrainagePipeline:
                 "Stage 5 requires a DTM raster from Stage 3. "
                 "Run Stages 3-4 first or ensure dtm_path is set."
             )
-        # Graceful fallback: files may exist on disk even if not in session hydro_paths
         _twi   = self.hydro_paths.get("twi",              self.output_dir / "twi.tif")
         _facc  = self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif")
         _slope = self.hydro_paths.get("slope",             self.output_dir / "slope.tif")
@@ -310,10 +280,6 @@ class DTMDrainagePipeline:
         self.results["waterlogging"] = {"probability_cog": str(prob_cog_path)}
         return self
 
-    # ══════════════════════════════════════════════════════════════════════
-    #  Stage 6 – Drainage Design
-    # ══════════════════════════════════════════════════════════════════════
-
     def stage6_drainage_design(self) -> "DTMDrainagePipeline":
         from src.hydrology.drainage_network import (
             DrainageNetworkDesigner, DrainageDesignParameters
@@ -342,7 +308,6 @@ class DTMDrainagePipeline:
             cost_pipe_inr_m         = cfg_dr["cost_per_metre_pipe"],
         )
 
-        # Load streams from GPKG
         try:
             streams_gdf = gpd.read_file(str(gpkg_path), layer="drainage_channels")
         except Exception:
@@ -360,10 +325,6 @@ class DTMDrainagePipeline:
             **self.designer.summary,
         }
         return self
-
-    # ══════════════════════════════════════════════════════════════════════
-    #  Full Run
-    # ══════════════════════════════════════════════════════════════════════
 
     def run(
         self,
@@ -391,7 +352,6 @@ class DTMDrainagePipeline:
         )
         _print_output_summary(self.results, self.output_dir)
 
-        # Save results summary JSON
         import json
         summary_path = self.output_dir / "pipeline_results.json"
         with open(summary_path, "w", encoding="utf-8") as f:
@@ -401,12 +361,6 @@ class DTMDrainagePipeline:
         return self.results
 
     def run_evaluation(self) -> dict:
-        """
-        Run all evaluation metrics on completed pipeline outputs.
-        Saves metrics to output_dir/metrics.json.
-
-        Must be called AFTER run() has completed at least Stages 2–6.
-        """
         import json
         from src.evaluation import (
             evaluate_ground_classification,
@@ -420,8 +374,6 @@ class DTMDrainagePipeline:
 
         eval_results: dict = {}
 
-        # ── Ground classification ─────────────────────────────────────
-        # Search multiple candidate locations for classified_ground.las
         _las_candidates = [
             self.classified_las,
             self.output_dir / "classified_ground.las",
@@ -439,7 +391,6 @@ class DTMDrainagePipeline:
             except Exception as exc:
                 logger.warning(f"Ground classification eval failed: {exc}")
 
-        # ── DTM accuracy ──────────────────────────────────────────────
         dtm_path = self.dtm_path or self.output_dir / "dtm.tif"
         if dtm_path and Path(dtm_path).exists():
             try:
@@ -447,10 +398,8 @@ class DTMDrainagePipeline:
             except Exception as exc:
                 logger.warning(f"DTM eval failed: {exc}")
 
-        # ── Waterlogging model ────────────────────────────────────────
-        # Load saved model from disk if not already in session memory
         if self.wl_predictor is None:
-            _model_path = self.output_dir / "models" / "waterlogging_xgb.joblib"
+            _model_path = self.output_dir / "models" / "waterloading_xgb.joblib"
             if _model_path.exists():
                 try:
                     from src.hydrology.waterlogging_predictor import WaterloggingPredictor
@@ -480,7 +429,6 @@ class DTMDrainagePipeline:
             except Exception as exc:
                 logger.warning(f"Waterlogging eval failed: {exc}")
 
-        # ── Drainage design ───────────────────────────────────────────
         gpkg_path = self.output_dir / "drainage_network.gpkg"
         if gpkg_path.exists():
             try:
@@ -488,7 +436,6 @@ class DTMDrainagePipeline:
             except Exception as exc:
                 logger.warning(f"Drainage eval failed: {exc}")
 
-        # Save metrics
         metrics_path = self.output_dir / "metrics.json"
         with open(metrics_path, "w", encoding="utf-8") as f:
             json.dump(eval_results, f, indent=2, default=str)
@@ -496,8 +443,6 @@ class DTMDrainagePipeline:
 
         self.results["evaluation"] = eval_results
         return eval_results
-
-    # ── Helpers ──────────────────────────────────────────────────────────
 
     def _resolve_input(self) -> Path:
         if self.input_las:
@@ -508,16 +453,10 @@ class DTMDrainagePipeline:
         raise ValueError("No input LAS file specified in config or constructor.")
 
 
-# ══════════════════════════════════════════════════════════════════════════
-#  Utilities
-# ══════════════════════════════════════════════════════════════════════════
-
 def _merge_las_tiles(tile_paths: list, output_path: Path):
-    """Merge classified tile LAS files into a single output LAS."""
     import laspy
     logger.info(f"Merging {len(tile_paths)} classified tiles …")
     first = laspy.read(str(tile_paths[0]))
-    # Stream all tiles into a single writer so no tile is silently dropped
     with laspy.open(str(output_path), mode="w", header=first.header) as writer:
         writer.write_points(first.points)
         for tp in tile_paths[1:]:
@@ -527,7 +466,6 @@ def _merge_las_tiles(tile_paths: list, output_path: Path):
 
 
 def _print_output_summary(results: dict, output_dir: Path):
-    """Print a rich table summarising all output files."""
     from rich.table import Table
     table = Table(title="Output Files Summary", show_header=True)
     table.add_column("Format", style="cyan")
@@ -543,10 +481,6 @@ def _print_output_summary(results: dict, output_dir: Path):
 
     console.print(table)
 
-
-# ══════════════════════════════════════════════════════════════════════════
-#  Batch Multi-Village Runner
-# ══════════════════════════════════════════════════════════════════════════
 
 class BatchPipelineRunner:
     """
@@ -575,13 +509,6 @@ class BatchPipelineRunner:
         self.summary: dict    = {}
 
     def run_all(self) -> dict:
-        """
-        Process every village listed in config.data.villages.
-
-        Returns
-        -------
-        dict  mapping village_name -> stage results dict
-        """
         villages = self.cfg.get("data", {}).get("villages", [])
         if not villages:
             logger.warning(
@@ -655,54 +582,8 @@ class BatchPipelineRunner:
         console.print(table)
 
 
-# ══════════════════════════════════════════════════════════════════════════
-#  CLI Entry Point
-# ══════════════════════════════════════════════════════════════════════════
-
 import click
 
-@click.group()
-def cli():
-    """DTM Drainage AI — MoPR Geospatial Hackathon"""
-    pass
-
-
-@cli.command()
-@click.option("--input",  "-i", required=True,  help="Input LAS/LAZ file path")
-@click.option("--output", "-o", default="data/output", help="Output directory")
-@click.option("--config", "-c", default="config/config.yaml", help="Config YAML path")
-@click.option("--no-ml", is_flag=True, default=False, help="Skip ML refinement of ground classification")
-@click.option("--stream-threshold", default=1000, help="Flow accumulation threshold for stream extraction")
-def run(input, output, config, no_ml, stream_threshold):
-    """Run the full pipeline on a single LAS/LAZ file."""
-    pipeline = DTMDrainagePipeline(
-        config_path = config,
-        input_las   = input,
-        output_dir  = output,
-    )
-    pipeline.run(
-        use_ml_refine    = not no_ml,
-        stream_threshold = stream_threshold,
-    )
-
-
-@cli.command()
-@click.option("--output", "-o", default="data/output", help="Base output directory")
-@click.option("--config", "-c", default="config/config.yaml", help="Config YAML path")
-@click.option("--no-ml", is_flag=True, default=False, help="Skip ML refinement")
-@click.option("--stream-threshold", default=1000, help="Flow accumulation threshold")
-def batch(output, config, no_ml, stream_threshold):
-    """Run the pipeline over all villages defined in config.data.villages."""
-    runner = BatchPipelineRunner(
-        config_path      = config,
-        base_output_dir  = output,
-        use_ml_refine    = not no_ml,
-        stream_threshold = stream_threshold,
-    )
-    runner.run_all()
-
-
-# Legacy single-command entry point (backwards compat)
 @click.command()
 @click.option("--input",  "-i", required=True,  help="Input LAS/LAZ file path")
 @click.option("--output", "-o", default="data/output", help="Output directory")
@@ -710,14 +591,6 @@ def batch(output, config, no_ml, stream_threshold):
 @click.option("--no-ml", is_flag=True, default=False, help="Skip ML refinement of ground classification")
 @click.option("--stream-threshold", default=1000, help="Flow accumulation threshold for stream extraction")
 def main(input, output, config, no_ml, stream_threshold):
-    """
-    DTM Drainage AI — MoPR Geospatial Hackathon
-
-    Processes a point cloud LAS/LAZ file to produce:
-      - Digital Terrain Model (COG)
-      - Waterlogging probability map (COG)
-      - Optimized drainage network design (GPKG)
-    """
     pipeline = DTMDrainagePipeline(
         config_path = config,
         input_las   = input,

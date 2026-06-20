@@ -1,0 +1,2 @@
+# DTM Drainage AI - Development / Testing Requirements
+pytest>=9.0

@@ -220,13 +220,15 @@ def convert_to_cog(
         blockysize=512,
     )
 
-    logger.info(f"Converting to COG …")
+    ov_level = len(overview_levels)
+    ov_resampling = resampling
+    logger.info(f"Converting to COG (overviews={overview_levels}, resampling={ov_resampling}) ...")
     cog_translate(
-        str(tiff_path),          # source  (positional)
-        str(cog_path),           # dst_path (positional)
-        output_profile,          # dst_kwargs (positional)
-        overview_level=4,        # 0-4 → overviews at 2^1..2^4 = [2,4,8,16]
-        overview_resampling="average",
+        str(tiff_path),
+        str(cog_path),
+        output_profile,
+        overview_level=ov_level,
+        overview_resampling=ov_resampling,
         in_memory=False,
         quiet=True,
     )
