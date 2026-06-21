@@ -441,7 +441,7 @@ class DTMDrainagePipeline:
                 logger.warning(f"DTM eval failed: {exc}")
 
         if self.wl_predictor is None:
-            _model_path = self.output_dir / "models" / "waterloading_xgb.joblib"
+            _model_path = self.output_dir / "models" / "waterlogging_xgb.joblib"
             if _model_path.exists():
                 try:
                     from src.hydrology.waterlogging_predictor import WaterloggingPredictor
