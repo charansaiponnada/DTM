@@ -97,9 +97,15 @@ from loguru import logger
     default=False,
     help="Run accuracy evaluation metrics after pipeline completes",
 )
+@click.option(
+    "--pointnet",
+    is_flag=True,
+    default=False,
+    help="Use PointNet deep learning for ground classification (requires PyTorch)",
+)
 def main(
     input, output, config, log_dir, log_level,
-    no_ml, stream_threshold, resolution, stages, batch, evaluate
+    no_ml, stream_threshold, resolution, stages, batch, evaluate, pointnet
 ):
     """
     DTM Drainage AI Pipeline — MoPR Geospatial Intelligence Hackathon
@@ -142,6 +148,7 @@ def main(
             base_output_dir  = output,
             use_ml_refine    = not no_ml,
             stream_threshold = stream_threshold,
+            use_pointnet     = pointnet,
         )
         runner.run_all()
         print_summary(output_dir=output_dir, save_json=True)
@@ -198,7 +205,7 @@ def main(
                 sl.info("PDAL available — using SMRF filter")
 
             use_ml = not no_ml
-            pipeline.stage2_classify(use_ml_refine=use_ml)
+            pipeline.stage2_classify(use_ml_refine=use_ml, use_pointnet=pointnet)
 
             if pipeline.classified_las:
                 try:

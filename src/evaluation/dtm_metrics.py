@@ -31,11 +31,64 @@ except ImportError:
     raise ImportError("rasterio is required: pip install rasterio")
 
 
+def download_srtm_for_extent(
+    dtm_path: str | Path,
+    output_path: Optional[str | Path] = None,
+) -> Optional[Path]:
+    """
+    Download SRTM 30m (1 arc-second) data for the bounding box of a DTM
+    using OpenTopography API. Falls back gracefully if no internet.
+
+    Parameters
+    ----------
+    dtm_path    : path to DTM raster
+    output_path : output path for SRTM GeoTIFF
+
+    Returns
+    -------
+    Path to downloaded SRTM file, or None if download failed
+    """
+    import rasterio
+    from rasterio.warp import transform_bounds
+    import urllib.request
+    import json
+
+    dtm_path = Path(dtm_path)
+    if output_path is None:
+        output_path = dtm_path.parent / "_srtm_ref.tif"
+    output_path = Path(output_path)
+
+    if output_path.exists():
+        logger.info(f"SRTM reference already cached: {output_path}")
+        return output_path
+
+    with rasterio.open(dtm_path) as src:
+        west, south, east, north = transform_bounds(
+            src.crs, "EPSG:4326", *src.bounds
+        )
+
+    url = (
+        f"https://portal.opentopography.org/API/globaldem?dem=SRTM&"
+        f"south={south}&north={north}&west={west}&east={east}&"
+        f"output=GTiff&API_KEY=demo"
+    )
+
+    logger.info(f"Downloading SRTM 30m for extent ({west:.4f}, {south:.4f}, {east:.4f}, {north:.4f}) …")
+    try:
+        urllib.request.urlretrieve(url, str(output_path))
+        logger.success(f"SRTM downloaded → {output_path}")
+        return output_path
+    except Exception as exc:
+        logger.warning(f"SRTM download failed: {exc}. Will use internal flat-plane check instead.")
+        return None
+
+
 def evaluate_dtm_accuracy(
     dtm_path: str | Path,
     reference_path: Optional[str | Path] = None,
     flat_area_threshold_slope_deg: float = 1.0,
     max_check_points: int = 100_000,
+    auto_download_srtm: bool = True,
 ) -> Dict:
     """
     Compute vertical accuracy metrics for a DTM raster.
@@ -77,27 +130,30 @@ def evaluate_dtm_accuracy(
         residuals = (dtm - ref_arr)[mask]
         ref_type  = "external"
 
+    elif auto_download_srtm:
+        # ── Try SRTM auto-download ──────────────────────────────────
+        srtm_path = download_srtm_for_extent(dtm_path)
+        if srtm_path and srtm_path.exists():
+            logger.info(f"  Auto-downloaded SRTM reference: {srtm_path.name}")
+            ref_arr  = _load_and_align_reference(srtm_path, dtm, trans, crs, nodata)
+            ref_valid = (ref_arr != nodata) & np.isfinite(ref_arr)
+            mask      = valid_mask & ref_valid
+            residuals = (dtm - ref_arr)[mask]
+            ref_type  = "srtm_30m"
+        else:
+            # ── Internal flat-area consistency check ────────────────
+            logger.warning(
+                "SRTM download failed – performing internal flat-area check."
+            )
+            residuals, ref_type = _internal_flat_check(dtm, valid_mask, res, flat_area_threshold_slope_deg)
+
     else:
         # ── Internal flat-area consistency check ─────────────────────
         logger.warning(
             "No external reference provided – performing internal flat-area check. "
             "LE90 and RMSE are against a local plane, not absolute truth."
         )
-        from scipy.ndimage import uniform_filter
-
-        # Compute slope proxy: standard deviation in 3×3 window
-        local_mean = uniform_filter(np.where(valid_mask, dtm, np.nan), size=3)
-        slope_proxy = np.abs(dtm - local_mean)
-        flat_m      = flat_area_threshold_slope_deg * np.pi / 180 * res
-
-        flat_mask   = valid_mask & (slope_proxy < flat_m)
-        if flat_mask.sum() < 100:
-            flat_mask = valid_mask   # fallback: use all valid pixels
-
-        flat_z      = dtm[flat_mask]
-        local_plane = uniform_filter(np.where(flat_mask, dtm, 0.0), size=15)
-        residuals   = (dtm - local_plane)[flat_mask]
-        ref_type    = "internal_flat_plane"
+        residuals, ref_type = _internal_flat_check(dtm, valid_mask, res, flat_area_threshold_slope_deg)
 
     # ── Subsample if needed ──────────────────────────────────────────
     if len(residuals) > max_check_points:
@@ -133,6 +189,25 @@ def evaluate_dtm_accuracy(
         f"ME={mean_err:.4f}m  LE90={le90:.4f}m"
     )
     return metrics
+
+
+def _internal_flat_check(
+    dtm: np.ndarray, valid_mask: np.ndarray, res: float, flat_threshold_deg: float = 1.0
+):
+    """Compute internal flat-plane check residuals."""
+    from scipy.ndimage import uniform_filter
+
+    local_mean = uniform_filter(np.where(valid_mask, dtm, np.nan), size=3)
+    slope_proxy = np.abs(dtm - local_mean)
+    flat_m = flat_threshold_deg * np.pi / 180 * res
+
+    flat_mask = valid_mask & (slope_proxy < flat_m)
+    if flat_mask.sum() < 100:
+        flat_mask = valid_mask
+
+    local_plane = uniform_filter(np.where(flat_mask, dtm, 0.0), size=15)
+    residuals = (dtm - local_plane)[flat_mask]
+    return residuals, "internal_flat_plane"
 
 
 def _load_and_align_reference(

@@ -20,6 +20,38 @@ data:
     - name: "KHAPRETA"
       path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
       output_subdir: "KHAPRETA"
+    - name: "DEVDI_TILE_NE"
+      path: "data/input/DEVDI_511671.las"
+      output_subdir: "DEVDI_TILE_NE"
+      tile_filter: [0, 0.5, 0.5, 1.0]
+    - name: "DEVDI_TILE_NW"
+      path: "data/input/DEVDI_511671.las"
+      output_subdir: "DEVDI_TILE_NW"
+      tile_filter: [0.5, 1.0, 0.5, 1.0]
+    - name: "DEVDI_TILE_SE"
+      path: "data/input/DEVDI_511671.las"
+      output_subdir: "DEVDI_TILE_SE"
+      tile_filter: [0, 0.5, 0, 0.5]
+    - name: "DEVDI_TILE_SW"
+      path: "data/input/DEVDI_511671.las"
+      output_subdir: "DEVDI_TILE_SW"
+      tile_filter: [0.5, 1.0, 0, 0.5]
+    - name: "KHAPRETA_TILE_NE"
+      path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      output_subdir: "KHAPRETA_TILE_NE"
+      tile_filter: [0, 0.5, 0.5, 1.0]
+    - name: "KHAPRETA_TILE_NW"
+      path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      output_subdir: "KHAPRETA_TILE_NW"
+      tile_filter: [0.5, 1.0, 0.5, 1.0]
+    - name: "KHAPRETA_TILE_SE"
+      path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      output_subdir: "KHAPRETA_TILE_SE"
+      tile_filter: [0, 0.5, 0, 0.5]
+    - name: "KHAPRETA_TILE_SW"
+      path: "data/input/Gujrat_Point_Cloud/KHAPRETA_510206.laz"
+      output_subdir: "KHAPRETA_TILE_SW"
+      tile_filter: [0.5, 1.0, 0, 0.5]
 
 # ── Preprocessing ────────────────────────────────────────────────────────
 preprocessing:

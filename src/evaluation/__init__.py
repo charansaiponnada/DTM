@@ -11,14 +11,18 @@ waterlogging_metrics           – XGBoost CV scores, ROC-AUC, feature importanc
 drainage_metrics               – Channel coverage ratio, cost summary, hydraulic check
 """
 
-from .ground_classification_metrics import evaluate_ground_classification
-from .dtm_metrics import evaluate_dtm_accuracy
+from .ground_classification_metrics import evaluate_ground_classification, evaluate_ground_classification_ablation
+from .dtm_metrics import evaluate_dtm_accuracy, download_srtm_for_extent
 from .waterlogging_metrics import evaluate_waterlogging_model
 from .drainage_metrics import evaluate_drainage_design
+from .cross_village import run_cross_village_evaluation
 
 __all__ = [
     "evaluate_ground_classification",
+    "evaluate_ground_classification_ablation",
     "evaluate_dtm_accuracy",
+    "download_srtm_for_extent",
     "evaluate_waterlogging_model",
     "evaluate_drainage_design",
+    "run_cross_village_evaluation",
 ]

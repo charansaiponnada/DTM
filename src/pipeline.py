@@ -113,6 +113,7 @@ class DTMDrainagePipeline:
         self,
         use_ml_refine: bool = True,
         use_tiling: bool    = True,
+        use_pointnet: bool = False,
     ) -> "DTMDrainagePipeline":
         from src.preprocessing.ground_classifier import classify_ground_full_pipeline
         from src.preprocessing.point_cloud_loader import load_tiles
@@ -123,12 +124,17 @@ class DTMDrainagePipeline:
         logger.info("═" * 60)
 
         classified_path = self.output_dir / "classified_ground.las"
+        smrf_only_path  = self.output_dir / "_smrf_only.las"
         cfg_gc = self.cfg["ground_classification"]
 
+        smrf_kwargs = {
+            "slope":     cfg_gc["smrf"]["slope"],
+            "window":    cfg_gc["smrf"]["window"],
+            "threshold": cfg_gc["smrf"]["threshold"],
+        }
+
         if use_tiling and self.metadata and self.metadata.point_count > 10_000_000:
-            logger.info(
-                f"Large file ({self.metadata.point_count:,} pts) – using tiled processing"
-            )
+            logger.info(f"Large file ({self.metadata.point_count:,} pts) – using tiled processing")
             tile_dir    = self.output_dir / "_tiles"
             tile_paths  = load_tiles(
                 las_path,
@@ -138,33 +144,59 @@ class DTMDrainagePipeline:
             )
             import laspy, numpy as np
             classified_tiles = []
+            smrf_tiles = []
             for tile in tile_paths:
                 out_tile = tile.parent / f"classified_{tile.name}"
+                smrf_tile = tile.parent / f"_smrf_{tile.name}"
+                # Run SMRF only (ML refinement=False) and save intermediate
+                classify_ground_full_pipeline(
+                    tile, smrf_tile,
+                    use_ml_refine=False,
+                    smrf_kwargs=smrf_kwargs,
+                )
+                smrf_tiles.append(smrf_tile)
+                # Run full pipeline with RF refinement
                 classify_ground_full_pipeline(
                     tile, out_tile,
                     use_ml_refine=use_ml_refine,
-                    smrf_kwargs={
-                        "slope":     cfg_gc["smrf"]["slope"],
-                        "window":    cfg_gc["smrf"]["window"],
-                        "threshold": cfg_gc["smrf"]["threshold"],
-                    }
+                    smrf_kwargs=smrf_kwargs,
                 )
                 classified_tiles.append(out_tile)
 
             _merge_las_tiles(classified_tiles, classified_path)
+            _merge_las_tiles(smrf_tiles, smrf_only_path)
         else:
             classify_ground_full_pipeline(
                 las_path, classified_path,
                 use_ml_refine=use_ml_refine,
-                smrf_kwargs={
-                    "slope":     cfg_gc["smrf"]["slope"],
-                    "window":    cfg_gc["smrf"]["window"],
-                    "threshold": cfg_gc["smrf"]["threshold"],
-                }
+                smrf_kwargs=smrf_kwargs,
             )
+            # Also save SMRF-only for ablation
+            classify_ground_full_pipeline(
+                las_path, smrf_only_path,
+                use_ml_refine=False,
+                smrf_kwargs=smrf_kwargs,
+            )
+
+        # Optionally run PointNet
+        if use_pointnet:
+            try:
+                from src.preprocessing.pointnet_classifier import classify_with_pointnet
+                pn_path = self.output_dir / "classified_pointnet.las"
+                classify_with_pointnet(
+                    input_path=classified_path,
+                    output_path=pn_path,
+                    smrf_labels_path=smrf_only_path,
+                    model_path=self.output_dir / "models" / "pointnet.pth",
+                )
+                self.results["pointnet_las"] = str(pn_path)
+                logger.success("PointNet classification complete")
+            except Exception as exc:
+                logger.warning(f"PointNet classification failed: {exc}")
 
         self.classified_las = classified_path
         self.results["classified_las"] = str(classified_path)
+        self.results["smrf_only_las"] = str(smrf_only_path)
         return self
 
     def stage3_dtm(self) -> "DTMDrainagePipeline":
@@ -330,13 +362,14 @@ class DTMDrainagePipeline:
         self,
         use_ml_refine: bool = True,
         stream_threshold: int = 1000,
+        use_pointnet: bool = False,
     ) -> dict:
         """Execute all six pipeline stages in sequence."""
         t0 = time.time()
         console.rule("[bold blue]DTM Drainage AI Pipeline Starting[/bold blue]")
 
         self.stage1_inspect()
-        self.stage2_classify(use_ml_refine=use_ml_refine)
+        self.stage2_classify(use_ml_refine=use_ml_refine, use_pointnet=use_pointnet)
         self.stage3_dtm()
         self.stage4_hydrology(stream_threshold=stream_threshold)
         self.stage5_waterlogging()
@@ -362,6 +395,9 @@ class DTMDrainagePipeline:
 
     def run_evaluation(self) -> dict:
         import json
+        import numpy as np
+        import rasterio
+        from pathlib import Path
         from src.evaluation import (
             evaluate_ground_classification,
             evaluate_dtm_accuracy,
@@ -385,8 +421,14 @@ class DTMDrainagePipeline:
         )
         if classified_las and Path(classified_las).exists():
             try:
-                eval_results["ground_classification"] = evaluate_ground_classification(
-                    classified_las_path = classified_las
+                # Ablation: compare SMRF-only vs RF-refined vs PointNet
+                from src.evaluation.ground_classification_metrics import evaluate_ground_classification_ablation
+                smrf_las = self.output_dir / "_smrf_only.las"
+                pn_las   = self.output_dir / "classified_pointnet.las"
+                eval_results["ground_classification"] = evaluate_ground_classification_ablation(
+                    classified_las_path = classified_las,
+                    smrf_only_las_path  = smrf_las if smrf_las.exists() else classified_las,
+                    pointnet_las_path   = pn_las if pn_las.exists() else None,
                 )
             except Exception as exc:
                 logger.warning(f"Ground classification eval failed: {exc}")
@@ -410,19 +452,62 @@ class DTMDrainagePipeline:
 
         if self.wl_predictor is not None:
             try:
-                from src.hydrology.waterlogging_predictor import build_feature_stack, generate_terrain_labels
+                from src.hydrology.waterlogging_predictor import build_feature_stack, generate_terrain_labels, generate_gold_standard_labels
                 from src.evaluation import evaluate_waterlogging_model
+
+                # Build features for evaluation
                 feature_stack, valid_mask, _ = build_feature_stack(
                     dtm_path      = self.dtm_path,
                     twi_path      = self.hydro_paths.get("twi", self.output_dir / "twi.tif"),
                     flow_acc_path = self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif"),
                     slope_path    = self.hydro_paths.get("slope", self.output_dir / "slope.tif"),
                 )
-                labels = generate_terrain_labels(feature_stack, valid_mask)
+
+                # Training labels (used by model internally during training only)
+                train_labels = generate_terrain_labels(feature_stack, valid_mask)
+
+                # Gold-standard labels for EVALUATION only — different rules,
+                # stricter thresholds, majority-vote logic (not correlated with ML features)
+                logger.info("Generating gold-standard evaluation labels (independent of ML features) …")
+                with rasterio.open(self.dtm_path) as src:
+                    dem = src.read(1).astype(np.float32)
+                with rasterio.open(self.hydro_paths.get("twi", self.output_dir / "twi.tif")) as src:
+                    twi = src.read(1).astype(np.float32)
+                with rasterio.open(self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif")) as src:
+                    acc = src.read(1).astype(np.float32)
+                with rasterio.open(self.hydro_paths.get("slope", self.output_dir / "slope.tif")) as src:
+                    slope = src.read(1).astype(np.float32)
+
+                # Generate depression depth from DTM
+                filled_dem_path = self.output_dir / "_filled_dem.tif"
+                if not filled_dem_path.exists():
+                    from pysheds.grid import Grid
+                    grid = Grid.from_raster(str(self.dtm_path))
+                    dem_in = grid.read_raster(str(self.dtm_path))
+                    filled = grid.fill_depressions(dem_in)
+                    with rasterio.open(self.dtm_path) as src_ref:
+                        filled_arr = np.array(filled, dtype=np.float32)
+                        with rasterio.open(
+                            filled_dem_path, "w",
+                            driver="GTiff", height=filled_arr.shape[0], width=filled_arr.shape[1],
+                            count=1, dtype=filled_arr.dtype,
+                            crs=src_ref.crs, transform=src_ref.transform,
+                        ) as dst:
+                            dst.write(filled_arr, 1)
+                with rasterio.open(filled_dem_path) as src:
+                    filled = src.read(1).astype(np.float32)
+                dep_depth = np.where(valid_mask, np.maximum(0, filled - dem), 0.0)
+
+                gold_labels = generate_gold_standard_labels(
+                    dem=dem, valid_mask=valid_mask,
+                    twi=twi, flow_accumulation=acc,
+                    slope=slope, depression_depth=dep_depth,
+                )
+
                 eval_results["waterlogging"] = evaluate_waterlogging_model(
                     predictor     = self.wl_predictor,
                     feature_stack = feature_stack,
-                    labels        = labels,
+                    labels        = gold_labels,
                     valid_mask    = valid_mask,
                     cv_folds      = int(self.cfg.get("waterlogging", {}).get("cv_folds", 5)),
                 )
@@ -498,6 +583,7 @@ class BatchPipelineRunner:
         base_output_dir: Optional[str | Path] = None,
         use_ml_refine: bool = True,
         stream_threshold: int = 1000,
+        use_pointnet: bool = False,
     ):
         with open(config_path, encoding="utf-8") as f:
             self.cfg = yaml.safe_load(f)
@@ -506,6 +592,7 @@ class BatchPipelineRunner:
         self.base_output_dir  = Path(base_output_dir or self.cfg["data"]["output_dir"])
         self.use_ml_refine    = use_ml_refine
         self.stream_threshold = stream_threshold
+        self.use_pointnet     = use_pointnet
         self.summary: dict    = {}
 
     def run_all(self) -> dict:
@@ -544,6 +631,39 @@ class BatchPipelineRunner:
                 self.summary[name] = {"status": "skipped", "reason": "file not found"}
                 continue
 
+            # Handle spatial tile filter: [x_min_frac, x_max_frac, y_min_frac, y_max_frac]
+            tile_filter = village.get("tile_filter")
+            if tile_filter:
+                logger.info(f"  Spatial tile filter: {tile_filter}")
+                # Create a spatially-filtered temporary LAS
+                import laspy
+                import numpy as np
+                las_tmp = out_subdir / "_tile_filtered.las"
+                las_tmp.parent.mkdir(parents=True, exist_ok=True)
+
+                if not las_tmp.exists():
+                    src_las = laspy.read(str(las_path))
+                    x = np.array(src_las.x)
+                    y = np.array(src_las.y)
+
+                    # Normalised filter bounds (fractions of extent)
+                    x_min, x_max = x.min(), x.max()
+                    y_min, y_max = y.min(), y.max()
+                    x_lo = x_min + tile_filter[0] * (x_max - x_min)
+                    x_hi = x_min + tile_filter[1] * (x_max - x_min)
+                    y_lo = y_min + tile_filter[2] * (y_max - y_min)
+                    y_hi = y_min + tile_filter[3] * (y_max - y_min)
+
+                    mask = (x >= x_lo) & (x < x_hi) & (y >= y_lo) & (y < y_hi)
+                    logger.info(f"  Tile filter keeps {mask.sum():,} / {len(x):,} points")
+
+                    tile_las = laspy.LasData(src_las.header)
+                    for dim in src_las.point_format.dimensions:
+                        setattr(tile_las, dim.name, getattr(src_las, dim.name)[mask])
+                    tile_las.write(str(las_tmp))
+
+                las_path = las_tmp
+
             try:
                 pipeline = DTMDrainagePipeline(
                     config_path = self.config_path,
@@ -553,6 +673,7 @@ class BatchPipelineRunner:
                 results = pipeline.run(
                     use_ml_refine    = self.use_ml_refine,
                     stream_threshold = self.stream_threshold,
+                    use_pointnet     = self.use_pointnet,
                 )
                 self.summary[name] = {"status": "success", **results}
                 logger.success(f"Village {name} complete → {out_subdir}")
@@ -566,18 +687,65 @@ class BatchPipelineRunner:
 
     def _print_batch_summary(self):
         from rich.table import Table
-        table = Table(title="Batch Run Summary", show_header=True)
+        table = Table(title="Batch Run Summary – Per-Village Metrics", show_header=True)
         table.add_column("Village", style="bold")
         table.add_column("Status")
-        table.add_column("DTM")
-        table.add_column("Runtime (s)")
+        table.add_column("Ground F1", justify="right")
+        table.add_column("DTM RMSE (m)", justify="right")
+        table.add_column("DTM LE90 (m)", justify="right")
+        table.add_column("WL AUC", justify="right")
+        table.add_column("Drain Ch.", justify="right")
+        table.add_column("Drain Len (m)", justify="right")
+        table.add_column("Cost (₹L)", justify="right")
+        table.add_column("Runtime (s)", justify="right")
+
+        totals = {"segments": 0, "length": 0.0, "cost": 0.0, "runtime": 0.0}
 
         for name, res in self.summary.items():
             status = res.get("status", "?")
-            dtm    = res.get("dtm", {}).get("path", "–") if isinstance(res.get("dtm"), dict) else "–"
-            rt     = str(res.get("runtime_seconds", "–"))
             color  = "green" if status == "success" else ("yellow" if status == "skipped" else "red")
-            table.add_row(name, f"[{color}]{status}[/{color}]", dtm, rt)
+
+            if status == "success" and isinstance(res, dict):
+                eval_r = res.get("evaluation", {}) or {}
+                gc  = eval_r.get("ground_classification", {})
+                dtm = eval_r.get("dtm", {})
+                wl  = eval_r.get("waterlogging", {})
+                dr  = eval_r.get("drainage", {})
+                rt  = res.get("runtime_seconds", "–")
+
+                f1    = f"{gc.get('f1_score', 0):.3f}"
+                rmse  = f"{dtm.get('rmse_m', 0):.2f}"
+                le90  = f"{dtm.get('le90_m', 0):.2f}"
+                wlauc = f"{wl.get('mean_metrics', {}).get('roc_auc', 0):.3f}"
+                dch   = str(dr.get("channel_count", 0))
+                dlen  = f"{dr.get('total_length_m', 0):,.0f}"
+                cost  = f"{dr.get('total_cost_inr_lakhs', 0):,.1f}"
+                rts   = f"{rt:.0f}" if isinstance(rt, (int, float)) else str(rt)
+
+                if isinstance(dr.get("channel_count"), (int, float)):
+                    totals["segments"] += int(dr["channel_count"])
+                if isinstance(dr.get("total_length_m"), (int, float)):
+                    totals["length"] += dr["total_length_m"]
+                if isinstance(dr.get("total_cost_inr_lakhs"), (int, float)):
+                    totals["cost"] += dr["total_cost_inr_lakhs"]
+                if isinstance(rt, (int, float)):
+                    totals["runtime"] += rt
+            else:
+                f1 = rmse = le90 = wlauc = dch = dlen = cost = rts = "–"
+
+            table.add_row(
+                name, f"[{color}]{status}[/{color}]",
+                f1, rmse, le90, wlauc, dch, dlen, cost, rts,
+            )
+
+        table.add_section()
+        table.add_row(
+            "[bold]TOTAL[/bold]", "",
+            "", "", "",
+            "", str(totals["segments"]),
+            f"{totals['length']:,.0f}", f"{totals['cost']:,.1f}",
+            f"{totals['runtime']:.0f}",
+        )
 
         console.print(table)
 

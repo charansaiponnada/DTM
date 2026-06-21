@@ -160,14 +160,10 @@ def generate_terrain_labels(
     OR:
       • flow accumulation ≥ top acc_threshold_pct percentile
 
-    This heuristic provides training labels for areas without
-    historical flood records.
-
     Returns
     -------
     labels : (H, W) int8  (1 = waterlogging prone, 0 = safe)
     """
-    elev_norm   = feature_stack[:, :, 0]
     slope       = feature_stack[:, :, 1]
     twi         = feature_stack[:, :, 3]
     tpi         = feature_stack[:, :, 4]
@@ -175,20 +171,59 @@ def generate_terrain_labels(
 
     acc_thresh  = np.percentile(log_acc[valid_mask], acc_threshold_pct)
 
-    # Primary rule: classic depression + high TWI
     rule_A = (twi >= twi_threshold) & (tpi <= tpi_threshold) & (slope <= slope_threshold)
-
-    # Secondary rule: high flow accumulation (drains here)
     rule_B = log_acc >= acc_thresh
 
     labels = (rule_A | rule_B).astype(np.int8)
-    labels[~valid_mask] = -1   # masked / nodata
+    labels[~valid_mask] = -1
 
     n_pos = (labels == 1).sum()
     n_tot = valid_mask.sum()
     logger.info(
         f"Terrain labels: {n_pos:,} / {n_tot:,} cells flagged as "
         f"waterlogging-prone ({100*n_pos/n_tot:.1f}%)"
+    )
+    return labels
+
+
+def generate_gold_standard_labels(
+    dem: np.ndarray,
+    valid_mask: np.ndarray,
+    twi: np.ndarray,
+    flow_accumulation: np.ndarray,
+    slope: np.ndarray,
+    depression_depth: np.ndarray,
+    twi_threshold: float = 9.0,
+    slope_max: float = 1.5,
+    acc_percentile: float = 90.0,
+    depression_min_m: float = 0.15,
+) -> np.ndarray:
+    """
+    Generate independent gold-standard labels using *only* strict terrain
+    heuristics that do NOT overlap with ML features used in training.
+    
+    Rules (need ANY 2 of 3):
+      1. TWI >= twi_threshold
+      2. slope <= slope_max AND depression_depth >= depression_min_m
+      3. flow_accumulation >= acc_percentile-th percentile
+    
+    Returns (H, W) int8: 1 = waterlogging prone, 0 = safe, -1 = masked
+    """
+    acc_thresh = np.percentile(flow_accumulation[valid_mask], acc_percentile)
+
+    cond_twi   = twi >= twi_threshold
+    cond_dep   = (slope <= slope_max) & (depression_depth >= depression_min_m)
+    cond_acc   = flow_accumulation >= acc_thresh
+
+    vote_count = cond_twi.astype(int) + cond_dep.astype(int) + cond_acc.astype(int)
+    labels = (vote_count >= 2).astype(np.int8)
+    labels[~valid_mask] = -1
+
+    n_pos = (labels == 1).sum()
+    n_tot = valid_mask.sum()
+    logger.info(
+        f"Gold-standard labels: {n_pos:,} / {n_tot:,} cells "
+        f"({100*n_pos/n_tot:.1f}%) — majority-vote of TWI, depression, accumulation"
     )
     return labels
 

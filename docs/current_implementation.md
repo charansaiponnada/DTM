@@ -66,15 +66,27 @@ flowchart TD
 
 ## 4. Current Implementation Status
 
-We have successfully implemented the end-to-end pipeline. Below is the summary of what is completed:
+We have successfully implemented the end-to-end pipeline with all P0/P1/P2 features:
 
+### Core Pipeline (Stages 1–6)
 - [x] **Point Cloud Loader**: Supports large files via tiled processing (tested on 163M point datasets).
-- [x] **Ground Classifier**: Implemented SMRF filter with Random Forest refinement.
-- [x] **DTM Generator**: Produces OGC-compliant Cloud-Optimized GeoTIFFs (COG).
-- [x] **Hydrological Analyzer**: Full D8 flow analysis and TWI calculation.
-- [x] **Waterlogging Predictor**: XGBoost model integrated into the pipeline.
-- [x] **Drainage Designer**: Automated hydraulic sizing and cost estimation (INR).
-- [x] **Evaluation Framework**: Automated metrics for DTM accuracy and classification performance.
+- [x] **Ground Classifier**: SMRF + Random Forest refinement + optional PointNet deep learning.
+- [x] **DTM Generator**: IDW interpolation → Cloud-Optimized GeoTIFF (COG) at 0.5 m resolution.
+- [x] **Hydrological Analyzer**: Full D8 flow analysis, TWI, depression detection, catchment delineation.
+- [x] **Waterlogging Predictor**: XGBoost model with 10 terrain features.
+- [x] **Drainage Designer**: MST optimization + Manning's hydraulic sizing → cost estimate (INR).
+
+### Evaluation & Validation (New)
+- [x] **Ablation Framework**: Compares SMRF-only vs SMRF+RF vs PointNet in a single report.
+- [x] **Gold-Standard Waterlogging Labels**: 2-of-3 majority voting (TWI + depression + flow acc) — breaks circular dependency with ML training labels.
+- [x] **SRTM Auto-Download**: DTM evaluation against external SRTM 30 m reference.
+- [x] **Cross-Village Evaluation**: Train RF on one village, evaluate on all others.
+- [x] **Per-Village Dashboard**: Batch summary with F1, RMSE, LE90, AUC, cost.
+
+### Config & Batch
+- [x] **10-Village Config**: All village entries with optional spatial `tile_filter`.
+- [x] **LAS Tiling Utility**: `scripts/tile_las.py` splits any LAS into N×M spatial tiles.
+- [x] **CLI Flags**: `--pointnet`, `--no-ml`, `--evaluate`, `--batch`, `--stages`.
 
 ---
 
@@ -85,20 +97,35 @@ We have successfully implemented the end-to-end pipeline. Below is the summary o
 2.  Install dependencies: `pip install -r requirements.txt`
 3.  (Optional) For GPU PointNet: Install PyTorch with CUDA support.
 
-### Run Single Village Pipeline
-To process a single LAS/LAZ file and generate all outputs:
+### Run Single Village
 ```bash
-python run_pipeline.py --input data/input/YOUR_VILLAGE.las --output data/output/results/
+# Basic run
+python run_pipeline.py --input data/input/DEVDI_511671.las
+
+# With PointNet deep learning (requires PyTorch)
+python run_pipeline.py --input data/input/DEVDI_511671.las --pointnet
+
+# With full evaluation (ablation table, SRTM comparison, gold-standard labels)
+python run_pipeline.py --input data/input/DEVDI_511671.las --evaluate --pointnet
+
+# Selective stages (skip classification, re-run hydrology onward)
+python run_pipeline.py --input data/input/DEVDI_511671.las --stages 3,4,5,6
 ```
 
-### Run Batch Processing
-To process multiple villages defined in the `config/config.yaml`:
+### Run Batch (10 Villages)
 ```bash
-python pipelines/full_pipeline.py batch --config config/config.yaml --output data/output/
+python run_pipeline.py --batch
+```
+
+### Run Cross-Village Evaluation
+```bash
+# Train on KHAPRETA, evaluate on all
+python run_eval.py
 ```
 
 ### Configuration
 Adjust parameters like resolution, rainfall intensity, and model thresholds in `config/config.yaml`.
+Tile villages can be split spatially using `tile_filter: [x_min, x_max, y_min, y_max]` as normalised fractions.
 
 ---
 
