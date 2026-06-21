@@ -164,16 +164,6 @@ def train_pointnet(
     xyz_train, xyz_val = xyz_norm[:-n_val], xyz_norm[-n_val:]
     y_train, y_val = labels_sampled[:-n_val], labels_sampled[-n_val:]
 
-    # Dataset
-    train_dataset = torch.utils.data.TensorDataset(
-        torch.from_numpy(xyz_train).unsqueeze(0),
-        torch.from_numpy(y_train).unsqueeze(0),
-    )
-    val_dataset = torch.utils.data.TensorDataset(
-        torch.from_numpy(xyz_val).unsqueeze(0),
-        torch.from_numpy(y_val).unsqueeze(0),
-    )
-
     # Normalise per-batch: create random subsets within each epoch
     model = PointNetGroundBinary(in_channels=3).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=1e-4)

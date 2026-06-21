@@ -12,6 +12,7 @@ Metrics reported
 """
 
 from __future__ import annotations
+from sklearn.preprocessing import RobustScaler
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -71,15 +72,16 @@ def evaluate_waterlogging_model(
     labelled = y_flat != -1
     X_flat, y_flat = X_flat[labelled], y_flat[labelled]
 
-    X_scaled = predictor.scaler.transform(X_flat)
 
     skf = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=seed)
     fold_metrics = []
 
     logger.info(f"Running {cv_folds}-fold cross-validation on {len(X_flat):,} samples …")
 
-    for fold, (tr_idx, val_idx) in enumerate(skf.split(X_scaled, y_flat), 1):
-        X_tr, X_val = X_scaled[tr_idx], X_scaled[val_idx]
+    for fold, (tr_idx, val_idx) in enumerate(skf.split(X_flat, y_flat), 1):
+        fold_scaler = RobustScaler()
+        X_tr = fold_scaler.fit_transform(X_flat[tr_idx])
+        X_val = fold_scaler.transform(X_flat[val_idx])
         y_tr, y_val = y_flat[tr_idx],   y_flat[val_idx]
 
         # Re-train a clone on this fold (avoids data leakage)
@@ -125,7 +127,7 @@ def evaluate_waterlogging_model(
     mean_metrics.update(std_metrics)
 
     # Brier score on full scaled dataset
-    y_prob_full = predictor.model.predict_proba(X_scaled)[:, 1]
+    y_prob_full = predictor.model.predict_proba(predictor.scaler.transform(X_flat))[:, 1]
     brier = float(brier_score_loss(y_flat, y_prob_full))
 
     # Feature importances from fitted model

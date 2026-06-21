@@ -327,16 +327,19 @@ def generate_dtm(
 
 def get_dtm_stats(dtm_path: str | Path) -> dict:
     """Return basic DTM statistics for reporting."""
-    with rasterio.open(dtm_path) as src:
-        data = src.read(1, masked=True)
-        return {
-            "min_elevation_m":  float(data.min()),
-            "max_elevation_m":  float(data.max()),
-            "mean_elevation_m": float(data.mean()),
-            "std_elevation_m":  float(data.std()),
-            "relief_m":         float(data.max() - data.min()),
-            "nodata_pct":       float(data.mask.mean() * 100),
-            "resolution_m":     src.res[0],
-            "crs":              str(src.crs),
-            "shape":            src.shape,
-        }
+    try:
+        with rasterio.open(dtm_path) as src:
+            data = src.read(1, masked=True)
+            return {
+                "min_elevation_m":  float(data.min()),
+                "max_elevation_m":  float(data.max()),
+                "mean_elevation_m": float(data.mean()),
+                "std_elevation_m":  float(data.std()),
+                "relief_m":         float(data.max() - data.min()),
+                "nodata_pct":       float(data.mask.mean() * 100),
+                "resolution_m":     src.res[0],
+                "crs":              str(src.crs),
+                "shape":            src.shape,
+            }
+    except Exception as exc:
+        return {"error": str(exc)}

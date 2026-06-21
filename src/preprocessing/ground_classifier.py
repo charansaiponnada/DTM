@@ -214,7 +214,6 @@ def compute_geometric_features(
     xyz: np.ndarray,
     k: int = 16,
     radius_density: float = 1.0,
-    z_range_radius: float = 2.5,
 ) -> np.ndarray:
     """
     Compute per-point geometric features for ML-based classification.

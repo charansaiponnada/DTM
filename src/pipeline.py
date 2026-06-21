@@ -208,8 +208,7 @@ class DTMDrainagePipeline:
         logger.info("═" * 60)
 
         cfg_dtm      = self.cfg["dtm"]
-        dtm_path     = self.output_dir / cfg_dtm["output"]["dtm"] if "output" in cfg_dtm \
-                        else self.output_dir / "dtm.tif"
+        dtm_path     = self.output_dir / "dtm.tif"
         classified   = self.classified_las or self._resolve_input()
 
         self.dtm_path = generate_dtm(
@@ -281,6 +280,10 @@ class DTMDrainagePipeline:
         logger.info("═" * 60)
         logger.info("STAGE 5: Waterlogging Prediction")
         logger.info("═" * 60)
+
+        # TODO: capture elev_norm_stats during training and pass to evaluation
+        # to avoid CV feature normalization leakage.
+        # See build_feature_stack(..., elev_norm_stats=...)
 
         feature_stack, valid_mask, transform = build_feature_stack(
             dtm_path       = self.dtm_path,
@@ -452,8 +455,7 @@ class DTMDrainagePipeline:
 
         if self.wl_predictor is not None:
             try:
-                from src.hydrology.waterlogging_predictor import build_feature_stack, generate_terrain_labels, generate_gold_standard_labels
-                from src.evaluation import evaluate_waterlogging_model
+                from src.hydrology.waterlogging_predictor import build_feature_stack, generate_terrain_labels, generate_gold_standard_labels, read_terrain_rasters, compute_depression_depth
 
                 # Build features for evaluation
                 feature_stack, valid_mask, _ = build_feature_stack(
@@ -466,41 +468,23 @@ class DTMDrainagePipeline:
                 # Training labels (used by model internally during training only)
                 train_labels = generate_terrain_labels(feature_stack, valid_mask)
 
-                # Gold-standard labels for EVALUATION only — different rules,
-                # stricter thresholds, majority-vote logic (not correlated with ML features)
-                logger.info("Generating gold-standard evaluation labels (independent of ML features) …")
-                with rasterio.open(self.dtm_path) as src:
-                    dem = src.read(1).astype(np.float32)
-                with rasterio.open(self.hydro_paths.get("twi", self.output_dir / "twi.tif")) as src:
-                    twi = src.read(1).astype(np.float32)
-                with rasterio.open(self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif")) as src:
-                    acc = src.read(1).astype(np.float32)
-                with rasterio.open(self.hydro_paths.get("slope", self.output_dir / "slope.tif")) as src:
-                    slope = src.read(1).astype(np.float32)
 
-                # Generate depression depth from DTM
-                filled_dem_path = self.output_dir / "_filled_dem.tif"
-                if not filled_dem_path.exists():
-                    from pysheds.grid import Grid
-                    grid = Grid.from_raster(str(self.dtm_path))
-                    dem_in = grid.read_raster(str(self.dtm_path))
-                    filled = grid.fill_depressions(dem_in)
-                    with rasterio.open(self.dtm_path) as src_ref:
-                        filled_arr = np.array(filled, dtype=np.float32)
-                        with rasterio.open(
-                            filled_dem_path, "w",
-                            driver="GTiff", height=filled_arr.shape[0], width=filled_arr.shape[1],
-                            count=1, dtype=filled_arr.dtype,
-                            crs=src_ref.crs, transform=src_ref.transform,
-                        ) as dst:
-                            dst.write(filled_arr, 1)
-                with rasterio.open(filled_dem_path) as src:
-                    filled = src.read(1).astype(np.float32)
-                dep_depth = np.where(valid_mask, np.maximum(0, filled - dem), 0.0)
+                # Gold-standard labels for EVALUATION only -- different rules,
+                # stricter thresholds, majority-vote logic (not correlated with ML features)
+                logger.info("Generating gold-standard evaluation labels (independent of ML features) ...");
+                dem, twi, log_acc, slope, valid_mask2, _transform, _cell_size = read_terrain_rasters(
+                    self.dtm_path,
+                    self.hydro_paths.get("twi", self.output_dir / "twi.tif"),
+                    self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif"),
+                    self.hydro_paths.get("slope", self.output_dir / "slope.tif"),
+                )
+                dep_depth = compute_depression_depth(
+                    self.dtm_path, self.output_dir, valid_mask, dem
+                )
 
                 gold_labels = generate_gold_standard_labels(
                     dem=dem, valid_mask=valid_mask,
-                    twi=twi, flow_accumulation=acc,
+                    twi=twi, flow_accumulation=log_acc,
                     slope=slope, depression_depth=dep_depth,
                 )
 
@@ -750,25 +734,3 @@ class BatchPipelineRunner:
         console.print(table)
 
 
-import click
-
-@click.command()
-@click.option("--input",  "-i", required=True,  help="Input LAS/LAZ file path")
-@click.option("--output", "-o", default="data/output", help="Output directory")
-@click.option("--config", "-c", default="config/config.yaml", help="Config YAML path")
-@click.option("--no-ml", is_flag=True, default=False, help="Skip ML refinement of ground classification")
-@click.option("--stream-threshold", default=1000, help="Flow accumulation threshold for stream extraction")
-def main(input, output, config, no_ml, stream_threshold):
-    pipeline = DTMDrainagePipeline(
-        config_path = config,
-        input_las   = input,
-        output_dir  = output,
-    )
-    pipeline.run(
-        use_ml_refine    = not no_ml,
-        stream_threshold = stream_threshold,
-    )
-
-
-if __name__ == "__main__":
-    main()

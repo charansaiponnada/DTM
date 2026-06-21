@@ -48,25 +48,18 @@ from src.dtm.dtm_generator import NODATA, write_geotiff, convert_to_cog
 from src.features import compute_curvature_evans, compute_aspect, compute_tpi, FEATURE_NAMES_WL
 
 
-def build_feature_stack(
+def read_terrain_rasters(
     dtm_path: str | Path,
     twi_path: str | Path,
     flow_acc_path: str | Path,
     slope_path: str | Path,
-    depression_depth_path: Optional[str | Path] = None,
-    stream_distance_path:  Optional[str | Path] = None,
-) -> Tuple[np.ndarray, np.ndarray, rasterio.transform.Affine]:
-    """
-    Stack terrain feature rasters into (H, W, n_features) array.
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, rasterio.transform.Affine, float]:
+    """Read and return individual terrain raster arrays.
 
     Returns
     -------
-    feature_stack : (H, W, n_features) float32
-    valid_mask    : (H, W) bool  – cells with complete data
-    transform     : rasterio affine transform
+    dem, twi, log_acc, slope, valid_mask, transform, cell_size
     """
-    logger.info("Building feature stack …")
-
     with rasterio.open(dtm_path) as src:
         dem       = src.read(1).astype(np.float32)
         transform = src.transform
@@ -78,15 +71,78 @@ def build_feature_stack(
         twi = src.read(1).astype(np.float32)
 
     with rasterio.open(flow_acc_path) as src:
-        log_acc = src.read(1).astype(np.float32)   # already log-scaled
+        log_acc = src.read(1).astype(np.float32)
 
     with rasterio.open(slope_path) as src:
         slope = src.read(1).astype(np.float32)
 
+    return dem, twi, log_acc, slope, valid, transform, cell_size
+
+
+def compute_depression_depth(
+    dtm_path: str | Path,
+    output_dir: str | Path,
+    valid_mask: np.ndarray,
+    dem: np.ndarray,
+) -> np.ndarray:
+    """Compute depression depth (filled DEM - DEM) and cache filled DEM raster."""
+    import numpy as np
+    from pathlib import Path
+    filled_dem_path = Path(output_dir) / "_filled_dem.tif"
+    if not filled_dem_path.exists():
+        from pysheds.grid import Grid
+        grid = Grid.from_raster(str(dtm_path))
+        dem_in = grid.read_raster(str(dtm_path))
+        filled = grid.fill_depressions(dem_in)
+        filled_arr = np.array(filled, dtype=np.float32)
+        with rasterio.open(dtm_path) as src_ref:
+            with rasterio.open(
+                filled_dem_path, "w",
+                driver="GTiff", height=filled_arr.shape[0], width=filled_arr.shape[1],
+                count=1, dtype=filled_arr.dtype,
+                crs=src_ref.crs, transform=src_ref.transform,
+            ) as dst:
+                dst.write(filled_arr, 1)
+    with rasterio.open(filled_dem_path) as src:
+        filled = src.read(1).astype(np.float32)
+    return np.where(valid_mask, np.maximum(0, filled - dem), 0.0).astype(np.float32)
+
+
+
+def build_feature_stack(
+    dtm_path: str | Path,
+    twi_path: str | Path,
+    flow_acc_path: str | Path,
+    slope_path: str | Path,
+    depression_depth_path: Optional[str | Path] = None,
+    stream_distance_path:  Optional[str | Path] = None,
+    elev_norm_stats: Optional[Tuple[float, float]] = None,
+) -> Tuple[np.ndarray, np.ndarray, rasterio.transform.Affine]:
+    """
+    Stack terrain feature rasters into (H, W, n_features) array.
+
+    Parameters
+    ----------
+    elev_norm_stats : (mean, std) tuple or None
+        If provided, use these stats for elevation normalization instead of
+        computing from the full dataset. Use training-set stats during CV
+        to avoid data leakage from validation folds.
+    transform     : rasterio affine transform
+    """
+    logger.info("Building feature stack …")
+
+    dem, twi, log_acc, slope, valid, transform, cell_size = read_terrain_rasters(
+        dtm_path, twi_path, flow_acc_path, slope_path
+    )
+
     # Elevation normalized within the village extent
+    if elev_norm_stats is not None:
+        e_mean, e_std = elev_norm_stats
+    else:
+        e_mean, e_std = float(dem[valid].mean()), float(dem[valid].std())
     elev_norm = np.where(
         valid,
-        (dem - dem[valid].mean()) / (dem[valid].std() + 1e-6),
+        (dem - e_mean) / (e_std + 1e-6),
         0.0
     ).astype(np.float32)
 
