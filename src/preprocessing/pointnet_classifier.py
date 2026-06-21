@@ -74,11 +74,15 @@ class PointNetGroundBinary(nn.Module):
             nn.Linear(256 + 256, 256),
             nn.BatchNorm1d(256),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.4),
             nn.Linear(256, 128),
             nn.BatchNorm1d(128),
             nn.ReLU(),
-            nn.Linear(128, 2),  # logits: non-ground, ground
+            nn.Dropout(0.3),
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Linear(64, 2),  # logits: non-ground, ground
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -296,7 +300,7 @@ def classify_with_pointnet(
     output_path: str | Path,
     smrf_labels_path: Optional[str | Path] = None,
     model_path: Optional[str | Path] = None,
-    train_epochs: int = 20,
+    train_epochs: int = 40,
     device: str = "cpu",
 ) -> Path:
     """
