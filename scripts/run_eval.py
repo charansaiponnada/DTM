@@ -6,6 +6,7 @@ Run cross-village and ablation evaluation.
 
 import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 
 def main():
@@ -52,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

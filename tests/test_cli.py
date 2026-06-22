@@ -1,5 +1,5 @@
 from click.testing import CliRunner
-from run_pipeline import main
+from src.cli import main
 
 
 def test_cli_help_succeeds():

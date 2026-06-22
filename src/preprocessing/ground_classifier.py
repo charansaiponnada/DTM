@@ -483,7 +483,7 @@ def classify_ground_full_pipeline(
         las.write(str(output_path))
         tmp_smrf.unlink(missing_ok=True)
     else:
-        tmp_smrf.rename(output_path)
+        os.replace(str(tmp_smrf), str(output_path))
 
     logger.success(f"Ground classification complete → {output_path}")
     return output_path, rf_model

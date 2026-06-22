@@ -23,7 +23,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from loguru import logger
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, str(Path(os.path.dirname(os.path.abspath(__file__))).resolve().parent))
 
 try:
     import yaml
@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
                         help="Run PointNet deep-learning classification")
     parser.add_argument("--no-evaluate", action="store_true", default=False,
                         help="Skip evaluation after pipeline completes")
-    parser.add_argument("--evaluate-only", action="store_true", default=False,
+    parser.add_argument("--eval-only", action="store_true", default=False,
                         help="Only re-run evaluation on existing outputs (no pipeline stages)")
     parser.add_argument("--config", "-c", type=str, default="config/config.yaml",
                         help="Config YAML path")
@@ -65,7 +65,7 @@ def main():
         print(f"[ERROR] Config not found: {cfg_path}")
         sys.exit(1)
 
-    with open(cfg_path) as f:
+    with open(cfg_path, encoding="utf-8") as f:
         cfg = yaml.safe_load(f) if yaml else json.load(f)
 
     villages = cfg["data"]["villages"]
@@ -75,7 +75,7 @@ def main():
             print(f"[ERROR] Village '{args.village}' not found in config")
             sys.exit(1)
 
-    if args.evaluate_only:
+    if args.eval_only:
         logger.info("=== EVALUATE-ONLY MODE ===")
         for v in villages:
             out_dir = Path(args.output) / v["output_subdir"]
@@ -101,14 +101,13 @@ def main():
             config_path=cfg_path,
             input_las=v["path"],
             output_dir=str(out_dir),
-            tile_filter=v.get("tile_filter"),
         )
         pipe.run(
             use_ml_refine=not args.no_ml,
             use_pointnet=args.pointnet,
-            run_evaluation=not args.no_evaluate,
-            stages=args.stages,
         )
+        if not args.no_evaluate:
+            pipe.run_evaluation()
         return {"village": name, "status": "done"}
 
     if args.parallel > 1:
@@ -131,7 +130,7 @@ def main():
         for v in villages:
             metrics_file = Path(args.output) / v["output_subdir"] / "metrics.json"
             if metrics_file.exists():
-                with open(metrics_file) as f:
+                with open(metrics_file, encoding="utf-8") as f:
                     all_metrics[v["name"]] = json.load(f)
 
         # Cross-village RF transfer
@@ -171,3 +170,4 @@ if __name__ == "__main__":
     main()
     elapsed = time.time() - t0
     print(f"Total time: {elapsed/60:.1f} minutes")
+

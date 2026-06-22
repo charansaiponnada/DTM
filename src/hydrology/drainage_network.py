@@ -82,6 +82,20 @@ class DrainageDesignParameters:
     cost_pipe_inr_m:       float = 3500.0
 
 
+def _sample_raster(arr: np.ndarray, transform, xy, nodata) -> Optional[float]:
+    """Sample a raster value at a map coordinate; None if outside or nodata."""
+    try:
+        col, row = ~transform * (xy[0], xy[1])
+        r, c = int(row), int(col)
+        if 0 <= r < arr.shape[0] and 0 <= c < arr.shape[1]:
+            val = arr[r, c]
+            if np.isfinite(val) and (nodata is None or val != nodata):
+                return float(val)
+    except Exception:
+        pass
+    return None
+
+
 # ══════════════════════════════════════════════════════════════════════════
 #  Rational Method Discharge Calculation
 # ══════════════════════════════════════════════════════════════════════════
@@ -290,8 +304,15 @@ class DrainageNetworkDesigner:
         self,
         dtm_path: str | Path,
         params: Optional[DrainageDesignParameters] = None,
+        flow_acc_path: Optional[str | Path] = None,
     ):
         self.dtm_path  = Path(dtm_path)
+        # flow_accumulation raster (log1p of upslope cells) → real catchment area.
+        # Defaults to a sibling flow_accumulation.tif if present.
+        if flow_acc_path is None:
+            _sib = self.dtm_path.parent / "flow_accumulation.tif"
+            flow_acc_path = _sib if _sib.exists() else None
+        self.flow_acc_path = Path(flow_acc_path) if flow_acc_path else None
         self.params    = params or DrainageDesignParameters()
         self.segments: List[ChannelSegment] = []
         self.summary:  Dict = {}
@@ -329,14 +350,38 @@ class DrainageNetworkDesigner:
         G   = build_flow_graph(self.streams_gdf, self.dtm_path, self.hotspots_gdf)
         mst = optimize_drainage_mst(G)
 
+        # Load rasters once for physically-derived catchment + slope
+        facc = facc_t = facc_nd = None
+        dem = dem_t = dem_nd = cell_area = None
+        try:
+            with rasterio.open(self.dtm_path) as s:
+                dem = s.read(1).astype(float); dem_t = s.transform; dem_nd = s.nodata
+                cell_area = float(s.res[0]) ** 2
+            if self.flow_acc_path and self.flow_acc_path.exists():
+                with rasterio.open(self.flow_acc_path) as s:
+                    facc = s.read(1).astype(float); facc_t = s.transform; facc_nd = s.nodata
+        except Exception as exc:
+            logger.warning(f"Could not load rasters for real catchment/slope: {exc}")
+
         self.segments = []
         for seg_id, (u, v, data) in enumerate(mst.edges(data=True)):
             length       = data.get("length", 1.0)
-            slope        = data.get("slope", 0.001)
-
-            # Catchment area approximation: proportional to flow accumulation order
             order        = data.get("order", 1)
-            catch_area   = length * 50 * order   # rough proxy (m²)
+            geom_e       = data.get("geometry")
+
+            # Real bed slope from DTM endpoints (Δz / L); fall back to order proxy
+            slope = data.get("slope", 0.001)
+            if dem is not None and geom_e is not None:
+                _z = [_sample_raster(dem, dem_t, xy, dem_nd) for xy in (geom_e.coords[0], geom_e.coords[-1])]
+                if all(z is not None for z in _z) and length > 0:
+                    slope = min(max(abs(_z[0] - _z[1]) / length, 0.0005), 0.10)
+
+            # Real catchment from flow accumulation (log1p cells); fall back to proxy
+            catch_area = length * 50 * order
+            if facc is not None and geom_e is not None:
+                _vals = [w for w in (_sample_raster(facc, facc_t, xy, facc_nd) for xy in geom_e.coords) if w is not None]
+                if _vals:
+                    catch_area = float(max(np.expm1(max(_vals)), 1.0) * cell_area)
 
             Q_design     = rational_discharge(
                 catch_area,

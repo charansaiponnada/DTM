@@ -60,13 +60,18 @@ def evaluate_waterlogging_model(
     if valid_mask is None:
         valid_mask = np.ones((H, W), dtype=bool)
 
-    X_flat = feature_stack.reshape(-1, C)[valid_mask.ravel()]
-    y_flat = labels.ravel()[:valid_mask.ravel().sum()] if labels.ndim == 2 else labels
-
-    # Ensure label array matches feature rows
-    if len(y_flat) != len(X_flat):
-        y_flat = labels[valid_mask.ravel()] if labels.shape == valid_mask.shape \
-                 else labels[:len(X_flat)]
+    # Index features AND labels with the SAME mask so each feature row is
+    # paired with the label of the *same pixel*. (Previously labels were taken
+    # as the first N entries in raster order, which mis-paired X and y and
+    # collapsed ROC-AUC to ~0.5.)
+    X_flat = feature_stack[valid_mask]                      # (Nvalid, C)
+    if labels.ndim == 2:
+        y_flat = labels[valid_mask]                         # (Nvalid,) aligned
+    else:
+        y_flat = labels
+        if len(y_flat) != len(X_flat):
+            # labels given over the full raster → mask to valid pixels
+            y_flat = labels.reshape(valid_mask.shape)[valid_mask]
 
     # Filter out nodata labels (-1) so only binary {0,1} classes remain
     labelled = y_flat != -1

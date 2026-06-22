@@ -349,7 +349,8 @@ class DTMDrainagePipeline:
             logger.warning("No stream layer found – using empty GeoDataFrame")
             streams_gdf = gpd.GeoDataFrame(columns=["geometry", "order"])
 
-        self.designer = DrainageNetworkDesigner(self.dtm_path, params)
+        _facc_path = self.hydro_paths.get("flow_accumulation", self.output_dir / "flow_accumulation.tif")
+        self.designer = DrainageNetworkDesigner(self.dtm_path, params, flow_acc_path=_facc_path)
         self.designer.load_inputs(streams_gdf)
         self.designer.design()
         self.designer.export(gpkg_path)
@@ -402,10 +403,11 @@ class DTMDrainagePipeline:
         import rasterio
         from pathlib import Path
         from src.evaluation import (
-            evaluate_ground_classification,
+            evaluate_ground_classification_ablation,
             evaluate_dtm_accuracy,
             evaluate_drainage_design,
         )
+        from src.evaluation.waterlogging_metrics import evaluate_waterlogging_model
 
         logger.info("═" * 60)
         logger.info("EVALUATION: Computing accuracy metrics")

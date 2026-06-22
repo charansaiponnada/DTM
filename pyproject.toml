@@ -2,6 +2,68 @@
 requires = ["setuptools>=64"]
 build-backend = "setuptools.backends._legacy:_Backend"
 
+[project]
+name = "dtm-drainage-ai"
+version = "1.0.1"
+description = "Automated DTM generation, waterlogging risk mapping, and drainage network design from LiDAR point clouds"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+authors = [
+    {name = "charansaiponnada"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+dependencies = [
+    "laspy",
+    "numpy",
+    "scipy",
+    "rasterio",
+    "rio-cogeo",
+    "geopandas",
+    "pysheds",
+    "shapely",
+    "pyproj",
+    "fiona",
+    "scikit-learn",
+    "xgboost",
+    "pandas",
+    "networkx",
+    "pyyaml",
+    "click",
+    "loguru",
+    "rich",
+    "tqdm",
+    "joblib",
+    "opencv-python-headless",
+]
+
+[project.urls]
+Homepage = "https://github.com/charansaiponnada/DTM"
+Repository = "https://github.com/charansaiponnada/DTM"
+
+[project.optional-dependencies]
+app = [
+    "streamlit>=1.28",
+    "streamlit-folium>=0.15",
+    "folium>=0.14",
+]
+dev = [
+    "pytest>=9.0",
+]
+
+[project.scripts]
+dtm-pipeline = "src.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
