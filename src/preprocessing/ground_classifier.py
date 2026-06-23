@@ -78,8 +78,13 @@ def _resolve_pdal() -> tuple[str, str]:
     if which:
         return which, str(Path(which).parent)
 
+    # Linux: the PDAL binary is just `pdal`, not `pdal.exe`
+    which = shutil.which("pdal")
+    if which:
+        return which, str(Path(which).parent)
+
     raise FileNotFoundError(
-        "pdal.exe not found. Set PDAL_BIN_DIR env var, install PDAL via conda, "
+        "pdal not found. Set PDAL_BIN_DIR env var, install PDAL via conda, "
         "or place it on your PATH. See docs/pdal_setup.md for details."
     )
 
