@@ -27,7 +27,7 @@ dependencies = [
     "rasterio",
     "rio-cogeo",
     "geopandas",
-    "pysheds",
+    # "pysheds",  # optional — numpy-only fallback active
     "shapely",
     "pyproj",
     "fiona",

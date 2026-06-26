@@ -122,3 +122,9 @@ DEFENSE_CHEATSHEET.md
 ~$*
 tmp/
 temp/
+
+# ─── PPTX Build Artifacts ─────────────────────────────────────────────────────
+unpacked_hackathon/
+slide-*.jpg
+slide-*.png
+DTM_Hackathon_Final.pdf

@@ -151,6 +151,110 @@ def load_chunked(
             yield chunk
 
 
+def _reproject_to_utm(filepath: Path) -> Path:
+    """
+    If the LAS/LAZ stores coordinates in a geographic CRS (lat/lon degrees),
+    reproject to the appropriate UTM zone and return the path of the new file.
+    Otherwise return the original path unchanged.
+    Caches the result: if ``<stem>_utm.las`` already exists it is reused.
+    """
+    try:
+        from pyproj import CRS, Transformer
+    except ImportError:
+        logger.warning("pyproj unavailable – cannot auto-reproject geographic LAS")
+        return filepath
+
+    with laspy.open(filepath) as f:
+        hdr = f.header
+        crs_obj = hdr.parse_crs()
+        n_pts = hdr.point_count
+        x_min_h, x_max_h = float(hdr.x_min), float(hdr.x_max)
+        y_min_h, y_max_h = float(hdr.y_min), float(hdr.y_max)
+        z_min_h = float(hdr.z_min)
+        pt_fmt  = hdr.point_format
+        src_ver = hdr.version
+
+    if crs_obj is not None:
+        src_crs = CRS(crs_obj.to_wkt())
+        if not src_crs.is_geographic:
+            return filepath
+    else:
+        # Heuristic: degree-range extent means geographic coordinates
+        if (x_max_h - x_min_h) > 2.0:
+            return filepath
+        logger.warning(f"{filepath.name}: no CRS, coords look geographic — assuming WGS84")
+        src_crs = CRS.from_epsg(4326)
+
+    cx = (x_min_h + x_max_h) / 2
+    cy = (y_min_h + y_max_h) / 2
+    zone     = int((cx + 180) / 6) + 1
+    utm_epsg = 32600 + zone if cy >= 0 else 32700 + zone
+    tgt_crs  = CRS.from_epsg(utm_epsg)
+    logger.info(
+        f"{filepath.name}: geographic CRS (lon≈{cx:.2f}, lat≈{cy:.2f}) "
+        f"→ reprojecting to EPSG:{utm_epsg} (UTM zone {zone})"
+    )
+
+    dst_path = filepath.parent / f"{filepath.stem}_utm.las"
+    if dst_path.exists():
+        logger.info(f"Reusing cached {dst_path.name}")
+        return dst_path
+
+    transformer = Transformer.from_crs(src_crs, tgt_crs, always_xy=True)
+
+    # Compute UTM corner for header offsets
+    x1u, y1u = transformer.transform(x_min_h, y_min_h)
+    x2u, y2u = transformer.transform(x_max_h, y_max_h)
+    off_x = min(x1u, x2u) - 1.0
+    off_y = min(y1u, y2u) - 1.0
+    off_z = z_min_h - 1.0
+    scale  = 0.001
+
+    new_hdr = laspy.LasHeader(point_format=pt_fmt, version=src_ver)
+    new_hdr.scales  = np.array([scale, scale, scale])
+    new_hdr.offsets = np.array([off_x, off_y, off_z])
+    new_hdr.add_crs(tgt_crs)
+
+    chunk_sz = 500_000
+    dst_dtype = new_hdr.point_format.dtype()           # computed once, not per chunk
+    copyable  = [f for f in dst_dtype.names if f.upper() not in ("X", "Y", "Z")]
+
+    with laspy.open(filepath) as src:
+        src_names = set(src.header.point_format.dtype().names)
+        copyable  = [f for f in copyable if f in src_names]
+
+        with laspy.open(dst_path, mode="w", header=new_hdr) as dst:
+            for chunk in tqdm(
+                src.chunk_iterator(chunk_sz),
+                total=int(np.ceil(n_pts / chunk_sz)),
+                desc="reprojecting",
+            ):
+                xs = np.array(chunk.x, dtype=np.float64)
+                ys = np.array(chunk.y, dtype=np.float64)
+                xs_u, ys_u = transformer.transform(xs, ys)
+
+                X_raw = np.round((xs_u - off_x) / scale).astype(np.int32)
+                Y_raw = np.round((ys_u - off_y) / scale).astype(np.int32)
+                Z_raw = np.round(
+                    (np.array(chunk.z, dtype=np.float64) - off_z) / scale
+                ).astype(np.int32)
+
+                new_pts = np.zeros(len(chunk), dtype=dst_dtype)
+                for field_name in copyable:
+                    try:
+                        new_pts[field_name] = np.asarray(chunk[field_name])
+                    except Exception:
+                        pass
+                new_pts["X"] = X_raw
+                new_pts["Y"] = Y_raw
+                new_pts["Z"] = Z_raw
+                pr = laspy.PackedPointRecord(new_pts, point_format=new_hdr.point_format)
+                dst.write_points(pr)
+
+    logger.success(f"Reprojected {n_pts:,} pts → {dst_path.name}")
+    return dst_path
+
+
 def load_tiles(
     filepath: str | Path,
     tile_size: float = 500.0,
@@ -173,6 +277,10 @@ def load_tiles(
     List of paths to created tile files.
     """
     filepath = Path(filepath)
+
+    # Auto-reproject geographic (lat/lon) files to UTM so tiling uses metres
+    filepath = _reproject_to_utm(filepath)
+
     meta = inspect(filepath)
     x_min, y_min = meta.min_bounds[:2]
     x_max, y_max = meta.max_bounds[:2]
@@ -192,6 +300,10 @@ def load_tiles(
         f"({tile_size} m + {buffer} m buffer)"
     )
 
+    # Reduce chunk size for very large files to keep RAM pressure low
+    n_pts = meta.point_count
+    chunk_sz = 1_000_000 if n_pts > 100_000_000 else 5_000_000
+
     # Read full cloud once (chunk-by-chunk) and bucket into tiles
     # Grab the source header first so tile writers inherit the exact point
     # format (including extra dims), scale, and offset of the original file.
@@ -199,7 +311,7 @@ def load_tiles(
         src_header = _src.header
 
     tile_points: dict[Tuple[int, int], List[laspy.PackedPointRecord]] = {}
-    for chunk in load_chunked(filepath):
+    for chunk in load_chunked(filepath, chunk_size=chunk_sz):
         xs_pts = np.array(chunk.x)
         ys_pts = np.array(chunk.y)
         for ix, tx in enumerate(xs):
@@ -232,7 +344,7 @@ def load_tiles(
                 "source": str(filepath),
                 "tile_size": tile_size,
                 "buffer": buffer,
-                "crs": "EPSG:32643",
+                "crs": meta.crs_wkt or "EPSG:32643",
                 "tiles": [str(p) for p in tile_paths],
             },
             fh,

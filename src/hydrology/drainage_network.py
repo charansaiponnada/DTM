@@ -173,22 +173,66 @@ def design_trapezoidal_channel(
             d = 0.1   # reset depth
 
     top_w   = b + 2 * z * d
-    freeboard_d = d + params.freeboard_m
 
-    # Choose channel type based on velocity
-    if V > params.max_velocity_ms:
-        n       = params.manning_n_concrete
-        cost_pm = params.cost_concrete_inr_m
-        ch_type = "concrete"
-    elif Q > 1.5:       # large discharge → pipe is impractical → concrete
-        n       = params.manning_n_concrete  # record correct Manning n for this type
-        cost_pm = params.cost_concrete_inr_m
+    # Choose channel type based on velocity / discharge
+    if V > params.max_velocity_ms or Q > 1.5:
         ch_type = "concrete"
     else:
-        cost_pm = params.cost_earthen_inr_m
         ch_type = "earthen"
 
+    cost_pm = _cpwd_cost_per_m(b, d, z, ch_type)
     return b, d, top_w, V, Q_cap, cost_pm, ch_type
+
+
+def _cpwd_cost_per_m(
+    bottom_width: float,
+    depth: float,
+    side_slope: float,
+    channel_type: str,
+) -> float:
+    """
+    CPWD DSR 2023-24 based construction cost per metre of channel.
+
+    Earthen channel items:
+      • Excavation in ordinary soil (depth-banded rates)
+      • Spoil disposal (lead ≤ 50 m)
+      • Dressing, compaction & grass turfing on slopes
+      • Fixed overhead per metre (berm, survey, outlets amortised)
+      • Contractor overhead 15% + profit 10% + GST 12%
+
+    Concrete channel adds:
+      • 75 mm M15 PCC lining on bed and side slopes
+    """
+    z = side_slope
+    # Excavated volume per linear metre (m³/m)
+    vol_m = (bottom_width + z * depth) * depth
+
+    # Depth-banded excavation rates (CPWD DSR 2023-24, ordinary soil, ₹/m³)
+    if depth <= 0.50:
+        exc_rate = 150.0
+    elif depth <= 1.00:
+        exc_rate = 185.0
+    elif depth <= 1.50:
+        exc_rate = 225.0
+    else:
+        exc_rate = 280.0
+
+    excavation  = vol_m * exc_rate
+    disposal    = vol_m * 65.0          # carting spoil ≤ 50 m lead
+    wetted_p    = bottom_width + 2.0 * depth * np.sqrt(1.0 + z ** 2)
+    dressing    = wetted_p * 95.0       # dressing + compaction + grass turf (₹/m²)
+    fixed       = 80.0                  # berm formation, survey, minor outlets (₹/m)
+
+    subtotal = excavation + disposal + dressing + fixed
+
+    if channel_type == "concrete":
+        # 75 mm M15 PCC lining on wetted perimeter
+        lining_vol = wetted_p * 0.075
+        lining     = lining_vol * 6_500.0   # ₹/m³ for M15 concrete (CPWD)
+        subtotal  += lining
+
+    # Contractor overhead (15%) + profit (10%) + GST (12%)
+    return subtotal * 1.25 * 1.12
 
 
 # ══════════════════════════════════════════════════════════════════════════

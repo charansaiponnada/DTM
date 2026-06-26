@@ -14,6 +14,7 @@ data:
   output_dir: "data/output"
   cache_dir: "data/cache"
   villages:
+    # ── Validated & processed (4 SVAMITVA villages, Gujarat + Punjab) ──────────
     - name: "DEVDI"
       path: "data/input/DEVDI_511671.las"
       output_subdir: "DEVDI"
@@ -23,12 +24,26 @@ data:
     - name: "DHAL_HOSHIARPUR"
       path: "data/input/Dhal_Hoshiarpur_31235.las"
       output_subdir: "DHAL_HOSHIARPUR"
-    - name: "DHUNDA"
-      path: "data/input/DHUNDA_FATEHGARH SAHIB_32619.laz"
-      output_subdir: "DHUNDA"
     - name: "CHAKHIRASINGH"
       path: "data/input/67169_5NKR_CHAKHIRASINGH.las"
       output_subdir: "CHAKHIRASINGH"
+    # ── Additional villages (require free disk space ≥40 GB) ───────────────────
+    - name: "DHUNDA"
+      path: "data/input/DHUNDA_FATEHGARH SAHIB_32619.laz"
+      output_subdir: "DHUNDA"
+    - name: "REFLIGHT_2H"
+      path: "data/input/64334_2H (REFLIGHT)_POINT CLOUD.LAS"
+      output_subdir: "REFLIGHT_2H"
+    - name: "PIRAYANKUPPAM"           # geographic CRS — auto-reprojected to UTM
+      path: "data/input/PIRAYANKUPPAM.las"
+      output_subdir: "PIRAYANKUPPAM"
+    - name: "THANDALAM"               # geographic CRS — auto-reprojected to UTM
+      path: "data/input/THANDALAM.las"
+      output_subdir: "THANDALAM"
+    - name: "DIGLIPUR"
+      path: "data/input/Gandhinagar_Diglipur_group1_densified_point_cloud.laz"
+      output_subdir: "DIGLIPUR"
+    # KADAMTALA excluded — corrupted LAZ header (claims 1.65B points, fails at point 0)
 
 # ── Preprocessing ────────────────────────────────────────────────────────
 preprocessing:
