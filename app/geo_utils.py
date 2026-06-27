@@ -87,9 +87,31 @@ def raster_to_overlay(tif_path: Path, cmap_key: str = "dtm",
     return png_url, bounds, [lat_c, lon_c]
 
 
-def load_drainage_channels(gpkg_path: Path) -> gpd.GeoDataFrame:
-    """Load drainage_channels layer, reproject to WGS84, simplify geometry."""
+def drop_nodata_channels(gdf_utm: gpd.GeoDataFrame, dtm_path: Path,
+                         min_valid_frac: float = 0.85) -> gpd.GeoDataFrame:
+    """Drop flow-routing artifacts that cross nodata terrain (straight diagonal
+    streaks routed through the rectangular DEM padding). Samples points along
+    each line in the raster's native CRS; keeps lines almost entirely on valid
+    DTM. Input gdf must be in the raster CRS (UTM)."""
+    with rasterio.open(dtm_path) as src:
+        nd = src.nodata
+        keep = np.zeros(len(gdf_utm), dtype=bool)
+        for i, geom in enumerate(gdf_utm.geometry.values):
+            pts  = [geom.interpolate(t, normalized=True).coords[0]
+                    for t in np.linspace(0, 1, 7)]
+            vals = np.array([v[0] for v in src.sample(pts)], dtype=float)
+            ok   = np.isfinite(vals) & (vals != nd)
+            keep[i] = ok.mean() >= min_valid_frac
+    return gdf_utm[keep].copy()
+
+
+def load_drainage_channels(gpkg_path: Path,
+                           dtm_path: Path | None = None) -> gpd.GeoDataFrame:
+    """Load drainage_channels layer, optionally drop nodata-routing artifacts,
+    reproject to WGS84, simplify geometry."""
     gdf = gpd.read_file(gpkg_path, layer="drainage_channels")
+    if dtm_path is not None:
+        gdf = drop_nodata_channels(gdf, dtm_path)
     gdf = gdf.to_crs("EPSG:4326")
     gdf["geometry"] = gdf["geometry"].simplify(0.000005, preserve_topology=True)
     # Format display columns
@@ -117,6 +139,39 @@ def load_waterlogging_hotspots(gpkg_path: Path,
 def load_catchment_boundaries(gpkg_path: Path) -> gpd.GeoDataFrame:
     gdf = gpd.read_file(gpkg_path, layer="catchment_boundaries")
     return gdf.to_crs("EPSG:4326")
+
+
+def high_risk_zones(wl_tif: Path, thresh: float = 0.65,
+                    max_px: int = 900, min_area_m2: float = 80.0) -> gpd.GeoDataFrame:
+    """Vectorise contiguous high-risk areas straight from the waterlogging raster
+    (fast — array threshold + rasterio.features.shapes) instead of dissolving
+    thousands of pixel hotspots. Returns merged zone polygons in WGS84."""
+    from rasterio.features import shapes as rio_shapes
+    from rasterio.enums import Resampling
+    from shapely.geometry import shape as shp_shape
+
+    with rasterio.open(wl_tif) as src:
+        h, w = src.height, src.width
+        scale = min(max_px / max(h, w), 1.0)
+        oh, ow = max(1, int(h*scale)), max(1, int(w*scale))
+        prob = src.read(1, out_shape=(oh, ow), resampling=Resampling.bilinear).astype(np.float32)
+        transform = src.transform * src.transform.scale(w/ow, h/oh)
+        nd = src.nodata
+        crs = src.crs
+    mask = (prob >= thresh) & np.isfinite(prob)
+    if nd is not None:
+        mask &= (prob != nd)
+    if not mask.any():
+        return gpd.GeoDataFrame(geometry=[], crs="EPSG:4326")
+
+    geoms = [shp_shape(g) for g, v in rio_shapes(mask.astype(np.uint8), mask=mask,
+                                                 transform=transform) if v == 1]
+    gdf = gpd.GeoDataFrame(geometry=geoms, crs=crs)
+    gdf = gdf[gdf.geometry.area >= min_area_m2]           # drop pixel specks (m², UTM)
+    gdf["geometry"] = gdf.geometry.buffer(0)              # fix any self-touch
+    gdf = gdf.to_crs("EPSG:4326")
+    gdf["geometry"] = gdf.geometry.simplify(0.00002, preserve_topology=True)
+    return gdf.reset_index(drop=True)
 
 
 def channel_color(channel_type: str) -> str:
