@@ -14,7 +14,7 @@ LAS/LAZ  →  Inspect  →  Ground Classify  →  DTM + Derivatives  →  Hydrol
             laspy        PDAL SMRF + RF      IDW + rio-cogeo       pysheds       XGBoost               MST + Manning's
 ```
 ## Detailed Pipeline:
-![Detailed Pipeline](docs\system_architecture.png)
+![Detailed Pipeline](docs/system_architecture.png)
 
 | Stage | What | Output |
 |-------|------|--------|
