@@ -14,6 +14,8 @@ Built for the MoPR Geospatial Intelligence Hackathon (IIT Tirupati).
 LAS/LAZ  →  Inspect  →  Ground Classify  →  DTM + Derivatives  →  Hydrology  →  Waterlogging Risk  →  Drainage Design
             laspy        PDAL SMRF + RF      IDW + rio-cogeo       pysheds       XGBoost               MST + Manning's
 ```
+## Detailed Pipeline:
+![Detailed Pipeline](docs\system_architecture.png)
 
 | Stage | What | Output |
 |-------|------|--------|
