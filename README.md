@@ -6,6 +6,7 @@
 Automated pipeline that turns drone LiDAR point clouds into a 0.5 m Digital Terrain Model, waterlogging risk map, and cost-optimised drainage network — in one command.
 
 Built for the MoPR Geospatial Intelligence Hackathon (IIT Tirupati).
+![Full Documentation](docs/DTM_Drainage_AI_Report.pdf)
 
 ## Pipeline
 
@@ -14,7 +15,7 @@ LAS/LAZ  →  Inspect  →  Ground Classify  →  DTM + Derivatives  →  Hydrol
             laspy        PDAL SMRF + RF      IDW + rio-cogeo       pysheds       XGBoost               MST + Manning's
 ```
 ## Detailed Pipeline:
-![Detailed Pipeline](docs\system_architecture.png)
+![Detailed Pipeline](docs/system_architecture.png)
 
 | Stage | What | Output |
 |-------|------|--------|
