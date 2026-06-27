@@ -1,6 +1,5 @@
 # DTM Drainage AI
 
-[![CI](https://github.com/charansaiponnada/DTM/actions/workflows/ci.yml/badge.svg)](https://github.com/charansaiponnada/DTM/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
