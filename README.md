@@ -120,3 +120,5 @@ results = pipeline.run(use_ml_refine=True, stream_threshold=1000)
 ## License
 
 MIT
+
+Devoloped by Team - Charan Sai Ponnada, Naga Chaitanya Prathipati, Asha Ruksana, Neelima Vana, Leena.
